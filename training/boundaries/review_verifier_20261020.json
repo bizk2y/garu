@@ -1,0 +1,2127 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "decision": "Adopt the combined verifier as an optional quote-preserving API; original analyzer and text APIs unchanged.",
+  "public_api": "import { splitSentences } from 'garu-ko/sentences'; splitSentences(text, loadedGaru)",
+  "artifact": {
+    "schema_version": 1,
+    "module": "garu-ko/sentences",
+    "task": "Quote-preserving top-level sentence candidate verification",
+    "training_source": "National Institute of Korean Language (국립국어원), morphological corpus2021",
+    "parameters": 198937,
+    "complete_q4_json_bytes": 174894,
+    "complete_q4_json_sha256": "e190e536b59b872a493225336f2175ddc89eef93d6309ae7a5454b816c0cb251",
+    "generated_typescript_sha256": "cfec44b55f141d9691dae9c6be40178bc5ea2f2312635ef678c09172cf590f69",
+    "base_boundary_weights_sha256": "cccb0d95f11397c1483d08df0053fdcc8d14acca9738fa803e2c356cdd26b832",
+    "analyzer_model_sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "wasm_sha256": "1a3ac3a324fcfce72a1388fa1b84e12512cbfe41ac19de1bb8ebaf84f75935fd",
+    "selection": {
+      "seed": 20261020,
+      "epoch": 4,
+      "threshold": -0.0,
+      "criterion": "Development macro F1 across NX/SX and punctuation variants, includes missing gold outside frozen candidate set"
+    },
+    "training": {
+      "source_rows": 134055,
+      "candidate_positive_positions": 123042,
+      "matched_hard_negative_positions": 7318,
+      "dataset_sha256": "534a2c55967a6f061d1ebba6bce3c1d21d23dc6f5e060f60ca9e820019125b23"
+    },
+    "artifact_source": "js/src/sentence-data.ts",
+    "evidence": "training/boundaries/review_verifier_20261020.json",
+    "policy": "Balanced quotations are preserved by an explicit rule added after fixed-set error inspection. Original2021 source records sometimes split quotes; preserve both reference metrics.",
+    "original_corpus_text_included": false
+  },
+  "training": {
+    "seed": 20261020,
+    "device": "mps",
+    "context": 24,
+    "vocabulary": 3607,
+    "architecture": "Ordered character embeddings + structured features -> ReLU96 -> scalar logit",
+    "threshold_objective": "Development macro F1 across NX/SX and punctuation variants, includes missing gold outside frozen candidate set",
+    "source_weights_sha256": "cccb0d95f11397c1483d08df0053fdcc8d14acca9738fa803e2c356cdd26b832",
+    "datasets": {
+      "schema": 1,
+      "source_files": [
+        {
+          "path": "/Users/cyj/workspace/data/nikl_mp_2021/NXMP1902008040.json",
+          "sha256": "15a1db6986cbb883440e4de2263b35b538c5353c4f124109ec0ae23c70af0d48"
+        },
+        {
+          "path": "/Users/cyj/workspace/data/nikl_mp_2021/SXMP1902008031.json",
+          "sha256": "b3df77c0eb4c2006f3e529fbd0be441caeefa5bfcc8ca1ccd287fb76940fd461"
+        }
+      ],
+      "exclusion_sources": [
+        {
+          "path": "/Users/cyj/.codex/worktrees/62f6/garu/training/gold_testset/gold_testset.jsonl",
+          "sha256": "3a5fa4194b2ae3eec58296674408e8f1d409a72205777044455b9c1b838bbb96"
+        },
+        {
+          "path": "/Users/cyj/.codex/worktrees/62f6/garu/training/rerank/data/dev_texts.txt",
+          "sha256": "a17092e1898185506cc4df445678606d1bcfaeca55818932849b517939b16468"
+        },
+        {
+          "path": "/Users/cyj/workspace/data/nikl_mp_2025/NXMP2502512313.json",
+          "sha256": "b42ede02c5532bb2d5daadfb93e9d6dd75e2f23e45b618753012150341411fc5"
+        },
+        {
+          "path": "/Users/cyj/workspace/data/nikl_mp_2025/SXMP2502512312.json",
+          "sha256": "79117622c4fbd51d097b9234e4a8d09a74d1d36a66dd949624dd3cb40bb06f16"
+        },
+        {
+          "path": "/Users/cyj/workspace/data/korean_text_boundaries/20261020/spaces-dev.refs.jsonl.gz",
+          "sha256": "cccc708a7a1d2a91adb29a0325e0eeedb45c33f0ccf2f637cad30834c06e878a",
+          "scope": "exclude_from_training"
+        },
+        {
+          "path": "/Users/cyj/workspace/data/korean_text_boundaries/20261020/spaces-test.refs.jsonl.gz",
+          "sha256": "d837caad5c4ad4e871e6ee8d288f4252f55702a1151fc3000e5278ec772b42e6",
+          "scope": "exclude_from_training"
+        }
+      ],
+      "split": "sha256(document_id) firstuint32 modulo10: test0,dev1,train2..9",
+      "counts": {
+        "NX_length_excluded": 91,
+        "SX_length_excluded": 1800,
+        "test_NX_rows": 9836,
+        "test_gold_boundaries": 16290,
+        "test_excluded_overlap": 706,
+        "test_duplicate_group": 13,
+        "test_SX_rows": 5652,
+        "dev_NX_rows": 10359,
+        "dev_gold_boundaries": 18491,
+        "dev_excluded_overlap": 843,
+        "dev_duplicate_group": 10,
+        "dev_SX_rows": 8169,
+        "train_NX_rows": 79773,
+        "train_gold_boundaries": 134345,
+        "train_excluded_overlap": 6994,
+        "train_duplicate_group": 226,
+        "train_SX_rows": 54282
+      },
+      "datasets": {
+        "test": {
+          "path": "/var/folders/5f/b_5s1pk53p5_y__mbny7w3k80000gn/T/garu-sentence-verifier-wajhvbb5/data/test.jsonl",
+          "sha256": "fa5e4a9a2654d372c7a4152d60ccdd3e1abd10c5e01ffe3d6a06e328c69be4b1"
+        },
+        "dev": {
+          "path": "/var/folders/5f/b_5s1pk53p5_y__mbny7w3k80000gn/T/garu-sentence-verifier-wajhvbb5/data/dev.jsonl",
+          "sha256": "c68bf1bf40d51cfa6044c26a1111d927098600feb72e7a9a9830d34e2ecd8de2"
+        },
+        "train": {
+          "path": "/var/folders/5f/b_5s1pk53p5_y__mbny7w3k80000gn/T/garu-sentence-verifier-wajhvbb5/data/train.jsonl",
+          "sha256": "534a2c55967a6f061d1ebba6bce3c1d21d23dc6f5e060f60ca9e820019125b23"
+        }
+      },
+      "documents": {
+        "test": 781,
+        "dev": 787,
+        "train": 6120
+      },
+      "policy": "NX original source-record boundaries, including both inside-quote positives and negatives; not consistently quote-preserving top-level boundaries. Paragraph membership from original IDs; original paragraph text unavailable. SX conservative single-final-EF record pairs remain weak labels.",
+      "normalization": "underscore->space; all whitespace deleted; alternative deletes terminal punctuation per source record; exact codepoint targets",
+      "source_text_redistributed": false,
+      "prior_fixed_overlap_fix": {
+        "removed_training_rows": [
+          "SBRW1800000075.860:punctuated",
+          "SBRW1800000075.860:no_terminal",
+          "SBRW1800000101.215:punctuated",
+          "SBRW1800000101.215:no_terminal"
+        ],
+        "no_training_before_fix": true
+      }
+    },
+    "baseline": {
+      "dev": {
+        "NX_punctuated": {
+          "tp": 7631,
+          "fp": 425,
+          "fn": 489,
+          "precision": 0.9472442899702085,
+          "recall": 0.9397783251231527,
+          "f1": 0.9434965380811078
+        },
+        "NX_no_terminal": {
+          "tp": 7470,
+          "fp": 377,
+          "fn": 649,
+          "precision": 0.9519561615904167,
+          "recall": 0.9200640472964651,
+          "f1": 0.9357384441939121
+        },
+        "SX_punctuated": {
+          "tp": 980,
+          "fp": 126,
+          "fn": 265,
+          "precision": 0.8860759493670886,
+          "recall": 0.7871485943775101,
+          "f1": 0.8336877924287537
+        },
+        "SX_no_terminal": {
+          "tp": 684,
+          "fp": 97,
+          "fn": 323,
+          "precision": 0.8758002560819462,
+          "recall": 0.6792452830188679,
+          "f1": 0.7651006711409396
+        },
+        "macro_f1": 0.8695058614611783
+      },
+      "test": {
+        "NX_punctuated": {
+          "tp": 6991,
+          "fp": 412,
+          "fn": 436,
+          "precision": 0.9443468863974065,
+          "recall": 0.9412952740002692,
+          "f1": 0.9428186109238031
+        },
+        "NX_no_terminal": {
+          "tp": 6890,
+          "fp": 347,
+          "fn": 537,
+          "precision": 0.9520519552300677,
+          "recall": 0.9276962434361115,
+          "f1": 0.9397163120567376
+        },
+        "SX_punctuated": {
+          "tp": 646,
+          "fp": 97,
+          "fn": 113,
+          "precision": 0.8694481830417228,
+          "recall": 0.8511198945981555,
+          "f1": 0.8601864181091877
+        },
+        "SX_no_terminal": {
+          "tp": 395,
+          "fp": 71,
+          "fn": 282,
+          "precision": 0.8476394849785408,
+          "recall": 0.5834564254062038,
+          "f1": 0.6911636045494314
+        },
+        "macro_f1": 0.85847123640979
+      }
+    },
+    "models": {
+      "full": {
+        "best_epoch": 4,
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 0.2011831825836263,
+            "dev_macro_f1": 0.8755757796253184,
+            "threshold": 0.2,
+            "seconds": 0.6496311669999999
+          },
+          {
+            "epoch": 2,
+            "loss": 0.09872352155294108,
+            "dev_macro_f1": 0.8849353933553646,
+            "threshold": 0.5,
+            "seconds": 1.1144855419999997
+          },
+          {
+            "epoch": 3,
+            "loss": 0.06923491267402247,
+            "dev_macro_f1": 0.8872478073350382,
+            "threshold": 0.3,
+            "seconds": 1.5639175000000005
+          },
+          {
+            "epoch": 4,
+            "loss": 0.05198916420454846,
+            "dev_macro_f1": 0.887587826023978,
+            "threshold": -0.0,
+            "seconds": 2.031987
+          },
+          {
+            "epoch": 5,
+            "loss": 0.03916823698545516,
+            "dev_macro_f1": 0.8875046283444844,
+            "threshold": -0.1,
+            "seconds": 2.484198084
+          },
+          {
+            "epoch": 6,
+            "loss": 0.029394638467032545,
+            "dev_macro_f1": 0.8866502934353412,
+            "threshold": 0.3,
+            "seconds": 2.9688388749999994
+          },
+          {
+            "epoch": 7,
+            "loss": 0.021779699442064007,
+            "dev_macro_f1": 0.8871016747950092,
+            "threshold": 0.5,
+            "seconds": 3.4372976249999994
+          },
+          {
+            "epoch": 8,
+            "loss": 0.015833941475471385,
+            "dev_macro_f1": 0.8865837676445746,
+            "threshold": -1.0,
+            "seconds": 3.926561584
+          },
+          {
+            "epoch": 9,
+            "loss": 0.011343525095873356,
+            "dev_macro_f1": 0.8865008492037753,
+            "threshold": -0.6,
+            "seconds": 4.4287881250000005
+          }
+        ],
+        "metrics": {
+          "dev": {
+            "NX_punctuated": {
+              "tp": 7588,
+              "fp": 160,
+              "fn": 532,
+              "precision": 0.9793495095508519,
+              "recall": 0.9344827586206896,
+              "f1": 0.9563902193093018
+            },
+            "NX_no_terminal": {
+              "tp": 7386,
+              "fp": 165,
+              "fn": 733,
+              "precision": 0.9781485895907827,
+              "recall": 0.909717945559798,
+              "f1": 0.9426930440331844
+            },
+            "SX_punctuated": {
+              "tp": 973,
+              "fp": 36,
+              "fn": 272,
+              "precision": 0.9643211100099108,
+              "recall": 0.7815261044176707,
+              "f1": 0.8633540372670807
+            },
+            "SX_no_terminal": {
+              "tp": 678,
+              "fp": 36,
+              "fn": 329,
+              "precision": 0.9495798319327731,
+              "recall": 0.6732869910625621,
+              "f1": 0.7879140034863451
+            },
+            "macro_f1": 0.887587826023978
+          },
+          "test": {
+            "NX_punctuated": {
+              "tp": 6948,
+              "fp": 149,
+              "fn": 479,
+              "precision": 0.9790052134704805,
+              "recall": 0.9355055877204793,
+              "f1": 0.9567612228036354
+            },
+            "NX_no_terminal": {
+              "tp": 6808,
+              "fp": 152,
+              "fn": 619,
+              "precision": 0.9781609195402299,
+              "recall": 0.916655446344419,
+              "f1": 0.94640995343018
+            },
+            "SX_punctuated": {
+              "tp": 640,
+              "fp": 31,
+              "fn": 119,
+              "precision": 0.9538002980625931,
+              "recall": 0.8432147562582345,
+              "f1": 0.8951048951048951
+            },
+            "SX_no_terminal": {
+              "tp": 390,
+              "fp": 25,
+              "fn": 287,
+              "precision": 0.9397590361445783,
+              "recall": 0.5760709010339734,
+              "f1": 0.7142857142857143
+            },
+            "macro_f1": 0.8781404464061062
+          }
+        },
+        "parameters": 198937,
+        "training_examples": 130360,
+        "training_positive": 123042,
+        "complete_q4_bytes": 174894,
+        "sha256": "e190e536b59b872a493225336f2175ddc89eef93d6309ae7a5454b816c0cb251"
+      },
+      "structured": {
+        "best_epoch": 8,
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 0.27118520846521244,
+            "dev_macro_f1": 0.8737239660948376,
+            "threshold": 0.1,
+            "seconds": 0.7312562500000013
+          },
+          {
+            "epoch": 2,
+            "loss": 0.13091920562666887,
+            "dev_macro_f1": 0.8747484019103288,
+            "threshold": 0.3,
+            "seconds": 1.2278188750000005
+          },
+          {
+            "epoch": 3,
+            "loss": 0.12290330239374164,
+            "dev_macro_f1": 0.8753956149184822,
+            "threshold": 0.3,
+            "seconds": 1.733467000000001
+          },
+          {
+            "epoch": 4,
+            "loss": 0.11814287037306602,
+            "dev_macro_f1": 0.8762855727719541,
+            "threshold": 0.1,
+            "seconds": 2.343147333000001
+          },
+          {
+            "epoch": 5,
+            "loss": 0.11492176289644736,
+            "dev_macro_f1": 0.8764593164869503,
+            "threshold": -0.4,
+            "seconds": 2.846708041000001
+          },
+          {
+            "epoch": 6,
+            "loss": 0.11311491457102452,
+            "dev_macro_f1": 0.876746032221992,
+            "threshold": -0.0,
+            "seconds": 3.3434522080000004
+          },
+          {
+            "epoch": 7,
+            "loss": 0.11169915994038865,
+            "dev_macro_f1": 0.8765293578074347,
+            "threshold": -0.2,
+            "seconds": 3.836798625
+          },
+          {
+            "epoch": 8,
+            "loss": 0.11085284434146916,
+            "dev_macro_f1": 0.8768756592598692,
+            "threshold": -0.5,
+            "seconds": 4.323535541
+          },
+          {
+            "epoch": 9,
+            "loss": 0.109817952469069,
+            "dev_macro_f1": 0.8768754502647316,
+            "threshold": -0.2,
+            "seconds": 4.819722583000001
+          },
+          {
+            "epoch": 10,
+            "loss": 0.1097424083996602,
+            "dev_macro_f1": 0.8766063719927255,
+            "threshold": -0.4,
+            "seconds": 5.314166666
+          },
+          {
+            "epoch": 11,
+            "loss": 0.1095203446483239,
+            "dev_macro_f1": 0.8762043796952057,
+            "threshold": -0.3,
+            "seconds": 5.827056958
+          },
+          {
+            "epoch": 12,
+            "loss": 0.10906058278834392,
+            "dev_macro_f1": 0.8767063432663668,
+            "threshold": -0.5,
+            "seconds": 6.332493041000001
+          },
+          {
+            "epoch": 13,
+            "loss": 0.10870225576351815,
+            "dev_macro_f1": 0.8766695556704717,
+            "threshold": -0.7,
+            "seconds": 6.843882750000002
+          }
+        ],
+        "metrics": {
+          "dev": {
+            "NX_punctuated": {
+              "tp": 7619,
+              "fp": 299,
+              "fn": 501,
+              "precision": 0.9622379388734529,
+              "recall": 0.9383004926108375,
+              "f1": 0.9501184686369871
+            },
+            "NX_no_terminal": {
+              "tp": 7388,
+              "fp": 270,
+              "fn": 731,
+              "precision": 0.9647427526769391,
+              "recall": 0.9099642813154329,
+              "f1": 0.9365532103695252
+            },
+            "SX_punctuated": {
+              "tp": 973,
+              "fp": 79,
+              "fn": 272,
+              "precision": 0.9249049429657795,
+              "recall": 0.7815261044176707,
+              "f1": 0.847191989551589
+            },
+            "SX_no_terminal": {
+              "tp": 675,
+              "fp": 63,
+              "fn": 332,
+              "precision": 0.9146341463414634,
+              "recall": 0.6703078450844091,
+              "f1": 0.7736389684813754
+            },
+            "macro_f1": 0.8768756592598692
+          },
+          "test": {
+            "NX_punctuated": {
+              "tp": 6984,
+              "fp": 269,
+              "fn": 443,
+              "precision": 0.9629118985247483,
+              "recall": 0.9403527669314663,
+              "f1": 0.9514986376021798
+            },
+            "NX_no_terminal": {
+              "tp": 6808,
+              "fp": 243,
+              "fn": 619,
+              "precision": 0.9655368032903134,
+              "recall": 0.916655446344419,
+              "f1": 0.9404613896947092
+            },
+            "SX_punctuated": {
+              "tp": 639,
+              "fp": 73,
+              "fn": 120,
+              "precision": 0.8974719101123596,
+              "recall": 0.841897233201581,
+              "f1": 0.8687967369136642
+            },
+            "SX_no_terminal": {
+              "tp": 379,
+              "fp": 54,
+              "fn": 298,
+              "precision": 0.8752886836027713,
+              "recall": 0.5598227474150664,
+              "f1": 0.6828828828828829
+            },
+            "macro_f1": 0.8609099117733591
+          }
+        },
+        "parameters": 198937,
+        "training_examples": 130360,
+        "training_positive": 123042,
+        "complete_q4_bytes": 174894,
+        "sha256": "8fb0ae0e5f64d36eb6f3a6744d0517c77d3cf547d1d8414af6636feb8af82067"
+      },
+      "no_morph": {
+        "best_epoch": 6,
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 0.22016224355630326,
+            "dev_macro_f1": 0.8749731434847867,
+            "threshold": 0.6,
+            "seconds": 0.4688427919999967
+          },
+          {
+            "epoch": 2,
+            "loss": 0.1175592618802092,
+            "dev_macro_f1": 0.8834878271786066,
+            "threshold": 0.5,
+            "seconds": 0.9334857079999992
+          },
+          {
+            "epoch": 3,
+            "loss": 0.07621121138709204,
+            "dev_macro_f1": 0.8856120451164512,
+            "threshold": 0.3,
+            "seconds": 1.454183999999998
+          },
+          {
+            "epoch": 4,
+            "loss": 0.055619953396258894,
+            "dev_macro_f1": 0.8862036656053275,
+            "threshold": -0.1,
+            "seconds": 1.9656421249999987
+          },
+          {
+            "epoch": 5,
+            "loss": 0.04159668849877746,
+            "dev_macro_f1": 0.8861021222944699,
+            "threshold": 0.4,
+            "seconds": 2.4237382919999995
+          },
+          {
+            "epoch": 6,
+            "loss": 0.031066360351597835,
+            "dev_macro_f1": 0.8862199027659463,
+            "threshold": -0.3,
+            "seconds": 2.949842167
+          },
+          {
+            "epoch": 7,
+            "loss": 0.022636747355085644,
+            "dev_macro_f1": 0.8854588216684517,
+            "threshold": -0.0,
+            "seconds": 3.5404459579999994
+          },
+          {
+            "epoch": 8,
+            "loss": 0.016376976478455093,
+            "dev_macro_f1": 0.8849071521946985,
+            "threshold": -0.1,
+            "seconds": 4.247450457999999
+          },
+          {
+            "epoch": 9,
+            "loss": 0.011448966266302178,
+            "dev_macro_f1": 0.884867748304813,
+            "threshold": 0.1,
+            "seconds": 4.810946957999999
+          },
+          {
+            "epoch": 10,
+            "loss": 0.008269042241089583,
+            "dev_macro_f1": 0.8846628626740762,
+            "threshold": -0.4,
+            "seconds": 5.290595916999997
+          },
+          {
+            "epoch": 11,
+            "loss": 0.005918704977029853,
+            "dev_macro_f1": 0.8848190162494417,
+            "threshold": -0.4,
+            "seconds": 5.769386166999997
+          }
+        ],
+        "metrics": {
+          "dev": {
+            "NX_punctuated": {
+              "tp": 7588,
+              "fp": 182,
+              "fn": 532,
+              "precision": 0.9765765765765766,
+              "recall": 0.9344827586206896,
+              "f1": 0.9550660792951542
+            },
+            "NX_no_terminal": {
+              "tp": 7404,
+              "fp": 186,
+              "fn": 715,
+              "precision": 0.9754940711462451,
+              "recall": 0.9119349673605124,
+              "f1": 0.9426443440066204
+            },
+            "SX_punctuated": {
+              "tp": 971,
+              "fp": 38,
+              "fn": 274,
+              "precision": 0.9623389494549058,
+              "recall": 0.7799196787148595,
+              "f1": 0.8615794143744454
+            },
+            "SX_no_terminal": {
+              "tp": 676,
+              "fp": 38,
+              "fn": 331,
+              "precision": 0.9467787114845938,
+              "recall": 0.6713008937437934,
+              "f1": 0.7855897733875654
+            },
+            "macro_f1": 0.8862199027659463
+          },
+          "test": {
+            "NX_punctuated": {
+              "tp": 6956,
+              "fp": 167,
+              "fn": 471,
+              "precision": 0.9765548224062894,
+              "recall": 0.9365827386562542,
+              "f1": 0.9561512027491409
+            },
+            "NX_no_terminal": {
+              "tp": 6829,
+              "fp": 169,
+              "fn": 598,
+              "precision": 0.9758502429265504,
+              "recall": 0.919482967550828,
+              "f1": 0.9468284228769498
+            },
+            "SX_punctuated": {
+              "tp": 641,
+              "fp": 32,
+              "fn": 118,
+              "precision": 0.9524517087667161,
+              "recall": 0.8445322793148881,
+              "f1": 0.8952513966480447
+            },
+            "SX_no_terminal": {
+              "tp": 390,
+              "fp": 27,
+              "fn": 287,
+              "precision": 0.935251798561151,
+              "recall": 0.5760709010339734,
+              "f1": 0.7129798903107861
+            },
+            "macro_f1": 0.8778027281462304
+          }
+        },
+        "parameters": 198937,
+        "training_examples": 130360,
+        "training_positive": 123042,
+        "complete_q4_bytes": 174894,
+        "sha256": "ba1a5dfd6c9ebe12ec83f5bbf64bc3c72112da0016fc3bc580a31af231270046"
+      },
+      "easy": {
+        "best_epoch": 12,
+        "history": [
+          {
+            "epoch": 1,
+            "loss": 0.09743378254970471,
+            "dev_macro_f1": 0.8697181580673031,
+            "threshold": 1.3,
+            "seconds": 0.4521126670000015
+          },
+          {
+            "epoch": 2,
+            "loss": 0.004493223269815531,
+            "dev_macro_f1": 0.8711223514638442,
+            "threshold": 2.6,
+            "seconds": 0.9096580000000003
+          },
+          {
+            "epoch": 3,
+            "loss": 0.002079625703204662,
+            "dev_macro_f1": 0.8721594925169778,
+            "threshold": 2.9,
+            "seconds": 1.3637656670000027
+          },
+          {
+            "epoch": 4,
+            "loss": 0.0012710252673150562,
+            "dev_macro_f1": 0.8732025164992452,
+            "threshold": 3.7,
+            "seconds": 1.8274602920000014
+          },
+          {
+            "epoch": 5,
+            "loss": 0.0008316577796244307,
+            "dev_macro_f1": 0.8738867064818031,
+            "threshold": 3.9,
+            "seconds": 2.2819251670000007
+          },
+          {
+            "epoch": 6,
+            "loss": 0.0005534008225079869,
+            "dev_macro_f1": 0.8744527396737277,
+            "threshold": 4.2,
+            "seconds": 2.786987125000003
+          },
+          {
+            "epoch": 7,
+            "loss": 0.00038403478866885554,
+            "dev_macro_f1": 0.8754817352478621,
+            "threshold": 4.4,
+            "seconds": 3.2458956670000028
+          },
+          {
+            "epoch": 8,
+            "loss": 0.00026442644705221627,
+            "dev_macro_f1": 0.8747886160987453,
+            "threshold": 4.8,
+            "seconds": 3.6999035420000013
+          },
+          {
+            "epoch": 9,
+            "loss": 0.000201717953606094,
+            "dev_macro_f1": 0.8753220111872723,
+            "threshold": 4.7,
+            "seconds": 4.158296292000003
+          },
+          {
+            "epoch": 10,
+            "loss": 0.00014312002659898484,
+            "dev_macro_f1": 0.8753618852445773,
+            "threshold": 5.1,
+            "seconds": 4.615068459000003
+          },
+          {
+            "epoch": 11,
+            "loss": 0.00012220227116855058,
+            "dev_macro_f1": 0.8754335193895875,
+            "threshold": 5.3,
+            "seconds": 5.076717959000003
+          },
+          {
+            "epoch": 12,
+            "loss": 0.00010050528092975961,
+            "dev_macro_f1": 0.8757085459746005,
+            "threshold": 5.3,
+            "seconds": 5.531045292000002
+          },
+          {
+            "epoch": 13,
+            "loss": 8.24983549940965e-05,
+            "dev_macro_f1": 0.8752664826319856,
+            "threshold": 5.5,
+            "seconds": 5.992194375
+          },
+          {
+            "epoch": 14,
+            "loss": 6.703183878774955e-05,
+            "dev_macro_f1": 0.8751494027882624,
+            "threshold": 5.8,
+            "seconds": 6.445984375000002
+          },
+          {
+            "epoch": 15,
+            "loss": 5.612922680085954e-05,
+            "dev_macro_f1": 0.8752908261975113,
+            "threshold": 5.9,
+            "seconds": 6.905441667000002
+          },
+          {
+            "epoch": 16,
+            "loss": 5.10028070689626e-05,
+            "dev_macro_f1": 0.8756041391774605,
+            "threshold": 5.9,
+            "seconds": 7.390741292000001
+          },
+          {
+            "epoch": 17,
+            "loss": 4.009306639160426e-05,
+            "dev_macro_f1": 0.8755334804675595,
+            "threshold": 6.1,
+            "seconds": 7.855931209000001
+          }
+        ],
+        "metrics": {
+          "dev": {
+            "NX_punctuated": {
+              "tp": 7626,
+              "fp": 320,
+              "fn": 494,
+              "precision": 0.9597281651145231,
+              "recall": 0.9391625615763547,
+              "f1": 0.9493339972612972
+            },
+            "NX_no_terminal": {
+              "tp": 7450,
+              "fp": 309,
+              "fn": 669,
+              "precision": 0.9601752803196288,
+              "recall": 0.9176006897401158,
+              "f1": 0.938405340723013
+            },
+            "SX_punctuated": {
+              "tp": 975,
+              "fp": 87,
+              "fn": 270,
+              "precision": 0.9180790960451978,
+              "recall": 0.7831325301204819,
+              "f1": 0.8452535760728218
+            },
+            "SX_no_terminal": {
+              "tp": 679,
+              "fp": 78,
+              "fn": 328,
+              "precision": 0.8969616908850726,
+              "recall": 0.6742800397219464,
+              "f1": 0.7698412698412699
+            },
+            "macro_f1": 0.8757085459746005
+          },
+          "test": {
+            "NX_punctuated": {
+              "tp": 6985,
+              "fp": 310,
+              "fn": 442,
+              "precision": 0.9575051405071967,
+              "recall": 0.9404874107984381,
+              "f1": 0.9489199836978671
+            },
+            "NX_no_terminal": {
+              "tp": 6867,
+              "fp": 286,
+              "fn": 560,
+              "precision": 0.9600167761778274,
+              "recall": 0.9245994344957588,
+              "f1": 0.9419753086419753
+            },
+            "SX_punctuated": {
+              "tp": 638,
+              "fp": 79,
+              "fn": 121,
+              "precision": 0.8898186889818689,
+              "recall": 0.8405797101449275,
+              "f1": 0.8644986449864499
+            },
+            "SX_no_terminal": {
+              "tp": 384,
+              "fp": 65,
+              "fn": 293,
+              "precision": 0.8552338530066815,
+              "recall": 0.5672082717872969,
+              "f1": 0.6820603907637656
+            },
+            "macro_f1": 0.8593635820225145
+          }
+        },
+        "parameters": 198937,
+        "training_examples": 130360,
+        "training_positive": 123042,
+        "complete_q4_bytes": 174893,
+        "sha256": "2a39493921c73f495028d12393d278506e685a333685c065e6be3600083a724f"
+      }
+    }
+  },
+  "external": {
+    "model_selection": "All epochs/thresholds frozen on development data. External scores do not choose checkpoints.",
+    "models": {
+      "full": {
+        "sha256": "e190e536b59b872a493225336f2175ddc89eef93d6309ae7a5454b816c0cb251",
+        "bytes": 174894
+      },
+      "structured": {
+        "sha256": "8fb0ae0e5f64d36eb6f3a6744d0517c77d3cf547d1d8414af6636feb8af82067",
+        "bytes": 174894
+      },
+      "no_morph": {
+        "sha256": "ba1a5dfd6c9ebe12ec83f5bbf64bc3c72112da0016fc3bc580a31af231270046",
+        "bytes": 174894
+      },
+      "easy": {
+        "sha256": "2a39493921c73f495028d12393d278506e685a333685c065e6be3600083a724f",
+        "bytes": 174893
+      }
+    },
+    "evaluations": {
+      "natural": {
+        "rows": 18710,
+        "invariant_checks": 112260,
+        "scores": {
+          "baseline": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4089,
+              "fp": 1491,
+              "fn": 218,
+              "precision": 0.7327956989247312,
+              "recall": 0.9493847225446946,
+              "f1": 0.8271467583695762,
+              "exact": 0.881667557455906
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4157,
+              "fp": 1490,
+              "fn": 150,
+              "precision": 0.7361430848238002,
+              "recall": 0.965172974228001,
+              "f1": 0.8352421137231264,
+              "exact": 0.8884019241047568
+            }
+          },
+          "baseline_quote": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4085,
+              "fp": 284,
+              "fn": 222,
+              "precision": 0.9349965667200733,
+              "recall": 0.9484560018574414,
+              "f1": 0.9416781927155371,
+              "exact": 0.9517904863709247
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4155,
+              "fp": 284,
+              "fn": 152,
+              "precision": 0.9360216264924532,
+              "recall": 0.9647086138843742,
+              "f1": 0.9501486393780014,
+              "exact": 0.9576696953500802
+            }
+          },
+          "full": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4085,
+              "fp": 142,
+              "fn": 222,
+              "precision": 0.9664064348237521,
+              "recall": 0.9484560018574414,
+              "f1": 0.9573470822591985,
+              "exact": 0.964510956707643
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4139,
+              "fp": 150,
+              "fn": 168,
+              "precision": 0.9650268127768711,
+              "recall": 0.960993731135361,
+              "f1": 0.9630060493252676,
+              "exact": 0.968359166221272
+            }
+          },
+          "structured": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4085,
+              "fp": 232,
+              "fn": 222,
+              "precision": 0.9462589761408385,
+              "recall": 0.9484560018574414,
+              "f1": 0.9473562152133581,
+              "exact": 0.9564938535542491
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4132,
+              "fp": 233,
+              "fn": 175,
+              "precision": 0.9466208476517755,
+              "recall": 0.9593684699326678,
+              "f1": 0.9529520295202952,
+              "exact": 0.96044895777659
+            }
+          },
+          "no_morph": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4084,
+              "fp": 155,
+              "fn": 223,
+              "precision": 0.9634347723519698,
+              "recall": 0.948223821685628,
+              "f1": 0.9557687807161245,
+              "exact": 0.9632282202031
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4140,
+              "fp": 159,
+              "fn": 167,
+              "precision": 0.9630146545708305,
+              "recall": 0.9612259113071744,
+              "f1": 0.9621194515454334,
+              "exact": 0.9673971138428648
+            }
+          },
+          "easy": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4085,
+              "fp": 237,
+              "fn": 222,
+              "precision": 0.9451642757982416,
+              "recall": 0.9484560018574414,
+              "f1": 0.946807277784216,
+              "exact": 0.9554249064671299
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4146,
+              "fp": 239,
+              "fn": 161,
+              "precision": 0.9454960091220068,
+              "recall": 0.9626189923380544,
+              "f1": 0.9539806718821905,
+              "exact": 0.9601282736504543
+            }
+          }
+        },
+        "seconds_all_paths": 75.266350375
+      },
+      "reviewed": {
+        "rows": 96,
+        "invariant_checks": 576,
+        "scores": {
+          "baseline": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 4,
+              "fn": 3,
+              "precision": 0.5555555555555556,
+              "recall": 0.625,
+              "f1": 0.5882352941176471,
+              "exact": 0.875
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 4,
+              "fn": 6,
+              "precision": 0.3333333333333333,
+              "recall": 0.25,
+              "f1": 0.2857142857142857,
+              "exact": 0.8125
+            }
+          },
+          "baseline_quote": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 4,
+              "fn": 3,
+              "precision": 0.5555555555555556,
+              "recall": 0.625,
+              "f1": 0.5882352941176471,
+              "exact": 0.875
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 4,
+              "fn": 6,
+              "precision": 0.3333333333333333,
+              "recall": 0.25,
+              "f1": 0.2857142857142857,
+              "exact": 0.8125
+            }
+          },
+          "full": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 2,
+              "fn": 3,
+              "precision": 0.7142857142857143,
+              "recall": 0.625,
+              "f1": 0.6666666666666666,
+              "exact": 0.8958333333333334
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 2,
+              "fn": 6,
+              "precision": 0.5,
+              "recall": 0.25,
+              "f1": 0.3333333333333333,
+              "exact": 0.8333333333333334
+            }
+          },
+          "structured": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 4,
+              "fn": 3,
+              "precision": 0.5555555555555556,
+              "recall": 0.625,
+              "f1": 0.5882352941176471,
+              "exact": 0.875
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 4,
+              "fn": 6,
+              "precision": 0.3333333333333333,
+              "recall": 0.25,
+              "f1": 0.2857142857142857,
+              "exact": 0.8125
+            }
+          },
+          "no_morph": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 2,
+              "fn": 3,
+              "precision": 0.7142857142857143,
+              "recall": 0.625,
+              "f1": 0.6666666666666666,
+              "exact": 0.8958333333333334
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 2,
+              "fn": 6,
+              "precision": 0.5,
+              "recall": 0.25,
+              "f1": 0.3333333333333333,
+              "exact": 0.8333333333333334
+            }
+          },
+          "easy": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 4,
+              "fn": 3,
+              "precision": 0.5555555555555556,
+              "recall": 0.625,
+              "f1": 0.5882352941176471,
+              "exact": 0.875
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 1,
+              "fp": 4,
+              "fn": 7,
+              "precision": 0.2,
+              "recall": 0.125,
+              "f1": 0.15384615384615385,
+              "exact": 0.7916666666666666
+            }
+          }
+        },
+        "seconds_all_paths": 0.21159120899999095
+      },
+      "test": {
+        "rows": 15488,
+        "invariant_checks": 92928,
+        "scores": {
+          "baseline": {
+            "punctuated": {
+              "paragraphs": 8863,
+              "tp": 7637,
+              "fp": 509,
+              "fn": 549,
+              "precision": 0.9375153449545789,
+              "recall": 0.9329342780356706,
+              "f1": 0.9352192015674748,
+              "exact": 0.8987927338373012
+            },
+            "no_terminal": {
+              "paragraphs": 6625,
+              "tp": 7285,
+              "fp": 418,
+              "fn": 819,
+              "precision": 0.94573542775542,
+              "recall": 0.898938795656466,
+              "f1": 0.9217435313468716,
+              "exact": 0.8464905660377359
+            }
+          },
+          "baseline_quote": {
+            "punctuated": {
+              "paragraphs": 8863,
+              "tp": 7180,
+              "fp": 318,
+              "fn": 1006,
+              "precision": 0.957588690317418,
+              "recall": 0.8771072562912289,
+              "f1": 0.9155827595001275,
+              "exact": 0.88525330023694
+            },
+            "no_terminal": {
+              "paragraphs": 6625,
+              "tp": 6892,
+              "fp": 258,
+              "fn": 1212,
+              "precision": 0.963916083916084,
+              "recall": 0.8504442250740375,
+              "f1": 0.9036318342729776,
+              "exact": 0.8312452830188679
+            }
+          },
+          "full": {
+            "punctuated": {
+              "paragraphs": 8863,
+              "tp": 7167,
+              "fp": 110,
+              "fn": 1019,
+              "precision": 0.9848838807200769,
+              "recall": 0.8755191790862448,
+              "f1": 0.9269870012287396,
+              "exact": 0.9024032494640641
+            },
+            "no_terminal": {
+              "paragraphs": 6625,
+              "tp": 6842,
+              "fp": 107,
+              "fn": 1262,
+              "precision": 0.9846021010217297,
+              "recall": 0.8442744323790721,
+              "f1": 0.9090546734870125,
+              "exact": 0.840754716981132
+            }
+          },
+          "structured": {
+            "punctuated": {
+              "paragraphs": 8863,
+              "tp": 7172,
+              "fp": 247,
+              "fn": 1014,
+              "precision": 0.9667071033832053,
+              "recall": 0.8761299780112387,
+              "f1": 0.919192566485101,
+              "exact": 0.8906690736770845
+            },
+            "no_terminal": {
+              "paragraphs": 6625,
+              "tp": 6826,
+              "fp": 206,
+              "fn": 1278,
+              "precision": 0.9707053469852105,
+              "recall": 0.8423000987166831,
+              "f1": 0.9019556025369979,
+              "exact": 0.8279245283018868
+            }
+          },
+          "no_morph": {
+            "punctuated": {
+              "paragraphs": 8863,
+              "tp": 7168,
+              "fp": 120,
+              "fn": 1018,
+              "precision": 0.9835345773874863,
+              "recall": 0.8756413388712436,
+              "f1": 0.9264572831846969,
+              "exact": 0.9012749633307007
+            },
+            "no_terminal": {
+              "paragraphs": 6625,
+              "tp": 6853,
+              "fp": 120,
+              "fn": 1251,
+              "precision": 0.9827907643768823,
+              "recall": 0.8456317867719645,
+              "f1": 0.9090667904755588,
+              "exact": 0.8404528301886792
+            }
+          },
+          "easy": {
+            "punctuated": {
+              "paragraphs": 8863,
+              "tp": 7168,
+              "fp": 249,
+              "fn": 1018,
+              "precision": 0.9664284751247135,
+              "recall": 0.8756413388712436,
+              "f1": 0.9187976671152983,
+              "exact": 0.8901049306104027
+            },
+            "no_terminal": {
+              "paragraphs": 6625,
+              "tp": 6863,
+              "fp": 229,
+              "fn": 1241,
+              "precision": 0.9677100958826848,
+              "recall": 0.8468657453109576,
+              "f1": 0.9032640168465386,
+              "exact": 0.8300377358490566
+            }
+          }
+        },
+        "seconds_all_paths": 125.40904379199999,
+        "by_source": {
+          "NX": {
+            "baseline": {
+              "punctuated": {
+                "paragraphs": 5697,
+                "tp": 6991,
+                "fp": 412,
+                "fn": 436,
+                "precision": 0.9443468863974065,
+                "recall": 0.9412952740002692,
+                "f1": 0.9428186109238031,
+                "exact": 0.8778304370721433
+              },
+              "no_terminal": {
+                "paragraphs": 4139,
+                "tp": 6890,
+                "fp": 347,
+                "fn": 537,
+                "precision": 0.9520519552300677,
+                "recall": 0.9276962434361115,
+                "f1": 0.9397163120567376,
+                "exact": 0.8349842957236048
+              }
+            },
+            "baseline_quote": {
+              "punctuated": {
+                "paragraphs": 5697,
+                "tp": 6534,
+                "fp": 221,
+                "fn": 893,
+                "precision": 0.9672834937083642,
+                "recall": 0.8797630267941295,
+                "f1": 0.9214497250035256,
+                "exact": 0.856766719325961
+              },
+              "no_terminal": {
+                "paragraphs": 4139,
+                "tp": 6497,
+                "fp": 187,
+                "fn": 930,
+                "precision": 0.9720227408737283,
+                "recall": 0.8747812037161707,
+                "f1": 0.9208418963928849,
+                "exact": 0.810582266247886
+              }
+            },
+            "full": {
+              "punctuated": {
+                "paragraphs": 5697,
+                "tp": 6527,
+                "fp": 79,
+                "fn": 900,
+                "precision": 0.988041174689676,
+                "recall": 0.8788205197253265,
+                "f1": 0.9302358725860472,
+                "exact": 0.8739687554853431
+              },
+              "no_terminal": {
+                "paragraphs": 4139,
+                "tp": 6452,
+                "fp": 82,
+                "fn": 975,
+                "precision": 0.9874502601775329,
+                "recall": 0.8687222297024371,
+                "f1": 0.9242890910393239,
+                "exact": 0.8192800193283402
+              }
+            },
+            "structured": {
+              "punctuated": {
+                "paragraphs": 5697,
+                "tp": 6533,
+                "fp": 174,
+                "fn": 894,
+                "precision": 0.9740569554197107,
+                "recall": 0.8796283829271576,
+                "f1": 0.9244375265317674,
+                "exact": 0.8625592417061612
+              },
+              "no_terminal": {
+                "paragraphs": 4139,
+                "tp": 6447,
+                "fp": 152,
+                "fn": 980,
+                "precision": 0.9769662070010607,
+                "recall": 0.8680490103675778,
+                "f1": 0.9192927420504777,
+                "exact": 0.805991785455424
+              }
+            },
+            "no_morph": {
+              "punctuated": {
+                "paragraphs": 5697,
+                "tp": 6527,
+                "fp": 88,
+                "fn": 900,
+                "precision": 0.9866969009826153,
+                "recall": 0.8788205197253265,
+                "f1": 0.929639652471158,
+                "exact": 0.8722134456731613
+              },
+              "no_terminal": {
+                "paragraphs": 4139,
+                "tp": 6463,
+                "fp": 93,
+                "fn": 964,
+                "precision": 0.9858145210494204,
+                "recall": 0.8702033122391275,
+                "f1": 0.9244082099692483,
+                "exact": 0.8190384150761053
+              }
+            },
+            "easy": {
+              "punctuated": {
+                "paragraphs": 5697,
+                "tp": 6530,
+                "fp": 170,
+                "fn": 897,
+                "precision": 0.9746268656716418,
+                "recall": 0.879224451326242,
+                "f1": 0.9244708713810434,
+                "exact": 0.8625592417061612
+              },
+              "no_terminal": {
+                "paragraphs": 4139,
+                "tp": 6479,
+                "fp": 164,
+                "fn": 948,
+                "precision": 0.9753123588740027,
+                "recall": 0.8723576141106772,
+                "f1": 0.9209665955934613,
+                "exact": 0.8098574534911814
+              }
+            }
+          },
+          "SX": {
+            "baseline": {
+              "punctuated": {
+                "paragraphs": 3166,
+                "tp": 646,
+                "fp": 97,
+                "fn": 113,
+                "precision": 0.8694481830417228,
+                "recall": 0.8511198945981555,
+                "f1": 0.8601864181091877,
+                "exact": 0.9365129500947568
+              },
+              "no_terminal": {
+                "paragraphs": 2486,
+                "tp": 395,
+                "fp": 71,
+                "fn": 282,
+                "precision": 0.8476394849785408,
+                "recall": 0.5834564254062038,
+                "f1": 0.6911636045494314,
+                "exact": 0.8656476267095736
+              }
+            },
+            "baseline_quote": {
+              "punctuated": {
+                "paragraphs": 3166,
+                "tp": 646,
+                "fp": 97,
+                "fn": 113,
+                "precision": 0.8694481830417228,
+                "recall": 0.8511198945981555,
+                "f1": 0.8601864181091877,
+                "exact": 0.9365129500947568
+              },
+              "no_terminal": {
+                "paragraphs": 2486,
+                "tp": 395,
+                "fp": 71,
+                "fn": 282,
+                "precision": 0.8476394849785408,
+                "recall": 0.5834564254062038,
+                "f1": 0.6911636045494314,
+                "exact": 0.8656476267095736
+              }
+            },
+            "full": {
+              "punctuated": {
+                "paragraphs": 3166,
+                "tp": 640,
+                "fp": 31,
+                "fn": 119,
+                "precision": 0.9538002980625931,
+                "recall": 0.8432147562582345,
+                "f1": 0.8951048951048951,
+                "exact": 0.9535691724573594
+              },
+              "no_terminal": {
+                "paragraphs": 2486,
+                "tp": 390,
+                "fp": 25,
+                "fn": 287,
+                "precision": 0.9397590361445783,
+                "recall": 0.5760709010339734,
+                "f1": 0.7142857142857143,
+                "exact": 0.8765084473049075
+              }
+            },
+            "structured": {
+              "punctuated": {
+                "paragraphs": 3166,
+                "tp": 639,
+                "fp": 73,
+                "fn": 120,
+                "precision": 0.8974719101123596,
+                "recall": 0.841897233201581,
+                "f1": 0.8687967369136642,
+                "exact": 0.9412507896399241
+              },
+              "no_terminal": {
+                "paragraphs": 2486,
+                "tp": 379,
+                "fp": 54,
+                "fn": 298,
+                "precision": 0.8752886836027713,
+                "recall": 0.5598227474150664,
+                "f1": 0.6828828828828829,
+                "exact": 0.8644408688656476
+              }
+            },
+            "no_morph": {
+              "punctuated": {
+                "paragraphs": 3166,
+                "tp": 641,
+                "fp": 32,
+                "fn": 118,
+                "precision": 0.9524517087667161,
+                "recall": 0.8445322793148881,
+                "f1": 0.8952513966480447,
+                "exact": 0.9535691724573594
+              },
+              "no_terminal": {
+                "paragraphs": 2486,
+                "tp": 390,
+                "fp": 27,
+                "fn": 287,
+                "precision": 0.935251798561151,
+                "recall": 0.5760709010339734,
+                "f1": 0.7129798903107861,
+                "exact": 0.8761061946902655
+              }
+            },
+            "easy": {
+              "punctuated": {
+                "paragraphs": 3166,
+                "tp": 638,
+                "fp": 79,
+                "fn": 121,
+                "precision": 0.8898186889818689,
+                "recall": 0.8405797101449275,
+                "f1": 0.8644986449864499,
+                "exact": 0.939671509791535
+              },
+              "no_terminal": {
+                "paragraphs": 2486,
+                "tp": 384,
+                "fp": 65,
+                "fn": 293,
+                "precision": 0.8552338530066815,
+                "recall": 0.5672082717872969,
+                "f1": 0.6820603907637656,
+                "exact": 0.8636363636363636
+              }
+            }
+          }
+        }
+      }
+    },
+    "quote_policy": "All verifier paths and baseline_quote preserve matched quotation spans. Original reference labels unchanged. Added after inspecting fixed2025 failures; exploratory policy refinement, not untouched generalization."
+  },
+  "before_quote_policy": {
+    "model_selection": "All epochs/thresholds frozen on development data. External scores do not choose checkpoints.",
+    "models": {
+      "full": {
+        "sha256": "e190e536b59b872a493225336f2175ddc89eef93d6309ae7a5454b816c0cb251",
+        "bytes": 174894
+      },
+      "structured": {
+        "sha256": "8fb0ae0e5f64d36eb6f3a6744d0517c77d3cf547d1d8414af6636feb8af82067",
+        "bytes": 174894
+      },
+      "no_morph": {
+        "sha256": "ba1a5dfd6c9ebe12ec83f5bbf64bc3c72112da0016fc3bc580a31af231270046",
+        "bytes": 174894
+      },
+      "easy": {
+        "sha256": "2a39493921c73f495028d12393d278506e685a333685c065e6be3600083a724f",
+        "bytes": 174893
+      }
+    },
+    "evaluations": {
+      "natural": {
+        "rows": 18710,
+        "invariant_checks": 93550,
+        "scores": {
+          "baseline": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4089,
+              "fp": 1491,
+              "fn": 218,
+              "precision": 0.7327956989247312,
+              "recall": 0.9493847225446946,
+              "f1": 0.8271467583695762,
+              "exact": 0.881667557455906
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4157,
+              "fp": 1490,
+              "fn": 150,
+              "precision": 0.7361430848238002,
+              "recall": 0.965172974228001,
+              "f1": 0.8352421137231264,
+              "exact": 0.8884019241047568
+            }
+          },
+          "full": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4087,
+              "fp": 1160,
+              "fn": 220,
+              "precision": 0.7789212883552507,
+              "recall": 0.948920362201068,
+              "f1": 0.8555578815155955,
+              "exact": 0.9019775521111705
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4140,
+              "fp": 1174,
+              "fn": 167,
+              "precision": 0.7790741437711705,
+              "recall": 0.9612259113071744,
+              "f1": 0.8606173994387278,
+              "exact": 0.9059326563335115
+            }
+          },
+          "structured": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4088,
+              "fp": 1348,
+              "fn": 219,
+              "precision": 0.7520235467255335,
+              "recall": 0.9491525423728814,
+              "f1": 0.839166581135174,
+              "exact": 0.8909673971138429
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4134,
+              "fp": 1349,
+              "fn": 173,
+              "precision": 0.7539668064927959,
+              "recall": 0.9598328302762944,
+              "f1": 0.844535240040858,
+              "exact": 0.8953500801710316
+            }
+          },
+          "no_morph": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4088,
+              "fp": 1188,
+              "fn": 219,
+              "precision": 0.7748294162244125,
+              "recall": 0.9491525423728814,
+              "f1": 0.8531775018261505,
+              "exact": 0.9003741314804917
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4141,
+              "fp": 1200,
+              "fn": 166,
+              "precision": 0.7753229732259876,
+              "recall": 0.9614580914789876,
+              "f1": 0.8584162520729685,
+              "exact": 0.9047568145376804
+            }
+          },
+          "easy": {
+            "punctuated": {
+              "paragraphs": 9355,
+              "tp": 4089,
+              "fp": 1396,
+              "fn": 218,
+              "precision": 0.7454876937101185,
+              "recall": 0.9493847225446946,
+              "f1": 0.835171568627451,
+              "exact": 0.8872260823089257
+            },
+            "no_terminal": {
+              "paragraphs": 9355,
+              "tp": 4148,
+              "fp": 1398,
+              "fn": 159,
+              "precision": 0.7479264334655608,
+              "recall": 0.963083352681681,
+              "f1": 0.8419770628235055,
+              "exact": 0.8925708177445216
+            }
+          }
+        },
+        "seconds_all_five_paths": 87.361158708
+      },
+      "reviewed": {
+        "rows": 96,
+        "invariant_checks": 480,
+        "scores": {
+          "baseline": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 4,
+              "fn": 3,
+              "precision": 0.5555555555555556,
+              "recall": 0.625,
+              "f1": 0.5882352941176471,
+              "exact": 0.875
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 4,
+              "fn": 6,
+              "precision": 0.3333333333333333,
+              "recall": 0.25,
+              "f1": 0.2857142857142857,
+              "exact": 0.8125
+            }
+          },
+          "full": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 2,
+              "fn": 3,
+              "precision": 0.7142857142857143,
+              "recall": 0.625,
+              "f1": 0.6666666666666666,
+              "exact": 0.8958333333333334
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 2,
+              "fn": 6,
+              "precision": 0.5,
+              "recall": 0.25,
+              "f1": 0.3333333333333333,
+              "exact": 0.8333333333333334
+            }
+          },
+          "structured": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 4,
+              "fn": 3,
+              "precision": 0.5555555555555556,
+              "recall": 0.625,
+              "f1": 0.5882352941176471,
+              "exact": 0.875
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 4,
+              "fn": 6,
+              "precision": 0.3333333333333333,
+              "recall": 0.25,
+              "f1": 0.2857142857142857,
+              "exact": 0.8125
+            }
+          },
+          "no_morph": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 2,
+              "fn": 3,
+              "precision": 0.7142857142857143,
+              "recall": 0.625,
+              "f1": 0.6666666666666666,
+              "exact": 0.8958333333333334
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 2,
+              "fp": 2,
+              "fn": 6,
+              "precision": 0.5,
+              "recall": 0.25,
+              "f1": 0.3333333333333333,
+              "exact": 0.8333333333333334
+            }
+          },
+          "easy": {
+            "punctuated": {
+              "paragraphs": 48,
+              "tp": 5,
+              "fp": 4,
+              "fn": 3,
+              "precision": 0.5555555555555556,
+              "recall": 0.625,
+              "f1": 0.5882352941176471,
+              "exact": 0.875
+            },
+            "no_terminal": {
+              "paragraphs": 48,
+              "tp": 1,
+              "fp": 4,
+              "fn": 7,
+              "precision": 0.2,
+              "recall": 0.125,
+              "f1": 0.15384615384615385,
+              "exact": 0.7916666666666666
+            }
+          }
+        },
+        "seconds_all_five_paths": 0.2101750409999994
+      }
+    }
+  },
+  "second_seed": {
+    "seed": 20261021,
+    "selectedForProduct": false,
+    "modelSha256": "6d26eb8910be6d75134137ac239fcdbbca5f361f70c2f48c198e3a0768099c99",
+    "metrics": {
+      "punctuated": {
+        "tp": 4083,
+        "fp": 161,
+        "fn": 224,
+        "exact": 0.9625868519508284,
+        "rows": 9355,
+        "precision": 0.9620640904806786,
+        "recall": 0.9479916415138148,
+        "f1": 0.9549760261957666
+      },
+      "no_terminal": {
+        "tp": 4138,
+        "fp": 165,
+        "fn": 169,
+        "exact": 0.9665419561731694,
+        "rows": 9355,
+        "precision": 0.961654659539856,
+        "recall": 0.9607615509635478,
+        "f1": 0.9612078977932637
+      }
+    }
+  },
+  "benchmark": {
+    "scope": "Loaded Node24/V8,1250 exact-aligned2025NX paragraphs sampled every7,625punctuated+625no_terminal,50warmup,7rotated paired rounds; model loading excluded; not browser-corpus latency.",
+    "node": "v24.13.0",
+    "inputs": 1250,
+    "totalCodepoints": 103171,
+    "loadAnalyzerMs": 54.654291,
+    "importVerifierMs": 10.470917,
+    "firstVerifiedMs": 17.455749999999995,
+    "samples": {
+      "baseline": [
+        57.348082999999974,
+        55.12312499999962,
+        55.582916999999725,
+        54.69154199999957,
+        54.713292000000365,
+        54.60508300000038,
+        54.29324999999881
+      ],
+      "quote_only": [
+        58.774249999999995,
+        56.314750000000004,
+        56.64695800000027,
+        56.96754200000032,
+        56.98620800000026,
+        56.17845900000066,
+        56.00016700000015
+      ],
+      "combined": [
+        1355.9975,
+        1414.415959,
+        1334.2764579999998,
+        1373.105125,
+        1376.5917090000003,
+        1389.037292,
+        1329.6959580000002
+      ]
+    },
+    "medianMs": {
+      "baseline": 54.713292000000365,
+      "quote_only": 56.64695800000027,
+      "combined": 1373.105125
+    },
+    "pairedRatio": 25.10635236797695,
+    "pairedVsQuote": 24.103288939515632
+  },
+  "browser": {
+    "passed": true,
+    "cases": 7,
+    "attemptedFetches": 0,
+    "localAssetsOnly": true,
+    "hundredWarmCallsMs": 33,
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36",
+    "results": [
+      {
+        "text": "안녕하세요반갑습니다",
+        "passed": true,
+        "actual": [
+          {
+            "text": "안녕하세요",
+            "offset": 0
+          },
+          {
+            "text": "반갑습니다",
+            "offset": 5
+          }
+        ]
+      },
+      {
+        "text": "“안녕하세요반갑습니다”",
+        "passed": true,
+        "actual": [
+          {
+            "text": "“안녕하세요반갑습니다”",
+            "offset": 0
+          }
+        ]
+      },
+      {
+        "text": "  😀안녕하세요\t반갑습니다  ",
+        "passed": true,
+        "actual": [
+          {
+            "text": "😀안녕하세요",
+            "offset": 2
+          },
+          {
+            "text": "반갑습니다",
+            "offset": 9
+          }
+        ]
+      },
+      {
+        "text": "주소는 https://example.com/한글검색 입니다.다음입니다.",
+        "passed": true,
+        "actual": [
+          {
+            "text": "주소는 https://example.com/한글검색 입니다.",
+            "offset": 0
+          },
+          {
+            "text": "다음입니다.",
+            "offset": 33
+          }
+        ]
+      },
+      {
+        "text": "James' 작품을 봤다. 그는 '안녕'이라고 했다.",
+        "passed": true,
+        "actual": [
+          {
+            "text": "James' 작품을 봤다.",
+            "offset": 0
+          },
+          {
+            "text": "그는 '안녕'이라고 했다.",
+            "offset": 15
+          }
+        ]
+      },
+      {
+        "text": "L'été라고 썼다. 그는 '안녕'이라고 했다.",
+        "passed": true,
+        "actual": [
+          {
+            "text": "L'été라고 썼다.",
+            "offset": 0
+          },
+          {
+            "text": "그는 '안녕'이라고 했다.",
+            "offset": 12
+          }
+        ]
+      },
+      {
+        "text": "",
+        "passed": true,
+        "actual": [
+          {
+            "text": "",
+            "offset": 0
+          }
+        ]
+      }
+    ],
+    "browserVersion": "155.0.8059.85",
+    "browserContextOffline": true,
+    "requests": [
+      "http://127.0.0.1:8765/",
+      "http://127.0.0.1:8765/package/dist/browser.js",
+      "http://127.0.0.1:8765/package/dist/sentences.js",
+      "http://127.0.0.1:8765/package/dist/core.js",
+      "http://127.0.0.1:8765/package/dist/normalize.js",
+      "http://127.0.0.1:8765/package/dist/sentence-data.js",
+      "http://127.0.0.1:8765/package/dist/sentence-verifier.js",
+      "http://127.0.0.1:8765/package/dist/boundaries.js",
+      "http://127.0.0.1:8765/package/dist/boundary-data.js",
+      "http://127.0.0.1:8765/package/pkg/garu_wasm.js",
+      "http://127.0.0.1:8765/package/pkg/snippets/garu-core-3a4d93314cfd3300/inline0.js",
+      "http://127.0.0.1:8765/package/pkg/garu_wasm_bg.wasm",
+      "http://127.0.0.1:8765/package/models/base.gmdl"
+    ],
+    "pageErrors": []
+  },
+  "verification": {
+    "javascript_tests": 55,
+    "python_boundary_tests": 29,
+    "typescript_build": "passed",
+    "independent_actual_score_comparisons": 71160,
+    "score_decision_disagreements": 0,
+    "max_absolute_score_error": 5.183e-06,
+    "data_audit_rows": 168071,
+    "removed_prior_holdout_overlaps_before_training": 4,
+    "all_existing_features_and_candidates_unchanged": true,
+    "final_runtime_sha256": "d96754e9fe8ced5603ead86e4b51e59c62c71eeacecfc7029a5407b8d5158131",
+    "repo_wiki_lint": "passed",
+    "shared_wiki_lint": "pre-existing garu-outreach heading findings, unchanged",
+    "main_typescript_build": "passed",
+    "main_javascript_tests": 55,
+    "main_python_boundary_tests": 29,
+    "main_and_packed_public_imports": "all five entries passed with real model and analyzer",
+    "main_runtime_byte_identical_to_reviewed": true,
+    "main_existing_files_preserved": 306
+  },
+  "sizes": {
+    "js/src/sentence-data.ts": {
+      "bytes": 175085,
+      "gzip_bytes": 117280,
+      "sha256": "cfec44b55f141d9691dae9c6be40178bc5ea2f2312635ef678c09172cf590f69"
+    },
+    "js/dist/sentence-data.js": {
+      "bytes": 178676,
+      "gzip_bytes": 117403,
+      "sha256": "1a581c5d5c9aa0679687e1d48dcbca98b8c0d0a674668eb4119f86224f26e6b6"
+    },
+    "js/dist/sentence-data.d.ts": {
+      "bytes": 196,
+      "gzip_bytes": 160,
+      "sha256": "d1b7b40db92244703c4011d660a661630a56209552d679d7f7cdc10143962a90"
+    },
+    "js/dist/sentence-verifier.js": {
+      "bytes": 13456,
+      "gzip_bytes": 3979,
+      "sha256": "d96754e9fe8ced5603ead86e4b51e59c62c71eeacecfc7029a5407b8d5158131"
+    },
+    "js/dist/sentences.js": {
+      "bytes": 472,
+      "gzip_bytes": 279,
+      "sha256": "828d7be883f312311860b87fee9eee43117f3016dd428e54964e0b590f6df4c3"
+    }
+  },
+  "retained_references": "~/workspace/data/korean_sentence_verifier/20261020/",
+  "limits": [
+    "Quote preservation was added after inspecting fixed2025 errors. These are exploratory post-selection fixed-set scores, not untouched generalization.",
+    "Most of the improvement is explicit quote-policy alignment. Compare the same quote-only control to isolate learned gains.",
+    "2021 source records contain within-quote gold boundaries, so raw2021 accuracy falls under this top-level policy. Original labels were never changed for scoring.",
+    "Spoken source pairs are weakly labeled; the separate reviewed48records contain only8positive boundaries. No general spoken95percent claim.",
+    "The verifier can only veto frozen first-stage candidates and cannot recover boundaries absent from them.",
+    "Additional quantized weights are expanded to float32 arrays; this is not nativeINT4 arithmetic acceleration.",
+    "The combined loaded Node path is about25times slower than the lightweight splitter (about1.10ms per sampled paragraph), so it is opt-in. Browser functional validation is seven constructed cases, not a large browser-corpus latency benchmark.",
+    "Two training seeds provide a sensitivity check, not statistical confidence intervals or a model-capacity limit.",
+    "Straight quotation pairing is deterministic and cannot infer every intended quotation in malformed text."
+  ],
+  "resolved_implementation_issues": [
+    "PyTorch2.8.0 MPS padding_idx gradient differed fromCPU; explicit output mask and zero-padding export guard now enforced. Initial invalid checkpoints excluded from all final evidence.",
+    "BLAS floating-status warnings occurred with finite bounded products; independent scalar/JS comparisons passed. Explicit intermediate/logit finiteness checks reject actual NaN/overflow; malformed score shapes and control-feature counts are rejected.",
+    "Prior fixed boundary references needed explicit text exclusion beyond new document partitioning; four training rows removed before model fitting."
+  ],
+  "cleanup": {
+    "status": "complete",
+    "temporary_workspace": "/var/folders/5f/b_5s1pk53p5_y__mbny7w3k80000gn/T/garu-sentence-verifier-wajhvbb5",
+    "isolated_worktree": "/Users/cyj/.codex/worktrees/62f6/garu",
+    "deleted_logical_bytes": 375656704,
+    "deleted_files": 674,
+    "retained_archive": "/Users/cyj/workspace/data/korean_sentence_verifier/20261020",
+    "historical_paths_runnable": false
+  },
+  "package": {
+    "bytes": 1949889,
+    "unpacked_bytes": 3667925,
+    "files": 69,
+    "sha256": "1b9aed4818ddefda23c2510bc39a5e1426450a9b02564dd43cdab72ac3e105c4",
+    "required_assets_present": true
+  },
+  "retained_reference_manifest_sha256": "aa017c7218982f0cd0fc1964de4b73e6a90a566775aa2b2e40b28db2937081e6"
+}

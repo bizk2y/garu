@@ -43,6 +43,142 @@ fn test_curated_domain_lexemes_are_not_oversegmented() {
 }
 
 #[test]
+fn test_lexical_research_words() {
+    let analyzer = load_analyzer();
+    let cases = [
+        ("토크나이저의 원리를 설명했다", "토크나이저", Pos::NNG),
+        ("테아닌을 첨가했다", "테아닌", Pos::NNG),
+        ("레티날과 세라마이드", "레티날", Pos::NNG),
+        ("레스베라트롤을 함유했다", "레스베라트롤", Pos::NNG),
+        ("사금파리가 흩어졌다", "사금파리", Pos::NNG),
+        ("맥루헌의 저서", "맥루헌", Pos::NNP),
+        ("말라르메의 시", "말라르메", Pos::NNP),
+        ("인페인팅으로 복원했다", "인페인팅", Pos::NNG),
+        ("커큐민과 크레아틴", "커큐민", Pos::NNG),
+        ("커큐민과 크레아틴", "크레아틴", Pos::NNG),
+        ("뇨키를 먹었다", "뇨키", Pos::NNG),
+    ];
+    let mut failures = Vec::new();
+    for (input, word, pos) in cases {
+        let result = analyzer.analyze(input);
+        if !result.tokens.iter().any(|token| token.text == word && token.pos == pos) {
+            failures.push((input, word, pos, result.tokens));
+        }
+    }
+    assert!(failures.is_empty(), "lexical regression: {failures:?}");
+}
+
+#[test]
+fn test_lexical_context_kept() {
+    let analyzer = load_analyzer();
+    let time = analyzer.analyze("아롱사태를 채소와 함께 와인으로 오랜 시간 끓인 비프스튜로, 치아바타빵과 같이 나옵니다");
+    assert!(time.tokens.iter().any(|t| t.text == "시간" && t.pos == Pos::NNG));
+
+    let copula = analyzer.analyze("한국에서 만들어서 판매하는 두바이 초콜릿은 대부분 수제 카다이프면이다. 그래서 온라인상에서 말이 많기는 했다.");
+    assert!(copula.tokens.iter().any(|t| t.text == "이" && t.pos == Pos::VCP));
+
+    let name = analyzer.analyze("고리키가 『어머니』를 쓰던 당시 러시아 문학은 톨스토이, 도스토예프스키, 투르게네프 등이 추구하던 사실주의가 주류였다. 그러나 고리키는 사실주의와 민족주의적 작품에서 벗어나 거친 삶을 대변하는 프롤레타리아 문학을 창조해 냈다. 이후 고리키는 러시아 혁명을 지지해 1932년 소련 작가 동맹 의장으로 취임하였다.");
+    // Preserve the name boundary without freezing the baseline's imperfect noun tag.
+    assert!(name.tokens.iter().any(|t| {
+        t.text == "투르게네프" && matches!(t.pos, Pos::NNG | Pos::NNP)
+    }));
+
+    let prefix = "이와 더불어 프리바이오틱스 ";
+    let input = format!("{prefix}와 12종 유산균사균체까지 함께 있는데 이 프로바이오틱스와 프리바이오틱스의 결합이 신바이오틱스 다. 유산균과 유산균의 먹이를 함께 배합해 유산균이 장 내에서 잘 증식하도록 하는 것이 목적이다.");
+    let particle = analyzer.analyze(&input);
+    assert!(particle.tokens.iter().any(|t| {
+        t.text == "와" && t.pos == Pos::JC && t.start == prefix.chars().count()
+    }));
+
+    let genitive = analyzer.analyze("레티놀의 장점만을 살린 저자극 대체 원료 ‘바쿠치올’ 함유!");
+    assert!(genitive.tokens.iter().any(|t| t.text == "의" && t.pos == Pos::JKG));
+}
+
+#[test]
+fn test_more_lexical_words() {
+    let analyzer = load_analyzer();
+    let cases = [
+        ("나르시시스트를 피했다", "나르시시스트", Pos::NNG),
+        ("하이드로겔 시트를 붙였다", "하이드로겔", Pos::NNG),
+        ("코르티솔의 변화", "코르티솔", Pos::NNG),
+        ("트립토판을 분석했다", "트립토판", Pos::NNG),
+        ("비오틴과 나이아신", "비오틴", Pos::NNG),
+        ("에어프라이어를 사용했다", "에어프라이어", Pos::NNG),
+        ("인코텀즈를 확인했다", "인코텀즈", Pos::NNG),
+        ("스타인벡의 소설", "스타인벡", Pos::NNP),
+        ("탕후루를 먹었다", "탕후루", Pos::NNG),
+        ("나이아신과 나이아신아마이드를 구분한다", "나이아신", Pos::NNG),
+        ("나이아신과 나이아신아마이드를 구분한다", "나이아신아마이드", Pos::NNG),
+    ];
+    let mut failures = Vec::new();
+    for (text, word, pos) in cases {
+        let result = analyzer.analyze(text);
+        if !result.tokens.iter().any(|t| t.text == word && t.pos == pos) {
+            failures.push((text, word, pos, result.tokens));
+        }
+    }
+    assert!(failures.is_empty(), "lexical expansion regression: {failures:?}");
+}
+
+#[test]
+fn test_lexical_followup_context() {
+    let analyzer = load_analyzer();
+    let invoice = analyzer.analyze("• 수출입신고: 국가는 물건도 왜 이것이 우리나라를 들어오고 나가는지를 알려고 하는데(통관), 이때 수입자 혹은 수출자는 인보이스(Invoice), 패킹리스트(Packing List) 등의 서류를 제출해 수출입신고를 합니다.");
+    assert!(invoice.tokens.windows(2).any(|p| {
+        p[0].text == "자" && p[0].pos == Pos::NNG && p[1].text == "는" && p[1].pos == Pos::JX
+    }));
+
+    let decorating = analyzer.analyze("제가 최근에 침실 데스크테리어 꾸미기에 한창입니다.");
+    assert!(decorating.tokens.windows(2).any(|p| {
+        p[0].text == "기" && p[0].pos == Pos::ETN && p[1].text == "에" && p[1].pos == Pos::JKB
+    }));
+
+    let medicine = analyzer.analyze("2) BUN 수치가 낮을 때는 요소회로(urea cycle)를 활성화해서 암모니아 배설을 촉진하면 좋으므로 아르기닌, 시트룰린, 아스파라긴산, 오르니틴 등의 제제가 도움이 될 것입니다. 그리고 간 해독에 필요한 실리마린 제제나 간의 2상 대사를 잘 돌려주는 아미노산 제제도 도움이 됩니다.");
+    assert!(medicine.tokens.windows(2).any(|p| {
+        p[0].text == "제제" && p[0].pos == Pos::NNG && p[1].text == "나" && p[1].pos == Pos::JC
+    }));
+
+    let footwear = analyzer.analyze("2층으로 올라가면 크록스 뿐만 아니라 일반 의류, 휴양지 의류 제품들도 있으니 관심 있으신 분들은 2층도 잊지 마시고 둘러보시길 바랍니다.^^");
+    assert!(footwear.tokens.iter().any(|t| t.text == "뿐" && t.pos == Pos::JX));
+}
+
+#[test]
+fn test_bulk_words() {
+    let analyzer = load_analyzer();
+    let cases = [
+        ("오마카세를 먹었다.", "오마카세", "를", Pos::JKO),
+        ("홀로그램을 보았다.", "홀로그램", "을", Pos::JKO),
+        ("모슬린 천을 샀다.", "모슬린", "천", Pos::NNG),
+        ("아샷추를 마셨다.", "아샷추", "를", Pos::JKO),
+        ("펫시팅을 맡겼다.", "펫시팅", "을", Pos::JKO),
+        ("맥시멀리스트의 방이다.", "맥시멀리스트", "의", Pos::JKG),
+    ];
+    for (input, noun, next, next_pos) in cases {
+        let result = analyzer.analyze(input);
+        assert!(result.tokens.windows(2).any(|pair| {
+            pair[0].text == noun && pair[0].pos == Pos::NNG
+                && pair[1].text == next && pair[1].pos == next_pos
+        }), "{input}: {:?}", result.tokens);
+    }
+}
+
+#[test]
+fn test_bulk_context() {
+    let analyzer = load_analyzer();
+    let predicate = analyzer.analyze("외국으로 나가기 전에 준비했다.");
+    assert!(predicate.tokens.windows(2).any(|pair| {
+        pair[0].text == "나가" && pair[0].pos == Pos::VV
+            && pair[1].text == "기" && pair[1].pos == Pos::ETN
+    }));
+
+    let longer = analyzer.analyze("겨드랑이가 아프다.");
+    assert!(longer.tokens.windows(2).any(|pair| {
+        pair[0].text == "겨드랑이" && pair[0].pos == Pos::NNG
+            && pair[1].text == "가" && pair[1].pos == Pos::JKS
+    }));
+}
+
+#[test]
 fn test_codebook_analyzer_v3() {
     let analyzer = load_analyzer();
 

@@ -1,0 +1,90 @@
+{
+  "schema_version": 3,
+  "date": "2026-10-20",
+  "scope": "Revalidate earlier lexical targets and 55 context guards after the learned final POS correction. This does not evaluate the optional text-restoration module.",
+  "case_source": {
+    "file": "review_20261019_bulk.json",
+    "sha256": "e8066f76bdf47a4b4b0e83c067a304678ba290e59cb6c99fc638b44f08d17371"
+  },
+  "models": {
+    "baseline": {
+      "commit": "3229d92",
+      "sha256": "190e1d2bd63e984377468664f059d8d13acd56aba9df6e8899d0963c724c9b96",
+      "bytes": 1247331
+    },
+    "candidate": {
+      "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+      "bytes": 1260476
+    }
+  },
+  "incremental_baseline": {
+    "bytes": 1258434,
+    "sha256": "5c67af7801cf444229a007dc67b41d486c5a1b80542b235e1b5fc8c0c795686d",
+    "raw_bytes": 2724580,
+    "gzip_transfer_bytes": 1258495
+  },
+  "runtime_sha256": {
+    "js/pkg/garu_wasm.js": "1acbb4552dd7d2615eb0d83a3f2d3503483bb6f771ff5d095e51f6338735eff9",
+    "js/pkg/garu_wasm_bg.wasm": "1a3ac3a324fcfce72a1388fa1b84e12512cbfe41ac19de1bb8ebaf84f75935fd"
+  },
+  "lexical_metrics": {
+    "discovery": {
+      "totals": {
+        "samples": 4321,
+        "occurrences": 4738,
+        "before_samples": 1038,
+        "after_samples": 4316,
+        "before_occurrences": 1124,
+        "after_occurrences": 4733,
+        "target_regressions": 0
+      }
+    },
+    "evaluation": {
+      "totals": {
+        "samples": 2163,
+        "occurrences": 2369,
+        "before_samples": 471,
+        "after_samples": 2157,
+        "before_occurrences": 519,
+        "after_occurrences": 2361,
+        "target_regressions": 0
+      }
+    }
+  },
+  "verification": {
+    "guard_count": 55,
+    "node_native_pairs_checked": 59024,
+    "pair_differences": [],
+    "span_differences": [
+      {
+        "index": 26003,
+        "split": "spoken",
+        "row": 8004
+      },
+      {
+        "index": 26016,
+        "split": "spoken",
+        "row": 8017
+      }
+    ],
+    "max_score_difference": 0.000244140625,
+    "previous_target_counts": {
+      "review_20261019.json": {
+        "samples": 1227,
+        "occurrences": 1362,
+        "recognized": 1358
+      },
+      "review_20261019_round2.json": {
+        "samples": 444,
+        "occurrences": 562,
+        "recognized": 562
+      },
+      "review_20261019_bulk.json": {
+        "samples": 6484,
+        "occurrences": 7107,
+        "recognized": 7094
+      }
+    }
+  },
+  "research_report": "../ambiguity/review_20261020.json"
+}

@@ -2,7 +2,8 @@
 
 Rust 이식 대상: feature 문자열 생성 규칙과 해시가 바이트 단위로 동일해야 함.
 - feature 문자열은 UTF-8 인코딩 후 FNV-1a 64bit → bucket = hash & (DIM-1)
-- tokens는 Rust analyze_topn의 최종 출력 (후처리 완료형) [form, pos] 리스트
+- tokens는 Rust analyze_topn_for_rerank의 출력 [form, pos] 리스트
+  (재순위 입력 후처리 완료, 최종 context POS 교정과 표시용 자모 정규화 전)
 """
 
 DIM = 1 << 20  # 1M buckets

@@ -1,12 +1,20 @@
 {
   "name": "garu-ko",
-  "version": "0.9.18",
-  "description": "Ultra-lightweight Korean morphological analyzer for the web (1.2MB model, WASM, F1 96.0% gold testset)",
+  "version": "0.10.0",
+  "description": "Ultra-lightweight Korean morphological analyzer for the web (1.26MB model, WASM, F1 96.05% gold testset)",
   "type": "module",
   "main": "dist/node.js",
   "browser": "dist/browser.js",
   "types": "dist/node.d.ts",
   "exports": {
+    "./text": {
+      "types": "./dist/text.d.ts",
+      "default": "./dist/text.js"
+    },
+    "./sentences": {
+      "types": "./dist/sentences.d.ts",
+      "default": "./dist/sentences.js"
+    },
     ".": {
       "types": "./dist/node.d.ts",
       "browser": "./dist/browser.js",
@@ -62,7 +70,7 @@
     "type": "git",
     "url": "git+https://github.com/ongjin/garu.git"
   },
-  "license": "MIT",
+  "license": "SEE LICENSE IN LICENSE",
   "devDependencies": {
     "@types/node": "^25.5.0",
     "typescript": "^5.4",

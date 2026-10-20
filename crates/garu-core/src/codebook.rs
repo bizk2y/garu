@@ -397,6 +397,82 @@ fn now_ms() -> f64 {
     }
 }
 
+struct ContextAlt {
+    morphemes: Vec<(String, Pos)>,
+    guards: Vec<(u8, String)>,
+}
+
+struct ContextCache {
+    entries: HashMap<String, ContextAlt>,
+}
+
+impl ContextCache {
+    fn from_bytes(mut data: &[u8]) -> Result<Self, String> {
+        fn take<'a>(data: &mut &'a [u8], n: usize) -> Result<&'a [u8], String> {
+            if data.len() < n { return Err("Truncated context cache".into()); }
+            let (head, tail) = data.split_at(n);
+            *data = tail;
+            Ok(head)
+        }
+        fn string(data: &mut &[u8]) -> Result<String, String> {
+            let len = u16::from_le_bytes(take(data, 2)?.try_into().unwrap()) as usize;
+            std::str::from_utf8(take(data, len)?)
+                .map(str::to_string).map_err(|_| "Invalid context cache UTF-8".into())
+        }
+        if take(&mut data, 5)? != b"GCAC\x01" {
+            return Err("Unsupported context cache".into());
+        }
+        let cost = f32::from_le_bytes(take(&mut data, 4)?.try_into().unwrap());
+        if !cost.is_finite() { return Err("Invalid context cache cost".into()); }
+        let count = u32::from_le_bytes(take(&mut data, 4)?.try_into().unwrap());
+        let mut entries = HashMap::default();
+        for _ in 0..count {
+            let surface = string(&mut data)?;
+            let num_morphs = take(&mut data, 1)?[0];
+            let mut morphemes = Vec::new();
+            for _ in 0..num_morphs {
+                let form = normalize_jamo(&string(&mut data)?);
+                let pos = take(&mut data, 1)?[0];
+                if pos > 41 { return Err("Invalid context cache POS".into()); }
+                morphemes.push((form, unsafe { std::mem::transmute(pos) }));
+            }
+            let count = u16::from_le_bytes(take(&mut data, 2)?.try_into().unwrap());
+            let mut guards = Vec::new();
+            for _ in 0..count {
+                let kind = take(&mut data, 1)?[0];
+                if kind > 13 { return Err("Invalid context cache guard".into()); }
+                guards.push((kind, string(&mut data)?));
+            }
+            if surface.is_empty() || morphemes.is_empty() || guards.is_empty() {
+                return Err("Empty context cache entry".into());
+            }
+            if entries.insert(surface, ContextAlt { morphemes, guards }).is_some() {
+                return Err("Duplicate context cache surface".into());
+            }
+        }
+        if !data.is_empty() { return Err("Trailing context cache bytes".into()); }
+        Ok(Self { entries })
+    }
+
+    fn matches(guards: &[(u8, String)], previous: Option<&str>, next: Option<&str>) -> bool {
+        guards.iter().any(|(kind, value)| {
+            let prefix = |word: Option<&str>, n| word.map_or(false,
+                |w| w.chars().take(n).eq(value.chars()));
+            let suffix = |word: Option<&str>, n| word.map_or(false,
+                |w| w.chars().rev().take(n).eq(value.chars().rev()));
+            match *kind {
+                0 => previous.is_none(),
+                1..=3 => suffix(previous, *kind as usize),
+                4..=6 => prefix(next, (*kind - 3) as usize),
+                7..=9 => suffix(next, (*kind - 6) as usize),
+                10..=12 => prefix(previous, (*kind - 9) as usize),
+                13 => next.is_none(),
+                _ => false,
+            }
+        })
+    }
+}
+
 /// Codebook-based analyzer using lattice + Viterbi decoding.
 pub struct CodebookAnalyzer {
     suffix_entries: Vec<SuffixEntry>,
@@ -420,6 +496,8 @@ pub struct CodebookAnalyzer {
     word_bigrams: HashMap<String, Vec<(u8, u8, f32)>>,
     /// Smart eojeol cache: pre-analyzed eojeol → morpheme sequence
     eojeol_cache: HashMap<String, Vec<(String, Pos)>>,
+    /// Optional, train-derived alternative cache (Section 16).
+    context_cache: Option<ContextCache>,
     /// N-best 재순위 perceptron (Section 14, optional)
     reranker: Option<crate::rerank::Reranker>,
     /// 런타임 사용자 사전: 표면 → (POS, freq). 모델 리빌드 없이 도메인 어휘를 넣는다.
@@ -468,6 +546,7 @@ impl CodebookAnalyzer {
         let mut section12: Option<&[u8]> = None;
         let mut section13: Option<&[u8]> = None;
         let mut section14: Option<&[u8]> = None;
+        let mut section16: Option<&[u8]> = None;
 
         while pos < data.len() {
             if pos + 5 > data.len() {
@@ -497,6 +576,7 @@ impl CodebookAnalyzer {
                 12 => section12 = Some(section_data),
                 13 => section13 = Some(section_data),
                 14 => section14 = Some(section_data),
+                16 => section16 = Some(section_data),
                 _ => {} // skip unknown sections
             }
             pos += section_len;
@@ -512,6 +592,7 @@ impl CodebookAnalyzer {
             section12,
             section13,
             section14,
+            section16,
         )
     }
 
@@ -526,6 +607,7 @@ impl CodebookAnalyzer {
         wbigram_data: Option<&[u8]>,
         ecache_data: Option<&[u8]>,
         rerank_data: Option<&[u8]>,
+        context_data: Option<&[u8]>,
     ) -> Result<Self, String> {
         // Section 6: Content dict
         let content_dict = Dict::from_bytes(dict_data)?;
@@ -613,6 +695,7 @@ impl CodebookAnalyzer {
             ambiguity,
             word_bigrams,
             eojeol_cache,
+            context_cache: context_data.map(ContextCache::from_bytes).transpose()?,
             reranker: match rerank_data {
                 Some(d) => Some(crate::rerank::Reranker::from_bytes(d)?),
                 None => None,
@@ -4505,6 +4588,42 @@ impl CodebookAnalyzer {
 
             char_offset = byte_start + eojeol.len();
         }
+
+    }
+
+    /// Change one POS only when the final eojeol still exactly matches its cache.
+    pub(crate) fn apply_context_cache(&self, text: &str, tokens: &mut [Token]) {
+        let Some(context) = &self.context_cache else { return; };
+        let words: Vec<&str> = text.split_whitespace().collect();
+        let mut byte_offset = 0;
+        for (i, &word) in words.iter().enumerate() {
+            let start = byte_offset + text[byte_offset..].find(word).unwrap_or(0);
+            byte_offset = start + word.len();
+            let Some(alt) = context.entries.get(word) else { continue; };
+            let Some(base) = self.eojeol_cache.get(word) else { continue; };
+            let previous = i.checked_sub(1).map(|j| words[j]);
+            let next = words.get(i + 1).copied();
+            if !ContextCache::matches(&alt.guards, previous, next) { continue; }
+            let char_start = text[..start].chars().count();
+            let char_end = char_start + word.chars().count();
+            let Some(first) = tokens.iter().position(|t| t.start < char_end && char_start < t.end)
+                else { continue; };
+            let count = tokens[first..].iter().take_while(|t| t.start < char_end).count();
+            let local = &mut tokens[first..first + count];
+            if local.len() != base.len() || alt.morphemes.len() != base.len() { continue; }
+            if !local.iter().zip(base).all(|(t, (form, pos))|
+                t.start == char_start && t.end == char_end && t.text == *form && t.pos == *pos)
+            { continue; }
+            if !base.iter().zip(&alt.morphemes).all(|((a, _), (b, _))| a == b) { continue; }
+            let mut changed = base.iter().zip(&alt.morphemes).enumerate()
+                .filter_map(|(i, ((_, old), (_, new)))| (old != new).then_some((i, *new)));
+            let Some((index, pos)) = changed.next() else { continue; };
+            if changed.next().is_some() { continue; }
+            if self.user_dict.contains_key(word) || self.user_dict.contains_key(&base[index].0) {
+                continue;
+            }
+            local[index].pos = pos;
+        }
     }
 
     /// 토큰에 씌울 어절 단위 span을 고른다.
@@ -5303,5 +5422,144 @@ mod tests {
         ];
         CodebookAnalyzer::fix_jeoneun_np(&mut toks);
         assert_eq!(toks[1].pos, Pos::VV);
+    }
+
+    fn without_context(model: &[u8]) -> Vec<u8> {
+        let raw = if model.starts_with(b"GMDL") {
+            model.to_vec()
+        } else {
+            decompress_brotli(model).unwrap()
+        };
+        let mut output = raw[..8].to_vec();
+        let mut offset = 8;
+        while offset < raw.len() {
+            let size = u32::from_le_bytes(raw[offset + 1..offset + 5].try_into().unwrap()) as usize;
+            let end = offset + 5 + size;
+            if raw[offset] != 16 { output.extend_from_slice(&raw[offset..end]); }
+            offset = end;
+        }
+        output
+    }
+
+    fn context_cache_model(blob: &[u8]) -> Vec<u8> {
+        let mut raw = without_context(include_bytes!("../../../models/codebook.gmdl"));
+        raw.push(16);
+        raw.extend_from_slice(&(blob.len() as u32).to_le_bytes());
+        raw.extend_from_slice(blob);
+        raw
+    }
+
+    fn context_fixture() -> Vec<u8> {
+        context_fixture_for("네", &[("네", Pos::MM)], &[(5, "번째")])
+    }
+
+    fn context_fixture_for(surface: &str, morphs: &[(&str, Pos)], guards: &[(u8, &str)]) -> Vec<u8> {
+        fn string(blob: &mut Vec<u8>, value: &str) {
+            blob.extend_from_slice(&(value.len() as u16).to_le_bytes());
+            blob.extend_from_slice(value.as_bytes());
+        }
+        let mut blob = b"GCAC\x01".to_vec();
+        blob.extend_from_slice(&2.0f32.to_le_bytes());
+        blob.extend_from_slice(&1u32.to_le_bytes());
+        string(&mut blob, surface);
+        blob.push(morphs.len() as u8);
+        for (form, pos) in morphs {
+            string(&mut blob, form);
+            blob.push(*pos as u8);
+        }
+        blob.extend_from_slice(&(guards.len() as u16).to_le_bytes());
+        for (kind, value) in guards {
+            blob.push(*kind);
+            string(&mut blob, value);
+        }
+        context_cache_model(&blob)
+    }
+
+    #[test]
+    fn context_cache_never_expands() {
+        let data = without_context(include_bytes!("../../../models/codebook.gmdl"));
+        assert_eq!(without_context(&context_fixture()), data);
+        let base = CodebookAnalyzer::from_bytes(&data).unwrap();
+        let with_alt = CodebookAnalyzer::from_bytes(&context_fixture()).unwrap();
+        for text in ["네 번째이며", "네 친구", "네"] {
+            let mut original = Vec::new();
+            let mut changed = Vec::new();
+            base.inject_cache_arcs(text, &mut original);
+            with_alt.inject_cache_arcs(text, &mut changed);
+            assert_eq!(changed.len(), original.len(), "{text}");
+        }
+    }
+
+    #[test]
+    fn context_cache_edits_one_pos() {
+        let analyzer = CodebookAnalyzer::from_bytes(&context_fixture()).unwrap();
+        let mut tokens = vec![tok("네", Pos::IC, 0, 1), tok("번째", Pos::NNG, 2, 4)];
+        tokens[1].score = Some(1.25);
+        analyzer.apply_context_cache("네 번째", &mut tokens);
+        assert_eq!(tokens.len(), 2);
+        assert_eq!((tokens[0].text.as_str(), tokens[0].pos, tokens[0].start, tokens[0].end),
+                   ("네", Pos::MM, 0, 1));
+        assert_eq!((tokens[1].text.as_str(), tokens[1].pos, tokens[1].start, tokens[1].end, tokens[1].score),
+                   ("번째", Pos::NNG, 2, 4, Some(1.25)));
+        let mut different = vec![tok("네", Pos::NP, 0, 1), tok("번째", Pos::NNG, 2, 4)];
+        analyzer.apply_context_cache("네 번째", &mut different);
+        assert_eq!(different[0].pos, Pos::NP);
+        let mut unguarded = vec![tok("네", Pos::IC, 0, 1), tok("친구", Pos::NNG, 2, 4)];
+        analyzer.apply_context_cache("네 친구", &mut unguarded);
+        assert_eq!(unguarded[0].pos, Pos::IC);
+    }
+
+    #[test]
+    fn context_cache_public_paths() {
+        let baseline = crate::model::Analyzer::from_bytes(&without_context(
+            include_bytes!("../../../models/codebook.gmdl"))).unwrap();
+        let changed = crate::model::Analyzer::from_bytes(&context_fixture()).unwrap();
+        let original = baseline.analyze("네 번째다.");
+        let actual = changed.analyze("네 번째다.");
+        assert_eq!(original.tokens[0].pos, Pos::IC);
+        assert_eq!(actual.tokens[0].pos, Pos::MM);
+        assert_eq!(actual.score.to_bits(), original.score.to_bits());
+        assert_eq!(actual.tokens.len(), original.tokens.len());
+        for (a, b) in actual.tokens.iter().skip(1).zip(original.tokens.iter().skip(1)) {
+            assert_eq!((&a.text, a.pos, a.start, a.end, a.score),
+                       (&b.text, b.pos, b.start, b.end, b.score));
+        }
+        let top = changed.analyze_topn("네 번째다.", 10);
+        assert_eq!(top[0].tokens[0].pos, Pos::MM);
+        let training = changed.analyze_topn_for_rerank("네 번째다.", 10);
+        let before = baseline.analyze_topn_for_rerank("네 번째다.", 10);
+        assert_eq!(training[0].tokens[0].pos, Pos::IC);
+        assert_eq!(training.len(), before.len());
+        let book = CodebookAnalyzer::from_bytes(&context_fixture()).unwrap();
+        let reranker = book.reranker().unwrap();
+        for (i, (a, b)) in training.iter().zip(&before).enumerate() {
+            assert_eq!(a.score.to_bits(), b.score.to_bits());
+            let left: Vec<_> = a.tokens.iter().map(|t| (&t.text, t.pos, t.start, t.end)).collect();
+            let right: Vec<_> = b.tokens.iter().map(|t| (&t.text, t.pos, t.start, t.end)).collect();
+            assert_eq!(left, right);
+            assert_eq!(reranker.score(&a.tokens, a.score - training[0].score, i + 1).to_bits(),
+                       reranker.score(&b.tokens, b.score - before[0].score, i + 1).to_bits());
+        }
+    }
+
+    #[test]
+    fn context_cache_user_priority() {
+        let stem = context_fixture_for("네가", &[("네", Pos::NNP), ("가", Pos::JKS)], &[(0, "")]);
+        for (data, text, old, learned) in [(context_fixture(), "네 번째다.", Pos::IC, Pos::MM),
+                                          (stem, "네가", Pos::NP, Pos::NNP)] {
+            let mut analyzer = crate::model::Analyzer::from_bytes(&data).unwrap();
+            assert_eq!(analyzer.analyze(text).tokens[0].pos, learned);
+            analyzer.add_user_word("네", old, Some(1));
+            assert_eq!(analyzer.analyze(text).tokens[0].pos, old);
+            assert_eq!(analyzer.analyze_topn(text, 10)[0].tokens[0].pos, old);
+            analyzer.clear_user_words();
+            assert_eq!(analyzer.analyze(text).tokens[0].pos, learned);
+            assert_eq!(analyzer.analyze_topn(text, 10)[0].tokens[0].pos, learned);
+        }
+    }
+
+    #[test]
+    fn context_cache_truncated() {
+        assert!(CodebookAnalyzer::from_bytes(&context_cache_model(b"GCAC\x01")).is_err());
     }
 }

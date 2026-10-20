@@ -69,7 +69,7 @@ export function normalizeText(text: string, opts: NormalizeOptions = {}): string
 
 export interface Segment {
   text: string;
-  /** Character offset of this segment in the original text */
+  /** Unicode codepoint offset of this segment in the original text. */
   offset: number;
 }
 

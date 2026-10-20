@@ -13,7 +13,9 @@ training/**/*.jsonl
 !training/gold_testset/*.jsonl
 training/**/*.pt
 training/checkpoints/
-training/codebook_data/
+training/codebook_data/*
+!training/codebook_data/bulk_supplement.tsv
+!training/codebook_data/context_pos.bin
 training/codebook_data_backup/
 training/crawl_data/
 training/charmodel/
@@ -30,7 +32,6 @@ docs/superpowers/
 .specs/
 
 # CNN rerank experiment scripts (local research, not part of build)
-crates/garu-core/examples/dump_topk.rs
 training/neural/error_analysis.py
 training/neural/final_report.py
 training/neural/rerank_simulator.py

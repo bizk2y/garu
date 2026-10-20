@@ -1,0 +1,53 @@
+[
+  {
+    "gold_line": 3494,
+    "category": "분절·품사 관례",
+    "reason": "가속도계/NNP·자이로스코프/NNP는 일반 장치 개념을 고유명사로 처리한 골드 자체에 의문이 있다. 새 NNG가 언어학적 오류라고 단정할 수 없다. 가속도+계 분절·와/JC↔JKB는 별도 주석 계약 검토 대상이다.",
+    "sources": [
+      "technical_vs_proper",
+      "common_vs_proper"
+    ]
+  },
+  {
+    "gold_line": 3222,
+    "category": "분절·품사 관례",
+    "reason": "활성화는 명사로 등재되어 있으나 분석기 주석에서 활성+화로 더 분해하는 정책도 별개로 존재한다. 실제 NIKL 학습은 활성화/NNG 0회이므로 골드의 단일 명사 선호를 보편 정답으로 단정하지 않는다. 하/VV↔XSV도 주석 지침 확인이 필요하다.",
+    "sources": [
+      "activation"
+    ]
+  },
+  {
+    "gold_line": 3805,
+    "category": "판단보류",
+    "reason": "연꽃+잎과 연+꽃잎은 잎/꽃잎의 의미 구별이 달라질 수 있다. 해당 문장의 의도와 합성어 주석 지침 없이는 corpus 경계만 보고 확정하지 않는다.",
+    "sources": []
+  },
+  {
+    "gold_line": 3994,
+    "category": "분절·품사 관례",
+    "reason": "호밀+밭과 호밀밭 모두 표면을 보존하는 합성명사 경계 차이다. 표제어/말뭉치 분절 계약 확인 없이 후자를 명백 오류로 세지 않는다.",
+    "sources": []
+  },
+  {
+    "gold_line": 3382,
+    "category": "분절·품사 관례",
+    "reason": "클러스터·노드는 이 문장에서 특정 고유 이름보다 일반 기술 개념으로 읽힌다. NNP→NNG가 골드 F1은 낮춰도 일반 명사 정의에 더 가까울 수 있다.",
+    "sources": [
+      "technical_vs_proper",
+      "common_vs_proper"
+    ]
+  },
+  {
+    "gold_line": 3169,
+    "category": "판단보류",
+    "reason": "실제/NNG↔MAG와 와/JC↔JKB는 잠재적 GDP와 실제 GDP의 비교 구문을 어떤 주석 단위로 처리하는지 확인이 필요하다. 이 조사·품사 차이를 표면 손실 오류와 같은 확실성으로 세지 않는다.",
+    "sources": []
+  },
+  {
+    "gold_line": 3382,
+    "term": "클러스터",
+    "category": "판단보류",
+    "reason": "Cluster Autoscaler 소프트웨어명 또는 일반 자동확장 기법의 해석을 원문만으로 확정하지 않음.",
+    "source": "https://docs.aws.amazon.com/ko_kr/eks/latest/eksctl/autoscaling.html"
+  }
+]

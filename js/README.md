@@ -2,9 +2,9 @@
 
 **Browser-native Korean morphological analyzer.** No server required.
 
-- **1.2MB model** bundled in npm package (no CDN needed)
-- **412KB WASM** engine (176KB gzipped) -- runs in any modern browser
-- **F1 96.0%** on 9k human-verified gold testset (ep_norm), **F1 91.2%** on a held-out 2025 spoken-language set
+- **1.26MB model** bundled in npm package (no CDN needed)
+- **425KB WASM** engine (182KB gzipped) -- runs in any modern browser
+- **F1 96.05%** on 9k human-verified gold testset (ep_norm), **F1 91.23%** on a fixed 2025 spoken-language set
 - **~1ms** inference per sentence
 - **Offline-ready** -- works without network
 - **[Live Demo](https://garu.zerry.co.kr)** -- try it in your browser
@@ -61,6 +61,47 @@ const garu = await Garu.load({ modelUrl: '/models/custom.gmdl' });
 const res = await fetch('/models/custom.gmdl');
 const garu = await Garu.load({ modelData: await res.arrayBuffer() });
 ```
+
+## Unspaced Korean text
+
+Import `garu-ko/text` to infer missing spaces and sentence boundaries. These synchronous utilities use bundled JavaScript weights and need no `Garu.load()`, additional WASM load, CDN or server calls. The boundary weights belong to this optional entry point; morphological analysis does not apply restoration automatically.
+
+```typescript
+import { restoreSpacing, splitUnspaced } from 'garu-ko/text';
+
+restoreSpacing('나는밥을먹었다.');
+// '나는 밥을 먹었다.'
+
+restoreSpacing('나는밥을먹었다.', { mode: 'balanced' });
+
+splitUnspaced('안녕하세요반갑습니다');
+// [
+//   { text: '안녕하세요', offset: 0 },
+//   { text: '반갑습니다', offset: 5 },
+// ]
+```
+
+- `restoreSpacing(text, { mode? })` inserts spaces while preserving original characters and existing whitespace. The default `conservative` mode may leave some missing spaces unresolved. `balanced` recovers more boundaries but can split words too aggressively.
+- `splitUnspaced(text)` returns original substrings and their starting `offset`, without inserting spaces. Segment edges are trimmed. Offsets count Unicode code points in the original input, so they can differ from JavaScript UTF-16 indices.
+
+These are boundary estimates. Ambiguous expressions and quotations can still produce missed or extra splits. Separate URLs from surrounding Korean text with whitespace, especially when the URL contains Unicode. A URL at the start of input or after whitespace is preserved up to the next whitespace.
+
+### Context-verified sentence splitting
+
+`garu-ko/sentences` preserves balanced quotations as single top-level units and verifies proposed boundaries using a small character-context model. Multiple grammatical sentences inside a quotation remain together.
+
+```typescript
+import { splitSentences } from 'garu-ko/sentences';
+
+splitSentences('안녕하세요반갑습니다');
+// [{ text: '안녕하세요', offset: 0 }, { text: '반갑습니다', offset: 5 }]
+splitSentences('“안녕하세요반갑습니다”');
+// [{ text: '“안녕하세요반갑습니다”', offset: 0 }]
+```
+
+No morphological analyzer is needed. The Q4 model ships in the package and inference runs offline. Passing an analyzer as `splitSentences(text, garu)` retains the slower morphology-verification path. Results retain original substrings and Unicode codepoint offsets, trimming segment edges. The existing text utilities and default analyzer keep their behavior and do not import this model.
+
+On the inspected, fixed NIKL2025 news set of 9,355 paragraphs, the default call's boundary F1 is 95.91% after whitespace deletion and 96.28% after terminal punctuation deletion as well. On Apple M4, loaded mean latency was 0.020ms in Node and 0.018ms in Chrome (median of seven rounds, 1,250 inputs averaging82.5 codepoints). Node P95 was0.061ms;45µs is not a per-input guarantee. Import and first-call costs are separate. The quote rule was added after inspecting fixed-set errors; reference conventions that split within quotations produce lower scores. See the repository research history for exact evaluation and latency scope.
 
 ## API
 
@@ -165,13 +206,13 @@ await search(db, { term: '먹다' })  // ← matches
 ## FAQ
 
 **What is garu-ko?**
-garu-ko (가루/Garu) is a browser-native Korean morphological analyzer. A 1.2MB model and a 412KB WASM engine run entirely in the browser, so it segments Korean text, tags parts of speech, extracts nouns, and tokenizes with no server and no network.
+garu-ko (가루/Garu) is a browser-native Korean morphological analyzer. A 1.26MB model and a 425KB WASM engine run entirely in the browser, so it segments Korean text, tags parts of speech, extracts nouns, and tokenizes with no server and no network.
 
 **Does it need a server or API?**
 No. It runs 100% client-side via WebAssembly. After the initial load there is no backend call, so it works offline and inside browser extensions, service-worker PWAs, and intranet apps.
 
 **How accurate is it?**
-F1 96.0% on a 9,000-sentence human-verified gold testset (ep_norm), and F1 91.2% on a held-out 2025 spoken-language evaluation set.
+F1 96.05% on a 9,000-sentence human-verified gold testset (ep_norm), and F1 91.23% on a fixed 2025 spoken-language evaluation set.
 
 **Which POS tagset does it use?**
 The Sejong tagset (42 tags) from the National Institute of Korean Language — NNG/NNP for nouns, VV/VA for verbs/adjectives, particles, endings, and symbols.
@@ -183,12 +224,12 @@ No. It combines a codebook, an eojeol cache, sentence-level N-best trigram Viter
 The same `npm install garu-ko` works in browser ESM, Node.js 18+, Bun, and Deno with one API.
 
 **Is it free for commercial use?**
-Yes. garu-ko is open source under the MIT license with no usage fees.
+The engine is MIT-licensed. Bundled dictionary data also carries Apache-2.0 and CC BY-SA 2.0 KR terms, including attribution and applicable ShareAlike requirements. See the [dictionary data notices](models/NOTICE.md).
 
 ## Acknowledgments
 
-The morphological analysis model is trained on the **NIKL Morpheme-Tagged Corpus (v1.1)** provided by the National Institute of Korean Language (국립국어원). The model contains only derived frequency statistics, not original text.
+The model uses frequency statistics from the **NIKL Morpheme-Tagged Corpus (v1.1)** provided by the National Institute of Korean Language (국립국어원), together with reviewed dictionary entries. The bulk additions come from **mecab-ko-dic**, **한국어기초사전**, and **우리말샘**. Original corpus paragraphs and dictionary definitions are not shipped. Source versions, entry identifiers and license notices accompany the model.
 
 ## License
 
-MIT
+Engine and package code: [MIT](LICENSE). Imported dictionary data: [source-specific terms and attribution](models/NOTICE.md).

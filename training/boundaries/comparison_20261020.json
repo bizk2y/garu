@@ -1,0 +1,59 @@
+{
+  "scope": "Exact-aligned NIKL2025 NX9355 paragraphs, whitespace removed with/without terminal punctuation; top-level sentence boundaries only. No tuning. The model training corpus of Kiwi was not audited; this is a comparative reference, not a controlled training experiment. No original-training overlap recheck in this run; paragraph count matches the previously verified9355.",
+  "source": {
+    "path": "/Users/cyj/workspace/data/nikl_mp_2025/NXMP2502512313.json",
+    "sha256": "b42ede02c5532bb2d5daadfb93e9d6dd75e2f23e45b618753012150341411fc5"
+  },
+  "version": "0.23.0",
+  "model_type": "cong",
+  "num_workers": 4,
+  "elapsed_including_first_inference_seconds": 5.666187584,
+  "span_mismatches": 0,
+  "metrics": {
+    "punctuated": {
+      "paragraphs": 9355,
+      "tp": 3883,
+      "fp": 322,
+      "fn": 424,
+      "precision": 0.9234244946492272,
+      "recall": 0.9015556071511492,
+      "f1": 0.912359022556391,
+      "exact": 0.9374665954035275
+    },
+    "no_terminal": {
+      "paragraphs": 9355,
+      "tp": 3941,
+      "fp": 289,
+      "fn": 366,
+      "precision": 0.9316784869976359,
+      "recall": 0.9150220571163222,
+      "f1": 0.9232751552067471,
+      "exact": 0.9417423837520043
+    }
+  },
+  "model_package_version": "0.23.0",
+  "runtime_notice": "Kiwi reported quantization unsupported on neon and fell back to non-quantized models; elapsed time is not a latency comparison with Garu.",
+  "comparison": {
+    "punctuated": {
+      "paragraphs": 9355,
+      "tp": 4089,
+      "fp": 1491,
+      "fn": 218,
+      "precision": 0.7327956989247312,
+      "recall": 0.9493847225446946,
+      "f1": 0.8271467583695762,
+      "exact": 0.881667557455906
+    },
+    "no_terminal": {
+      "paragraphs": 9355,
+      "tp": 4157,
+      "fp": 1490,
+      "fn": 150,
+      "precision": 0.7361430848238002,
+      "recall": 0.965172974228001,
+      "f1": 0.8352421137231264,
+      "exact": 0.8884019241047568
+    }
+  },
+  "comparison_metric_scope": "Same9355 paragraph count,4307 reference internal boundaries per condition, exact codepoint boundary matching; existing Garu frozen report vs fresh Kiwi run. No external training lineage audit and no speed equivalence claim."
+}

@@ -18,10 +18,10 @@ F1 또는 모델 크기가 바뀌었으면 **하드코딩된 수치를 전부 �
 | `js/src/core.ts` `modelInfo()` | `accuracy:` (F1, 0~1 소수) |
 | `README.md` | F1 (2곳: 헤드라인 + 정확도 blockquote), 모델 크기 표 |
 | `js/README.md` | F1 (헤드라인) |
-| `CLAUDE.md` 프로젝트 개요 | F1, 모델 크기 |
+| `AGENTS.md` 프로젝트 개요 (`CLAUDE.md`에서 참조) | F1, 모델 크기 |
 | `js/CHANGELOG.md` 해당 X.X.X 섹션 | base.gmdl 바이트 수, F1 |
 
-> canonical 값: **F1 96.0% (modelInfo `accuracy` 0.960)**, 2025 구어 held-out 91.2%. 위 위치들을 항상 이 값으로 동기화. (NIKL MP 2021 수치는 재순위 학습 데이터와 겹쳐 자기평가 — 인용 금지)
+> 현재 릴리스 기준: **F1 96.05% (modelInfo `accuracy` 0.9605)**, 2025 구어 고정 평가 **91.23%**. 다음 릴리스에서도 새 실측을 우선하며 위 위치를 함께 갱신한다. 연구 선택에 노출된 고정셋임을 구분하고, NIKL MP 2021 수치는 재순위 학습 데이터와 겹치는 자기평가이므로 외부 정확도로 인용하지 않는다.
 
 # 릴리스 절차 (X.X.X 배포 시 항상 풀세트)
 
@@ -49,7 +49,8 @@ rm -f js/pkg/.gitignore
 
 # 3b. 패키지 내용 검증 — pkg/garu_wasm_bg.wasm이 목록에 있어야 한다
 (cd js && npm pack --dry-run 2>&1 | grep -E "total files|garu_wasm_bg.wasm")
-#     기대: total files 48개 내외 + wasm 411KB. 11개면 2c를 빠뜨린 것.
+#     파일 개수는 기능·불필요한 snippet 정리에 따라 달라진다. WASM 파일, glue가 참조하는
+#     snippet, dist/text.js 및 boundary-data.js, 모델·라이선스 파일 포함 여부를 확인한다.
 
 # 4. js/CHANGELOG.md 항목 추가 (## X.X.X 섹션)
 

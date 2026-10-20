@@ -86,10 +86,13 @@ def build_content_dict_fst(dict_path: Path) -> tuple[bytes, int]:
     if max_freq == 0:
         max_freq = 1
 
-    # Load tech supplement dictionary (OOV terms from gold testset)
-    supplement_path = dict_path.parent / "tech_supplement.txt"
+    # Reviewed manual terms bypass suffix-conflict removal; bulk imports do not.
+    supplement_paths = [dict_path.parent / name for name in
+                        ("tech_supplement.txt", "bulk_supplement.tsv")]
     supplement_words = set()
-    if supplement_path.exists():
+    for supplement_path in supplement_paths:
+        if not supplement_path.exists():
+            continue
         n_supp = 0
         with open(supplement_path, "r", encoding="utf-8") as f:
             for line in f:
@@ -97,11 +100,12 @@ def build_content_dict_fst(dict_path: Path) -> tuple[bytes, int]:
                 if len(parts) >= 3:
                     word, tag, freq_str = parts[0], parts[1], parts[2]
                     freq = int(freq_str)
-                    supplement_words.add(word)
+                    if supplement_path.name == "tech_supplement.txt":
+                        supplement_words.add(word)
                     if word not in best or freq > best[word][1]:
                         best[word] = (tag, freq)
                         n_supp += 1
-        print(f"  Tech supplement: +{n_supp} entries from {supplement_path.name}")
+        print(f"  Supplement: +{n_supp} entries from {supplement_path.name}")
 
     # Wiki NNP disabled — experiments show removing wiki entries
     # improves F1 (+0.4%p) while halving model size (4.4MB → 2.0MB).
@@ -1536,6 +1540,13 @@ def main():
     else:
         print(f"  Rerank perceptron: none")
 
+    # Section 16: learned context-dependent POS corrections (optional).
+    context_path = DATA_DIR / "context_pos.bin"
+    if context_path.exists():
+        context_data = context_path.read_bytes()
+        write_section(buf, 16, context_data)
+        print(f"  Context POS: {len(context_data):,} bytes")
+
     # Write output with brotli compression (q=11, max)
     import brotli as _brotli
     raw_bytes = bytes(buf)
@@ -1563,7 +1574,7 @@ def main():
     print(f"  Section headers:     {5 * 5:>10,} bytes")
     print(f"  ---")
     print(f"  Total (raw):         {total:>10,} bytes  ({total/1024/1024:.2f} MB)")
-    print(f"  Total (gzip):        {len(compressed):>10,} bytes  ({len(compressed)/1024:.0f} KB, {len(compressed)/total*100:.0f}% of raw)")
+    print(f"  Total (Brotli):        {len(compressed):>10,} bytes  ({len(compressed)/1024:.0f} KB, {len(compressed)/total*100:.0f}% of raw)")
     print()
     print(f"Output written to: {OUT_PATH}")
     if js_model.parent.exists():

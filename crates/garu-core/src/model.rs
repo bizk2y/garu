@@ -63,6 +63,7 @@ impl Analyzer {
 
     pub fn analyze(&self, text: &str) -> AnalyzeResult {
         let mut result = self.analyze_inner(text);
+        self.codebook.apply_context_cache(text, &mut result.tokens);
         if self.options.normalize_jamo {
             Self::apply_jamo_normalization(&mut result.tokens);
         }
@@ -134,7 +135,7 @@ impl Analyzer {
         }
 
         // Perceptron 재순위: 확신 마진을 넘을 때만 기존 선택을 교체.
-        // feature 입력은 학습 덤프(Model::analyze_topn)와 동일하게
+        // feature 입력은 학습 덤프(analyze_topn_for_rerank)와 동일하게
         // model 레벨 보정을 적용한 사본이어야 한다.
         if let Some(rr) = self.codebook.reranker() {
             let base_score = candidates[0].score;
@@ -143,9 +144,7 @@ impl Analyzer {
             let mut current_s = f32::NEG_INFINITY;
             for (i, cand) in candidates.iter().enumerate() {
                 let mut toks = cand.tokens.clone();
-                CodebookAnalyzer::apply_adj_root_xsa(&mut toks);
-                Self::apply_protected_auxiliary_rules(&mut toks);
-                Self::apply_rule_pos_corrections(&mut toks);
+                Self::apply_rerank_rules(&mut toks);
                 let s = rr.score(&toks, cand.score - base_score, i + 1);
                 if s > rr_best_s {
                     rr_best_s = s;
@@ -236,16 +235,30 @@ impl Analyzer {
     }
 
     pub fn analyze_topn(&self, text: &str, n: usize) -> Vec<AnalyzeResult> {
-        let mut results = self.codebook.analyze_topn(text, n);
+        let mut results = self.analyze_topn_for_rerank(text, n);
         for result in &mut results {
-            CodebookAnalyzer::apply_adj_root_xsa(&mut result.tokens);
-            Self::apply_protected_auxiliary_rules(&mut result.tokens);
-            Self::apply_rule_pos_corrections(&mut result.tokens);
+            self.codebook.apply_context_cache(text, &mut result.tokens);
             if self.options.normalize_jamo {
                 Self::apply_jamo_normalization(&mut result.tokens);
             }
         }
         results
+    }
+
+    /// Candidates consumed by the reranker, before context POS correction and
+    /// display-only jamo normalization, regardless of AnalyzerOptions.
+    pub fn analyze_topn_for_rerank(&self, text: &str, n: usize) -> Vec<AnalyzeResult> {
+        let mut results = self.codebook.analyze_topn(text, n);
+        for result in &mut results {
+            Self::apply_rerank_rules(&mut result.tokens);
+        }
+        results
+    }
+
+    fn apply_rerank_rules(tokens: &mut [Token]) {
+        CodebookAnalyzer::apply_adj_root_xsa(tokens);
+        Self::apply_protected_auxiliary_rules(tokens);
+        Self::apply_rule_pos_corrections(tokens);
     }
 
     fn should_expand_contextual_nbest(text: &str) -> bool {

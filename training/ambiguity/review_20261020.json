@@ -1,0 +1,3870 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-20",
+  "baseline": {
+    "sha256": "5c67af7801cf444229a007dc67b41d486c5a1b80542b235e1b5fc8c0c795686d",
+    "bytes": 1258434
+  },
+  "candidate": {
+    "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "bytes": 1260476
+  },
+  "selection": "Train-derived conditions fixed before component dev and fixed evaluation. Final intervention changes one POS only after exact original cache match; it does not add lattice candidates.",
+  "dataset": {
+    "counts": {
+      "train": 285152,
+      "dev": 27748,
+      "within_split_duplicates": 2996,
+      "cross_split_duplicates": 1547
+    },
+    "documents": {
+      "train": 6907,
+      "dev": 781
+    },
+    "candidate_surfaces": 64,
+    "rules": 58,
+    "split": "sha256(doc_id)[:8] mod 10 == 0 => dev; two-pass collapsed-text exclusion",
+    "model_sha256": "5c67af7801cf444229a007dc67b41d486c5a1b80542b235e1b5fc8c0c795686d",
+    "heldout_labels_used": false
+  },
+  "rules": [
+    {
+      "surface": "가지고",
+      "morphs": [
+        [
+          "가지",
+          "VV"
+        ],
+        [
+          "고",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "있"
+        ],
+        [
+          1,
+          "을"
+        ],
+        [
+          1,
+          "를"
+        ],
+        [
+          5,
+          "있는"
+        ]
+      ]
+    },
+    {
+      "surface": "같아",
+      "morphs": [
+        [
+          "같",
+          "VA"
+        ],
+        [
+          "아",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "보"
+        ],
+        [
+          8,
+          "”고"
+        ],
+        [
+          9,
+          "다”고"
+        ],
+        [
+          5,
+          "보이"
+        ]
+      ]
+    },
+    {
+      "surface": "게",
+      "morphs": [
+        [
+          "거",
+          "NNB"
+        ],
+        [
+          "이",
+          "JKC"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "아"
+        ],
+        [
+          5,
+          "아니"
+        ],
+        [
+          6,
+          "아니라"
+        ],
+        [
+          8,
+          "니라"
+        ]
+      ]
+    },
+    {
+      "surface": "그게",
+      "morphs": [
+        [
+          "그거",
+          "NP"
+        ],
+        [
+          "이",
+          "JKC"
+        ]
+      ],
+      "guards": [
+        [
+          5,
+          "아니"
+        ],
+        [
+          6,
+          "아니라"
+        ],
+        [
+          8,
+          "니라"
+        ],
+        [
+          9,
+          "아니라"
+        ]
+      ]
+    },
+    {
+      "surface": "나갈",
+      "morphs": [
+        [
+          "나가",
+          "VV"
+        ],
+        [
+          "ㄹ",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "때"
+        ],
+        [
+          1,
+          "에"
+        ],
+        [
+          0,
+          ""
+        ],
+        [
+          1,
+          "로"
+        ]
+      ]
+    },
+    {
+      "surface": "네",
+      "morphs": [
+        [
+          "네",
+          "MM"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "번"
+        ],
+        [
+          4,
+          "명"
+        ],
+        [
+          4,
+          "개"
+        ],
+        [
+          5,
+          "가지"
+        ]
+      ]
+    },
+    {
+      "surface": "대통령과",
+      "morphs": [
+        [
+          "대통령",
+          "NNG"
+        ],
+        [
+          "과",
+          "JKB"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "함"
+        ],
+        [
+          5,
+          "함께"
+        ],
+        [
+          6,
+          "함께"
+        ],
+        [
+          7,
+          "께"
+        ]
+      ]
+    },
+    {
+      "surface": "돼",
+      "morphs": [
+        [
+          "되",
+          "VV"
+        ],
+        [
+          "어",
+          "EF"
+        ]
+      ],
+      "guards": [
+        [
+          2,
+          "해야"
+        ],
+        [
+          3,
+          "해야"
+        ],
+        [
+          11,
+          "해야"
+        ],
+        [
+          12,
+          "해야"
+        ]
+      ]
+    },
+    {
+      "surface": "되지",
+      "morphs": [
+        [
+          "되",
+          "VV"
+        ],
+        [
+          "지",
+          "EF"
+        ]
+      ],
+      "guards": [
+        [
+          5,
+          "뭐"
+        ],
+        [
+          6,
+          "뭐"
+        ],
+        [
+          7,
+          "뭐"
+        ],
+        [
+          8,
+          "뭐"
+        ]
+      ]
+    },
+    {
+      "surface": "말",
+      "morphs": [
+        [
+          "말",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "그"
+        ],
+        [
+          0,
+          ""
+        ],
+        [
+          5,
+          "그대"
+        ],
+        [
+          6,
+          "그대로"
+        ]
+      ]
+    },
+    {
+      "surface": "맞아",
+      "morphs": [
+        [
+          "맞",
+          "VV"
+        ],
+        [
+          "아",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "을"
+        ],
+        [
+          1,
+          "를"
+        ],
+        [
+          2,
+          "년을"
+        ],
+        [
+          3,
+          "주년을"
+        ]
+      ]
+    },
+    {
+      "surface": "반",
+      "morphs": [
+        [
+          "반",
+          "NNP"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "총"
+        ],
+        [
+          5,
+          "총장"
+        ],
+        [
+          5,
+          "전"
+        ],
+        [
+          6,
+          "전"
+        ]
+      ]
+    },
+    {
+      "surface": "보고",
+      "morphs": [
+        [
+          "보",
+          "VX"
+        ],
+        [
+          "고",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "해"
+        ],
+        [
+          2,
+          "해"
+        ],
+        [
+          3,
+          "해"
+        ],
+        [
+          11,
+          "해"
+        ]
+      ]
+    },
+    {
+      "surface": "보니까",
+      "morphs": [
+        [
+          "보",
+          "VV"
+        ],
+        [
+          "니까",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "을"
+        ],
+        [
+          1,
+          "서"
+        ],
+        [
+          10,
+          "거"
+        ],
+        [
+          1,
+          "거"
+        ]
+      ]
+    },
+    {
+      "surface": "본",
+      "morphs": [
+        [
+          "보",
+          "VX"
+        ],
+        [
+          "ㄴ",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          2,
+          "해"
+        ],
+        [
+          3,
+          "해"
+        ],
+        [
+          10,
+          "해"
+        ],
+        [
+          11,
+          "해"
+        ]
+      ]
+    },
+    {
+      "surface": "볼",
+      "morphs": [
+        [
+          "보",
+          "VX"
+        ],
+        [
+          "ㄹ",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "어"
+        ],
+        [
+          2,
+          "각해"
+        ],
+        [
+          3,
+          "생각해"
+        ],
+        [
+          10,
+          "생"
+        ]
+      ]
+    },
+    {
+      "surface": "사실",
+      "morphs": [
+        [
+          "사실",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "등"
+        ],
+        [
+          5,
+          "자체"
+        ],
+        [
+          5,
+          "여부"
+        ],
+        [
+          1,
+          "위"
+        ]
+      ]
+    },
+    {
+      "surface": "살",
+      "morphs": [
+        [
+          "살",
+          "NNB"
+        ]
+      ],
+      "guards": [
+        [
+          10,
+          "열"
+        ],
+        [
+          1,
+          "세"
+        ],
+        [
+          10,
+          "스"
+        ],
+        [
+          1,
+          "두"
+        ]
+      ]
+    },
+    {
+      "surface": "손",
+      "morphs": [
+        [
+          "손",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          7,
+          "고"
+        ],
+        [
+          4,
+          "들"
+        ],
+        [
+          7,
+          "게"
+        ],
+        [
+          4,
+          "놓"
+        ]
+      ]
+    },
+    {
+      "surface": "아이",
+      "morphs": [
+        [
+          "아이",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "돌"
+        ],
+        [
+          5,
+          "돌보"
+        ]
+      ]
+    },
+    {
+      "surface": "온",
+      "morphs": [
+        [
+          "오",
+          "VX"
+        ],
+        [
+          "ㄴ",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "해"
+        ],
+        [
+          1,
+          "돼"
+        ],
+        [
+          2,
+          "해"
+        ],
+        [
+          3,
+          "해"
+        ]
+      ]
+    },
+    {
+      "surface": "완전",
+      "morphs": [
+        [
+          "완전",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "서"
+        ],
+        [
+          4,
+          "철"
+        ],
+        [
+          5,
+          "철수"
+        ]
+      ]
+    },
+    {
+      "surface": "월",
+      "morphs": [
+        [
+          "월",
+          "NNB"
+        ]
+      ],
+      "guards": [
+        [
+          2,
+          "이"
+        ],
+        [
+          3,
+          "이"
+        ],
+        [
+          4,
+          "달"
+        ],
+        [
+          11,
+          "이"
+        ]
+      ]
+    },
+    {
+      "surface": "이",
+      "morphs": [
+        [
+          "이",
+          "NNP"
+        ]
+      ],
+      "guards": [
+        [
+          5,
+          "대통"
+        ],
+        [
+          6,
+          "대통령"
+        ],
+        [
+          4,
+          "씨"
+        ],
+        [
+          8,
+          "령은"
+        ]
+      ]
+    },
+    {
+      "surface": "이들이",
+      "morphs": [
+        [
+          "이",
+          "NNB"
+        ],
+        [
+          "들",
+          "XSN"
+        ],
+        [
+          "이",
+          "JKS"
+        ]
+      ],
+      "guards": [
+        [
+          2,
+          "하는"
+        ],
+        [
+          1,
+          "던"
+        ],
+        [
+          6,
+          "많다."
+        ],
+        [
+          9,
+          "많다."
+        ]
+      ]
+    },
+    {
+      "surface": "이제",
+      "morphs": [
+        [
+          "이제",
+          "IC"
+        ]
+      ],
+      "guards": [
+        [
+          7,
+          "1"
+        ]
+      ]
+    },
+    {
+      "surface": "일",
+      "morphs": [
+        [
+          "일",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "없"
+        ],
+        [
+          5,
+          "때문"
+        ],
+        [
+          1,
+          "할"
+        ],
+        [
+          2,
+          "좋은"
+        ]
+      ]
+    },
+    {
+      "surface": "일이",
+      "morphs": [
+        [
+          "일",
+          "NNG"
+        ],
+        [
+          "이",
+          "JKC"
+        ]
+      ],
+      "guards": [
+        [
+          5,
+          "아니"
+        ],
+        [
+          6,
+          "아니다"
+        ],
+        [
+          2,
+          "쉬운"
+        ],
+        [
+          3,
+          "쉬운"
+        ]
+      ]
+    },
+    {
+      "surface": "있는",
+      "morphs": [
+        [
+          "있",
+          "VX"
+        ],
+        [
+          "는",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "고"
+        ],
+        [
+          2,
+          "하고"
+        ],
+        [
+          2,
+          "지고"
+        ],
+        [
+          10,
+          "하"
+        ]
+      ]
+    },
+    {
+      "surface": "있는데",
+      "morphs": [
+        [
+          "있",
+          "VX"
+        ],
+        [
+          "는데",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "고"
+        ],
+        [
+          2,
+          "하고"
+        ],
+        [
+          11,
+          "하고"
+        ],
+        [
+          3,
+          "하고"
+        ]
+      ]
+    },
+    {
+      "surface": "있다",
+      "morphs": [
+        [
+          "있",
+          "VX"
+        ],
+        [
+          "다",
+          "EF"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "고"
+        ],
+        [
+          2,
+          "하고"
+        ],
+        [
+          2,
+          "되고"
+        ],
+        [
+          3,
+          "되고"
+        ]
+      ]
+    },
+    {
+      "surface": "있다\"고",
+      "morphs": [
+        [
+          "있",
+          "VX"
+        ],
+        [
+          "다",
+          "EF"
+        ],
+        [
+          "\"",
+          "SS"
+        ],
+        [
+          "고",
+          "JKQ"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "고"
+        ],
+        [
+          2,
+          "하고"
+        ],
+        [
+          3,
+          "하고"
+        ],
+        [
+          10,
+          "하"
+        ]
+      ]
+    },
+    {
+      "surface": "있습니다",
+      "morphs": [
+        [
+          "있",
+          "VA"
+        ],
+        [
+          "습니다",
+          "EF"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "이"
+        ],
+        [
+          10,
+          "수"
+        ],
+        [
+          1,
+          "도"
+        ],
+        [
+          1,
+          "수"
+        ]
+      ]
+    },
+    {
+      "surface": "있습니다.",
+      "morphs": [
+        [
+          "있",
+          "VA"
+        ],
+        [
+          "습니다",
+          "EF"
+        ],
+        [
+          ".",
+          "SF"
+        ]
+      ],
+      "guards": [
+        [
+          10,
+          "수"
+        ],
+        [
+          1,
+          "이"
+        ],
+        [
+          1,
+          "수"
+        ],
+        [
+          2,
+          "수"
+        ]
+      ]
+    },
+    {
+      "surface": "있어서",
+      "morphs": [
+        [
+          "있",
+          "VX"
+        ],
+        [
+          "어서",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "고"
+        ],
+        [
+          1,
+          "어"
+        ],
+        [
+          2,
+          "하고"
+        ],
+        [
+          2,
+          "들어"
+        ]
+      ]
+    },
+    {
+      "surface": "있었던",
+      "morphs": [
+        [
+          "있",
+          "VX"
+        ],
+        [
+          "었",
+          "EP"
+        ],
+        [
+          "던",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "고"
+        ],
+        [
+          2,
+          "하고"
+        ]
+      ]
+    },
+    {
+      "surface": "있지만",
+      "morphs": [
+        [
+          "있",
+          "VX"
+        ],
+        [
+          "지만",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "고"
+        ],
+        [
+          2,
+          "하고"
+        ],
+        [
+          10,
+          "하"
+        ],
+        [
+          3,
+          "하고"
+        ]
+      ]
+    },
+    {
+      "surface": "주",
+      "morphs": [
+        [
+          "주",
+          "NNB"
+        ]
+      ],
+      "guards": [
+        [
+          2,
+          "이"
+        ],
+        [
+          3,
+          "이"
+        ],
+        [
+          11,
+          "이"
+        ],
+        [
+          12,
+          "이"
+        ]
+      ]
+    },
+    {
+      "surface": "주고",
+      "morphs": [
+        [
+          "주",
+          "VX"
+        ],
+        [
+          "고",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "해"
+        ],
+        [
+          2,
+          "해"
+        ],
+        [
+          3,
+          "해"
+        ],
+        [
+          10,
+          "해"
+        ]
+      ]
+    },
+    {
+      "surface": "주는",
+      "morphs": [
+        [
+          "주",
+          "VX"
+        ],
+        [
+          "는",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "해"
+        ],
+        [
+          1,
+          "어"
+        ],
+        [
+          10,
+          "해"
+        ],
+        [
+          2,
+          "해"
+        ]
+      ]
+    },
+    {
+      "surface": "준",
+      "morphs": [
+        [
+          "주",
+          "VX"
+        ],
+        [
+          "ㄴ",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "해"
+        ],
+        [
+          2,
+          "해"
+        ],
+        [
+          3,
+          "해"
+        ],
+        [
+          10,
+          "해"
+        ]
+      ]
+    },
+    {
+      "surface": "지",
+      "morphs": [
+        [
+          "지",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "할"
+        ]
+      ]
+    },
+    {
+      "surface": "최근",
+      "morphs": [
+        [
+          "최근",
+          "NNG"
+        ]
+      ],
+      "guards": [
+        [
+          4,
+          "독"
+        ],
+        [
+          4,
+          "두"
+        ],
+        [
+          4,
+          "어"
+        ],
+        [
+          4,
+          "임"
+        ]
+      ]
+    },
+    {
+      "surface": "하겠습니다.",
+      "morphs": [
+        [
+          "하",
+          "VV"
+        ],
+        [
+          "겠",
+          "EP"
+        ],
+        [
+          "습니다",
+          "EF"
+        ],
+        [
+          ".",
+          "SF"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "을"
+        ],
+        [
+          1,
+          "로"
+        ],
+        [
+          1,
+          "를"
+        ],
+        [
+          1,
+          "지"
+        ]
+      ]
+    },
+    {
+      "surface": "하고",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "고",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          3,
+          "하기도"
+        ],
+        [
+          3,
+          "같기도"
+        ],
+        [
+          11,
+          "같기"
+        ],
+        [
+          12,
+          "같기도"
+        ]
+      ]
+    },
+    {
+      "surface": "하고,",
+      "morphs": [
+        [
+          "하",
+          "VV"
+        ],
+        [
+          "고",
+          "EC"
+        ],
+        [
+          ",",
+          "SP"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "로"
+        ],
+        [
+          1,
+          "를"
+        ],
+        [
+          1,
+          "을"
+        ],
+        [
+          2,
+          "기로"
+        ]
+      ]
+    },
+    {
+      "surface": "하기",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "기",
+          "ETN"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "야"
+        ],
+        [
+          2,
+          "해야"
+        ],
+        [
+          2,
+          "아야"
+        ],
+        [
+          2,
+          "하게"
+        ]
+      ]
+    },
+    {
+      "surface": "하는",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "는",
+          "ETM"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "야"
+        ],
+        [
+          2,
+          "해야"
+        ],
+        [
+          2,
+          "려고"
+        ],
+        [
+          2,
+          "고자"
+        ]
+      ]
+    },
+    {
+      "surface": "하는데",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "는데",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "야"
+        ],
+        [
+          2,
+          "해야"
+        ],
+        [
+          1,
+          "긴"
+        ],
+        [
+          2,
+          "려고"
+        ]
+      ]
+    },
+    {
+      "surface": "하니까",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "니까",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "야"
+        ],
+        [
+          2,
+          "려고"
+        ],
+        [
+          2,
+          "기도"
+        ]
+      ]
+    },
+    {
+      "surface": "하면",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "면",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          2,
+          "려고"
+        ],
+        [
+          2,
+          "하게"
+        ],
+        [
+          3,
+          "하려고"
+        ],
+        [
+          3,
+          "할려고"
+        ]
+      ]
+    },
+    {
+      "surface": "하지",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "지",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "야"
+        ],
+        [
+          1,
+          "려"
+        ],
+        [
+          2,
+          "해야"
+        ],
+        [
+          2,
+          "하려"
+        ]
+      ]
+    },
+    {
+      "surface": "합니다.",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "ㅂ니다",
+          "EF"
+        ],
+        [
+          ".",
+          "SF"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "야"
+        ],
+        [
+          2,
+          "해야"
+        ],
+        [
+          2,
+          "려고"
+        ],
+        [
+          2,
+          "어야"
+        ]
+      ]
+    },
+    {
+      "surface": "해",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "아",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          11,
+          "있게"
+        ],
+        [
+          3,
+          "있게"
+        ],
+        [
+          12,
+          "있게"
+        ],
+        [
+          11,
+          "하게"
+        ]
+      ]
+    },
+    {
+      "surface": "했는데",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "았",
+          "EP"
+        ],
+        [
+          "는데",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "긴"
+        ],
+        [
+          2,
+          "려고"
+        ],
+        [
+          3,
+          "하려고"
+        ],
+        [
+          1,
+          "야"
+        ]
+      ]
+    },
+    {
+      "surface": "했다.",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "았",
+          "EP"
+        ],
+        [
+          "다",
+          "EF"
+        ],
+        [
+          ".",
+          "SF"
+        ]
+      ],
+      "guards": [
+        [
+          2,
+          "기도"
+        ],
+        [
+          3,
+          "하기도"
+        ],
+        [
+          1,
+          "야"
+        ],
+        [
+          1,
+          "게"
+        ]
+      ]
+    },
+    {
+      "surface": "했지만",
+      "morphs": [
+        [
+          "하",
+          "VX"
+        ],
+        [
+          "았",
+          "EP"
+        ],
+        [
+          "지만",
+          "EC"
+        ]
+      ],
+      "guards": [
+        [
+          1,
+          "긴"
+        ],
+        [
+          2,
+          "기도"
+        ],
+        [
+          2,
+          "기는"
+        ],
+        [
+          1,
+          "려"
+        ]
+      ]
+    },
+    {
+      "surface": "허",
+      "morphs": [
+        [
+          "허",
+          "NNP"
+        ]
+      ],
+      "guards": [
+        [
+          7,
+          "은"
+        ],
+        [
+          8,
+          "장은"
+        ],
+        [
+          9,
+          "회장은"
+        ],
+        [
+          4,
+          "회"
+        ]
+      ]
+    }
+  ],
+  "conditions": 220,
+  "reserved_arc_cost": "-1.0 is retained in the codec for byte-identical lineage, but final POS correction ignores it.",
+  "dev": {
+    "baseline": {
+      "f1": 0.9480094401539806,
+      "tp": 557549,
+      "predicted": 587959,
+      "gold": 588293
+    },
+    "selected": {
+      "f1": 0.9482576862781105,
+      "tp": 557695,
+      "predicted": 587959,
+      "gold": 588293
+    },
+    "default_equal_rows": 27748,
+    "changed": 166,
+    "improved": 153,
+    "regressed": 9,
+    "ties": 4,
+    "token_forms_and_order_equal": true,
+    "sources": {
+      "NX": {
+        "baseline": {
+          "f1": 0.9550602916899456,
+          "tp": 416253,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "selected": {
+          "f1": 0.9552759674146102,
+          "tp": 416347,
+          "predicted": 435304,
+          "gold": 436375
+        }
+      },
+      "SX": {
+        "baseline": {
+          "f1": 0.927830109694556,
+          "tp": 141296,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "selected": {
+          "f1": 0.9281715713474273,
+          "tp": 141348,
+          "predicted": 152655,
+          "gold": 151918
+        }
+      }
+    },
+    "model_sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "binary_sha256": "e2b04f67796d7f1afcc08d7d5b1fe1347692feff73f5bccc7b10128bda69b144"
+  },
+  "fixed": {
+    "gold-normal": {
+      "baseline": 0.9604387073658648,
+      "selected": 0.9605382326303532,
+      "delta_pp": 0.009952526448842036,
+      "changed": 18,
+      "improved": 14,
+      "regressed": 4,
+      "ties": 0,
+      "forms_order_equal_rows": 9000,
+      "domain_delta_pp": {
+        "all": 0.009952526448842036,
+        "뉴스": 0.008201763379134253,
+        "일상": 0.013349352556402128,
+        "SNS": 0.015382248884787675,
+        "기술": 0.0,
+        "문학": 0.017839621800019856,
+        "구어": 0.015235773596400382,
+        "엣지케이스": 0.0
+      }
+    },
+    "gold-nospace": {
+      "baseline": 0.9259646611988771,
+      "selected": 0.9259646611988771,
+      "delta_pp": 0.0,
+      "changed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "ties": 0,
+      "forms_order_equal_rows": 9000,
+      "domain_delta_pp": {
+        "all": 0.0,
+        "뉴스": 0.0,
+        "일상": 0.0,
+        "SNS": 0.0,
+        "기술": 0.0,
+        "문학": 0.0,
+        "구어": 0.0,
+        "엣지케이스": 0.0
+      }
+    },
+    "spoken-normal": {
+      "baseline": 0.9120878072514441,
+      "selected": 0.9122738395638258,
+      "delta_pp": 0.018603231238167872,
+      "changed": 76,
+      "improved": 57,
+      "regressed": 18,
+      "ties": 1,
+      "forms_order_equal_rows": 16407,
+      "domain_delta_pp": {
+        "all": 0.018603231238167872,
+        "spoken": 0.018603231238167872
+      }
+    },
+    "spoken-nospace": {
+      "baseline": 0.852106432818788,
+      "selected": 0.852106432818788,
+      "delta_pp": 0.0,
+      "changed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "ties": 0,
+      "forms_order_equal_rows": 16407,
+      "domain_delta_pp": {
+        "all": 0.0,
+        "spoken": 0.0
+      }
+    }
+  },
+  "first_intervention_rejected": {
+    "gold-normal": {
+      "baseline": 0.9604387073658648,
+      "selected": 0.9605537503047916,
+      "delta_pp": 0.011504293892683481,
+      "changed": 15,
+      "normalized_changed": 15,
+      "improved": 12,
+      "regressed": 3,
+      "ties": 0,
+      "domain_delta_pp": {
+        "all": 0.011504293892683481,
+        "뉴스": 0.008201763379134253,
+        "일상": 0.013349352556402128,
+        "SNS": 0.015382248884787675,
+        "기술": 0.0,
+        "문학": 0.017839621800019856,
+        "구어": 0.022853660394606123,
+        "엣지케이스": -0.005607177168798216
+      }
+    },
+    "gold-nospace": {
+      "baseline": 0.9259646611988771,
+      "selected": 0.9259646611988771,
+      "delta_pp": 0.0,
+      "changed": 0,
+      "normalized_changed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "ties": 0,
+      "domain_delta_pp": {
+        "all": 0.0,
+        "뉴스": 0.0,
+        "일상": 0.0,
+        "SNS": 0.0,
+        "기술": 0.0,
+        "문학": 0.0,
+        "구어": 0.0,
+        "엣지케이스": 0.0
+      }
+    },
+    "spoken-normal": {
+      "baseline": 0.9120878072514441,
+      "selected": 0.9123145942000987,
+      "delta_pp": 0.022678694865463367,
+      "changed": 72,
+      "normalized_changed": 72,
+      "improved": 52,
+      "regressed": 14,
+      "ties": 6,
+      "domain_delta_pp": {
+        "all": 0.022678694865463367,
+        "spoken": 0.022678694865463367
+      }
+    },
+    "spoken-nospace": {
+      "baseline": 0.852106432818788,
+      "selected": 0.852106432818788,
+      "delta_pp": 0.0,
+      "changed": 0,
+      "normalized_changed": 0,
+      "improved": 0,
+      "regressed": 0,
+      "ties": 0,
+      "domain_delta_pp": {
+        "all": 0.0,
+        "spoken": 0.0
+      }
+    }
+  },
+  "runtime_qa": {
+    "rows": 59024,
+    "pair_differences": [],
+    "span_differences": [
+      {
+        "index": 26003,
+        "split": "spoken",
+        "row": 8004
+      },
+      {
+        "index": 26016,
+        "split": "spoken",
+        "row": 8017
+      }
+    ],
+    "max_score_difference": 0.000244140625,
+    "wasm_fixed_metrics": {
+      "gold": {
+        "all": {
+          "counts": [
+            96512,
+            3927,
+            4003
+          ],
+          "f1": 0.9605382326303532
+        },
+        "뉴스": {
+          "counts": [
+            35583,
+            983,
+            1006
+          ],
+          "f1": 0.9728111543981957
+        },
+        "일상": {
+          "counts": [
+            7073,
+            396,
+            440
+          ],
+          "f1": 0.9441997063142438
+        },
+        "SNS": {
+          "counts": [
+            6137,
+            330,
+            398
+          ],
+          "f1": 0.9440086140593755
+        },
+        "기술": {
+          "counts": [
+            9616,
+            247,
+            279
+          ],
+          "f1": 0.9733778722542767
+        },
+        "문학": {
+          "counts": [
+            5436,
+            177,
+            162
+          ],
+          "f1": 0.9697618410489698
+        },
+        "구어": {
+          "counts": [
+            24726,
+            1563,
+            1493
+          ],
+          "f1": 0.9417993448617353
+        },
+        "엣지케이스": {
+          "counts": [
+            7941,
+            231,
+            225
+          ],
+          "f1": 0.9720896070510466
+        }
+      },
+      "gold-restored": {
+        "all": {
+          "counts": [
+            93384,
+            6265,
+            7131
+          ],
+          "f1": 0.9330748785995484
+        },
+        "뉴스": {
+          "counts": [
+            34874,
+            1598,
+            1715
+          ],
+          "f1": 0.9546543299434719
+        },
+        "일상": {
+          "counts": [
+            6679,
+            694,
+            834
+          ],
+          "f1": 0.8973532177885262
+        },
+        "SNS": {
+          "counts": [
+            5859,
+            518,
+            676
+          ],
+          "f1": 0.9075278810408922
+        },
+        "기술": {
+          "counts": [
+            9442,
+            489,
+            453
+          ],
+          "f1": 0.9524866337133058
+        },
+        "문학": {
+          "counts": [
+            5223,
+            344,
+            375
+          ],
+          "f1": 0.935602328705777
+        },
+        "구어": {
+          "counts": [
+            23536,
+            2292,
+            2683
+          ],
+          "f1": 0.9044133187311468
+        },
+        "엣지케이스": {
+          "counts": [
+            7771,
+            330,
+            395
+          ],
+          "f1": 0.955431241163091
+        }
+      },
+      "spoken": {
+        "all": {
+          "counts": [
+            191250,
+            19945,
+            16837
+          ],
+          "f1": 0.9122738395638258
+        },
+        "spoken": {
+          "counts": [
+            191250,
+            19945,
+            16837
+          ],
+          "f1": 0.9122738395638258
+        }
+      },
+      "spoken-restored": {
+        "all": {
+          "counts": [
+            183232,
+            25093,
+            24855
+          ],
+          "f1": 0.8800514874691412
+        },
+        "spoken": {
+          "counts": [
+            183232,
+            25093,
+            24855
+          ],
+          "f1": 0.8800514874691412
+        }
+      }
+    },
+    "lexical_targets": {
+      "review_20261019.json": {
+        "samples": 1227,
+        "occurrences": 1362,
+        "recognized": 1358
+      },
+      "review_20261019_round2.json": {
+        "samples": 444,
+        "occurrences": 562,
+        "recognized": 562
+      },
+      "review_20261019_bulk.json": {
+        "samples": 6484,
+        "occurrences": 7107,
+        "recognized": 7094
+      }
+    },
+    "guards_passed": 55,
+    "model_sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "wasm_sha256": "1a3ac3a324fcfce72a1388fa1b84e12512cbfe41ac19de1bb8ebaf84f75935fd"
+  },
+  "lineage": {
+    "preserved_data": "~/workspace/data/korean_context_pos/20261020",
+    "binary_source": "training/codebook_data/context_pos.bin",
+    "section": 16,
+    "section_bytes": 3054,
+    "baseline_sections_preserved": [
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14
+    ]
+  },
+  "limits": [
+    "Base analyzer previously trained on NIKL; component dev excludes its own training documents but is not a new whole-system held-out set.",
+    "All gold domain totals are nonnegative, but four gold and eighteen spoken sentences lose sentence F1.",
+    "A first lattice-injection intervention was rejected after fixed edge-domain and surrounding-token regressions. The second intervention was locked after component-dev comparison; fixed data has research exposure."
+  ],
+  "verification": {
+    "rust_tests": 97,
+    "rust_ignored": 2,
+    "dump_example_tests": 1,
+    "js_tests": 24,
+    "boundary_python_tests": 12,
+    "ambiguity_python_tests": 6,
+    "lexicon_python_tests": 36,
+    "full_lexical_replay": "6539 source references / 55 guards passed",
+    "independent_review": "Core feature contract, data leakage, JavaScript hash parity, Unicode positions and package import isolation reviewed; reported integration issues fixed.",
+    "package_required_files": [
+      "LICENSE",
+      "dist/boundaries.js",
+      "dist/boundary-data.js",
+      "dist/text.js",
+      "models/NOTICE.md",
+      "models/base.gmdl",
+      "models/bulk-provenance.json",
+      "pkg/garu_wasm.js",
+      "pkg/garu_wasm_bg.wasm",
+      "pkg/snippets/garu-core-3a4d93314cfd3300/inline0.js"
+    ],
+    "declaration_payload_guard": "Compiled generated TypeScript with a 1MiB payload; removing the string annotation fails the declaration-size regression test.",
+    "main_checkout": "97 Rust + 1 dump example + 24 JS + 54 Python tests passed after guarded application; built files and package match the reviewed worktree."
+  },
+  "sizes": {
+    "js/models/base.gmdl": {
+      "bytes": 1260476,
+      "gzip_bytes": 1260654,
+      "brotli_bytes": 1260481
+    },
+    "js/pkg/garu_wasm_bg.wasm": {
+      "bytes": 424696,
+      "gzip_bytes": 181869,
+      "brotli_bytes": 130372
+    },
+    "js/dist/boundary-data.js": {
+      "bytes": 1398608,
+      "gzip_bytes": 326280,
+      "brotli_bytes": 284898
+    },
+    "npm": {
+      "size": 1827117,
+      "unpackedSize": 3467259,
+      "entryCount": 62
+    }
+  },
+  "benchmark": {
+    "rows": 1250,
+    "warmup": 50,
+    "repetitions": 7,
+    "platform": "macOS-27.0.1-arm64-arm-64bit",
+    "input_sha256": "2c9bc61a71c751863f260de0e79edcd1493bff796eb5ef007c95007d3f52f8c7",
+    "scope": "Loaded-model inference only. Native analyze timing excludes output conversion; Node/WASM includes public API conversion. Model load and JSON IO excluded.",
+    "models": {
+      "baseline": "5c67af7801cf444229a007dc67b41d486c5a1b80542b235e1b5fc8c0c795686d",
+      "current": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7"
+    },
+    "results": {
+      "native": {
+        "pairs": [
+          {
+            "baseline": {
+              "sum_ms": 328.5251750000002,
+              "median_ms": 0.232813,
+              "p95_ms": 0.569541
+            },
+            "current": {
+              "sum_ms": 332.6122740000006,
+              "median_ms": 0.236125,
+              "p95_ms": 0.582375
+            },
+            "ratio": 1.012440748262292
+          },
+          {
+            "current": {
+              "sum_ms": 330.7274689999995,
+              "median_ms": 0.232375,
+              "p95_ms": 0.569458
+            },
+            "baseline": {
+              "sum_ms": 325.8177579999998,
+              "median_ms": 0.2315625,
+              "p95_ms": 0.571917
+            },
+            "ratio": 1.0150688870678426
+          },
+          {
+            "baseline": {
+              "sum_ms": 325.9769910000006,
+              "median_ms": 0.231354,
+              "p95_ms": 0.569333
+            },
+            "current": {
+              "sum_ms": 382.7691839999999,
+              "median_ms": 0.247375,
+              "p95_ms": 0.710125
+            },
+            "ratio": 1.17422147749072
+          },
+          {
+            "current": {
+              "sum_ms": 337.0476569999998,
+              "median_ms": 0.2400415,
+              "p95_ms": 0.580208
+            },
+            "baseline": {
+              "sum_ms": 331.9674959999998,
+              "median_ms": 0.23575000000000002,
+              "p95_ms": 0.573667
+            },
+            "ratio": 1.0153031879964536
+          },
+          {
+            "baseline": {
+              "sum_ms": 328.4143940000001,
+              "median_ms": 0.23102050000000002,
+              "p95_ms": 0.571875
+            },
+            "current": {
+              "sum_ms": 328.7054139999999,
+              "median_ms": 0.231271,
+              "p95_ms": 0.569875
+            },
+            "ratio": 1.0008861365558777
+          },
+          {
+            "current": {
+              "sum_ms": 327.0374520000002,
+              "median_ms": 0.229979,
+              "p95_ms": 0.569125
+            },
+            "baseline": {
+              "sum_ms": 334.4777120000002,
+              "median_ms": 0.23322900000000002,
+              "p95_ms": 0.586625
+            },
+            "ratio": 0.9777555880913225
+          },
+          {
+            "baseline": {
+              "sum_ms": 486.73074499999984,
+              "median_ms": 0.288125,
+              "p95_ms": 0.967416
+            },
+            "current": {
+              "sum_ms": 472.95292400000056,
+              "median_ms": 0.30164599999999997,
+              "p95_ms": 0.907833
+            },
+            "ratio": 0.9716931360068506
+          }
+        ],
+        "paired_ratio_median": 1.012440748262292,
+        "minimum_ratio": 1.0037434853382068
+      },
+      "wasm": {
+        "pairs": [
+          {
+            "baseline": {
+              "sum_ms": 450.8838689999998,
+              "median_ms": 0.31337499999999996,
+              "p95_ms": 0.761542
+            },
+            "current": {
+              "sum_ms": 460.4506269999996,
+              "median_ms": 0.3172915,
+              "p95_ms": 0.793042
+            },
+            "ratio": 1.0212177872346988
+          },
+          {
+            "current": {
+              "sum_ms": 469.05800999999985,
+              "median_ms": 0.318875,
+              "p95_ms": 0.803167
+            },
+            "baseline": {
+              "sum_ms": 428.46977500000054,
+              "median_ms": 0.2994785,
+              "p95_ms": 0.73275
+            },
+            "ratio": 1.094728350441987
+          },
+          {
+            "baseline": {
+              "sum_ms": 416.2185519999999,
+              "median_ms": 0.2901665,
+              "p95_ms": 0.708583
+            },
+            "current": {
+              "sum_ms": 425.2966680000001,
+              "median_ms": 0.295271,
+              "p95_ms": 0.729208
+            },
+            "ratio": 1.0218109355202414
+          },
+          {
+            "current": {
+              "sum_ms": 415.15679199999937,
+              "median_ms": 0.29077050000000004,
+              "p95_ms": 0.707125
+            },
+            "baseline": {
+              "sum_ms": 414.3402109999993,
+              "median_ms": 0.290479,
+              "p95_ms": 0.705667
+            },
+            "ratio": 1.001970798339918
+          },
+          {
+            "baseline": {
+              "sum_ms": 454.79354200000023,
+              "median_ms": 0.3042915,
+              "p95_ms": 0.742667
+            },
+            "current": {
+              "sum_ms": 463.999323999999,
+              "median_ms": 0.302479,
+              "p95_ms": 0.746958
+            },
+            "ratio": 1.020241672648902
+          },
+          {
+            "current": {
+              "sum_ms": 418.04303300000083,
+              "median_ms": 0.295208,
+              "p95_ms": 0.711875
+            },
+            "baseline": {
+              "sum_ms": 417.1083520000001,
+              "median_ms": 0.293771,
+              "p95_ms": 0.709958
+            },
+            "ratio": 1.002240858989083
+          },
+          {
+            "baseline": {
+              "sum_ms": 416.07501699999983,
+              "median_ms": 0.291146,
+              "p95_ms": 0.71275
+            },
+            "current": {
+              "sum_ms": 424.4223720000004,
+              "median_ms": 0.298896,
+              "p95_ms": 0.724083
+            },
+            "ratio": 1.0200621394194416
+          }
+        ],
+        "paired_ratio_median": 1.020241672648902,
+        "minimum_ratio": 1.001970798339918
+      }
+    }
+  },
+  "source_files": {
+    "NXMP1902008040.json": {
+      "sha256": "15a1db6986cbb883440e4de2263b35b538c5353c4f124109ec0ae23c70af0d48",
+      "bytes": 1698312801
+    },
+    "SXMP1902008031.json": {
+      "sha256": "b3df77c0eb4c2006f3e529fbd0be441caeefa5bfcc8ca1ccd287fb76940fd461",
+      "bytes": 789858604
+    }
+  },
+  "changed_sentence_references": [
+    {
+      "split": "gold",
+      "row": 1642,
+      "text_sha256": "37e6533371bcee3967c521381b995b92483a930454dd0dbea5bf48732b980d39",
+      "before_f1": 0.8333333333333334,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 0,
+          "form": "손",
+          "before_pos": "NNP",
+          "after_pos": "NNG"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 2144,
+      "text_sha256": "0194ac6e511e4e90eeefc72d77261d3a6b789b9f3879cbc8a669a39a484b160a",
+      "before_f1": 0.9090909090909091,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 2,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 3973,
+      "text_sha256": "52727e4de6face517885b237c203e39938a0f48350266fa521b69ae0a5ba27b9",
+      "before_f1": 0.9333333333333333,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 6,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 4564,
+      "text_sha256": "b5d0d6f7ec3361bcf978178cfbcfde4bfe1a915322bad9a965e3807176e6f787",
+      "before_f1": 0.7457627118644068,
+      "after_f1": 0.7796610169491526,
+      "changes": [
+        {
+          "index": 26,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 4817,
+      "text_sha256": "46ee456463f1b453c3371d90a2211cb2f003e23559cf776e62cdaab92d8e1583",
+      "before_f1": 0.8837209302325582,
+      "after_f1": 0.9302325581395349,
+      "changes": [
+        {
+          "index": 6,
+          "form": "네",
+          "before_pos": "IC",
+          "after_pos": "MM"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 4944,
+      "text_sha256": "4aa55e2e8a47342d205fdcdb58e8118e6eb80528d731dfd50f05cabac1d95973",
+      "before_f1": 0.9166666666666666,
+      "after_f1": 0.9583333333333334,
+      "changes": [
+        {
+          "index": 7,
+          "form": "살",
+          "before_pos": "NNG",
+          "after_pos": "NNB"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 5012,
+      "text_sha256": "14282772051a28ad03ee7d4770123d9a923450ee1bb8ab6c242859c4f65c6f15",
+      "before_f1": 0.8727272727272727,
+      "after_f1": 0.8363636363636363,
+      "changes": [
+        {
+          "index": 13,
+          "form": "보",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 5349,
+      "text_sha256": "0c66efc940eaf81a1efd8332a00c4bc0c1b4525a4c649efefe3e091082c4b70c",
+      "before_f1": 0.96,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 16,
+          "form": "아",
+          "before_pos": "EF",
+          "after_pos": "EC"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 5629,
+      "text_sha256": "d5888841bc0d5e0bbc81be5f200e61dff2062cfb01e821660f3c042af7a9c689",
+      "before_f1": 0.9,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 7,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 6033,
+      "text_sha256": "e2f82c7c972d3cc7c2a2c43bbca0066ce166a254f5a35e0658fa905da4b2bd31",
+      "before_f1": 0.4,
+      "after_f1": 0.6,
+      "changes": [
+        {
+          "index": 2,
+          "form": "네",
+          "before_pos": "IC",
+          "after_pos": "MM"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 6480,
+      "text_sha256": "b69c2282ba6949a833f897eb9fda3e6abddeb5405fbf41286c4dd76116096b9b",
+      "before_f1": 0.9411764705882353,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 11,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 6945,
+      "text_sha256": "7526bdaddaa7b07c2b84c045fe0e3711116dacc99b13eb55949b633a9ace4dc5",
+      "before_f1": 0.95,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 7,
+          "form": "반",
+          "before_pos": "NNG",
+          "after_pos": "NNP"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 6947,
+      "text_sha256": "8b5bf4f7cd631cbeacfac61116b06401c9d0e28026b812f8c5c968ee4f0b04f6",
+      "before_f1": 0.9230769230769231,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 10,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 7030,
+      "text_sha256": "cd1696b7c0c85e97c5a45d26bf27b201d9dceaa64a687ece535cbe6ffedc8159",
+      "before_f1": 0.9230769230769231,
+      "after_f1": 0.8461538461538461,
+      "changes": [
+        {
+          "index": 10,
+          "form": "월",
+          "before_pos": "NNG",
+          "after_pos": "NNB"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 7202,
+      "text_sha256": "efa618c7e33ab5f99496e81100dc9bfe82912723c68c3701444cc427160ef7b3",
+      "before_f1": 0.9642857142857143,
+      "after_f1": 0.9285714285714286,
+      "changes": [
+        {
+          "index": 7,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 7267,
+      "text_sha256": "27eeadccbcd9ea4c92acb0222c697d33bb53b0a48c9cfaf3b1d01014cee7dc0b",
+      "before_f1": 0.7857142857142857,
+      "after_f1": 0.75,
+      "changes": [
+        {
+          "index": 17,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 7934,
+      "text_sha256": "11a180ed453f7eebd2c25b34fb8fd76daac5662abc5389cd5431d25c6f2d2e15",
+      "before_f1": 0.9166666666666666,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 7,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "gold",
+      "row": 7996,
+      "text_sha256": "11c710e9c8958eeaed719645eaa44da2e8582c0d678d2078a8bb43de8d31144e",
+      "before_f1": 0.631578947368421,
+      "after_f1": 0.7368421052631579,
+      "changes": [
+        {
+          "index": 6,
+          "form": "가지",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 64,
+      "text_sha256": "0cff7d051646f4f78ac2ea5ef4cfdd624cc9110fe3a349e59c11014a3ace721b",
+      "before_f1": 0.8095238095238095,
+      "after_f1": 0.8571428571428571,
+      "changes": [
+        {
+          "index": 18,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 172,
+      "text_sha256": "6a2c6f9c35cc60e8f379007b42801ed4eb2074a4cd52561df59ff2d92e325c0e",
+      "before_f1": 0.9629629629629629,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 9,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 253,
+      "text_sha256": "03578ad3a187cc50b172c1d95b74d015f25525ed91be233087b71e68b63ec908",
+      "before_f1": 0.9375,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 10,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 303,
+      "text_sha256": "bf9d86a053d249655add5ce43e9abdaeddf38170b944174d302761dc3b3aa34a",
+      "before_f1": 0.9411764705882353,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 13,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 304,
+      "text_sha256": "1a15fa6e1cfbf3f5a641c79c589d4ef91a7bfe50a691a73bce8187aaae41061d",
+      "before_f1": 0.9545454545454546,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 11,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 744,
+      "text_sha256": "29716eeb9ad1ee418532cbda1a58178824f951cd6a89f1d196538a8049508715",
+      "before_f1": 0.9411764705882353,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 4,
+          "form": "말",
+          "before_pos": "NNB",
+          "after_pos": "NNG"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 990,
+      "text_sha256": "62a480bfe434765f0c3b3064afc0181ade8e4b982eef99f4bb0b85162717a89c",
+      "before_f1": 0.9333333333333333,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 8,
+          "form": "일",
+          "before_pos": "NR",
+          "after_pos": "NNG"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1126,
+      "text_sha256": "3f80121fa0f626f4bda33641de8a8ef065700a482aed1d1c38c2fbb79a7b6b7c",
+      "before_f1": 0.8333333333333334,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 2,
+          "form": "하",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1158,
+      "text_sha256": "dbb9ded754dc0d47b1d2a91406f7a33a4f9e64caa2507ffcb2f6e4a6750e5628",
+      "before_f1": 0.8148148148148148,
+      "after_f1": 0.8888888888888888,
+      "changes": [
+        {
+          "index": 11,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1185,
+      "text_sha256": "121aa0854fd63c667e06297adf87bc822a15969baa296aeac2d6a49ab2d17f12",
+      "before_f1": 0.8888888888888888,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 6,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1262,
+      "text_sha256": "18cbd2b669951da6c06645427a07eb8f6f1ae6dcf790e5f2651b8e4d8d3f4539",
+      "before_f1": 0.9444444444444444,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 15,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1282,
+      "text_sha256": "a15e352015a5ec434fe1e478d962a15f354c275110184c1cc94d86858f492c10",
+      "before_f1": 0.8571428571428571,
+      "after_f1": 0.9285714285714286,
+      "changes": [
+        {
+          "index": 12,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1558,
+      "text_sha256": "c0998981bfeacadf13e01697843b49815581ae2a0848081b05e75b87ff8d05e5",
+      "before_f1": 0.85,
+      "after_f1": 0.9,
+      "changes": [
+        {
+          "index": 17,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1570,
+      "text_sha256": "251e4216b0239599539ee54e1efcd228ce8ba3740f3ec71d0e974fb894f75c8c",
+      "before_f1": 0.875,
+      "after_f1": 0.9166666666666666,
+      "changes": [
+        {
+          "index": 3,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1673,
+      "text_sha256": "76c957b0c10b6fb74ce26af877417085cebad47a55e0798c484742ba4729118e",
+      "before_f1": 0.9032258064516129,
+      "after_f1": 0.9354838709677419,
+      "changes": [
+        {
+          "index": 28,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 1771,
+      "text_sha256": "d36e064d52a6ba58017606aa7639f1b43205e1aae28863d34fb4cdc7e82b531c",
+      "before_f1": 0.9473684210526315,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 7,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 2050,
+      "text_sha256": "a41e46e37e72fc354147413ef2155c328f9b94e7be32eba555d3b441982c99e2",
+      "before_f1": 0.9166666666666666,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 7,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 2051,
+      "text_sha256": "958808b2fe691814d090048b5b8e49e033030ea3f6832e7724abe90af6f53be5",
+      "before_f1": 0.8125,
+      "after_f1": 0.875,
+      "changes": [
+        {
+          "index": 7,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 2094,
+      "text_sha256": "1c1f52b7347e69b1f0ae1624098a01584749d86974cf2365163c68778c6cbbdd",
+      "before_f1": 0.9411764705882353,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 6,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 2255,
+      "text_sha256": "f3cf4b153087281d6743969439d441582c610547ecdaf26f891099ea1b23911c",
+      "before_f1": 0.8,
+      "after_f1": 0.88,
+      "changes": [
+        {
+          "index": 9,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 2436,
+      "text_sha256": "cc9ba218c048031c7e4d45446ccb53ae3e93578ec60012e182101c3c6a6ad835",
+      "before_f1": 1.0,
+      "after_f1": 0.9545454545454546,
+      "changes": [
+        {
+          "index": 7,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3029,
+      "text_sha256": "85a55cb067b93d49fe64481020db7bc920c971fe078feb90a8846e1f11242669",
+      "before_f1": 0.8571428571428571,
+      "after_f1": 0.7857142857142857,
+      "changes": [
+        {
+          "index": 7,
+          "form": "어",
+          "before_pos": "EC",
+          "after_pos": "EF"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3090,
+      "text_sha256": "c2fae6d4eeebaa2ba2476ae81cfa09b940177203d8c37471fe45706e462ba4f2",
+      "before_f1": 0.8205128205128205,
+      "after_f1": 0.8717948717948718,
+      "changes": [
+        {
+          "index": 9,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3333,
+      "text_sha256": "49a4d4ae509552be3f70b786963ab09004076fcd5d603364151402f730c90f54",
+      "before_f1": 0.6666666666666666,
+      "after_f1": 0.7619047619047619,
+      "changes": [
+        {
+          "index": 8,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3369,
+      "text_sha256": "45cf8b93c63b2eaa3007604295027919984278bbcdde6baff85a2abdb6824379",
+      "before_f1": 0.8372093023255814,
+      "after_f1": 0.8837209302325582,
+      "changes": [
+        {
+          "index": 13,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3585,
+      "text_sha256": "62c59513b34538bf3d5134fdc4734d21e3690cd58e8798e2db97a2f4a16e7b13",
+      "before_f1": 0.7796610169491526,
+      "after_f1": 0.7457627118644068,
+      "changes": [
+        {
+          "index": 17,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3687,
+      "text_sha256": "f84f7b4c58b8d3efa4543e2c8f755140fd79443b5dc5ea1e49535385ec12bebb",
+      "before_f1": 0.8727272727272727,
+      "after_f1": 0.9090909090909091,
+      "changes": [
+        {
+          "index": 19,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3833,
+      "text_sha256": "84a45d3f1d15cdd1529f414fd5853c46d6f68bfe234d3b6a8562588d68220566",
+      "before_f1": 0.8260869565217391,
+      "after_f1": 0.8695652173913043,
+      "changes": [
+        {
+          "index": 15,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 3912,
+      "text_sha256": "344c6fb6a39b8fe6f8af2a68461cd2f46ae3bee1c8243bc9fd416eb81baf5d58",
+      "before_f1": 0.9310344827586207,
+      "after_f1": 0.896551724137931,
+      "changes": [
+        {
+          "index": 9,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 4042,
+      "text_sha256": "087bf72d19976afe181dc3ab9cac5de3e6c7601ef7b41c4e4e19afe3d15240b4",
+      "before_f1": 1.0,
+      "after_f1": 0.9,
+      "changes": [
+        {
+          "index": 8,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 4396,
+      "text_sha256": "975104d0f65812a423f5f38a5bcb6473c8e8480c371bc34d398b87cfd43c7565",
+      "before_f1": 0.7142857142857143,
+      "after_f1": 0.7619047619047619,
+      "changes": [
+        {
+          "index": 10,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 4425,
+      "text_sha256": "207f23b2db14c09eac4bbd147241f3cd724fa54cd472d3a8a9a63b364c30c59a",
+      "before_f1": 1.0,
+      "after_f1": 0.9523809523809523,
+      "changes": [
+        {
+          "index": 5,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 4695,
+      "text_sha256": "b364312158671398febe956159df0390d6b1cd1971f29343b29921a82d737bd6",
+      "before_f1": 0.8125,
+      "after_f1": 0.875,
+      "changes": [
+        {
+          "index": 2,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5108,
+      "text_sha256": "4c3cb61f08022706747f7b07fec5b31d276f7e1ef22332fb146acaee5f547d97",
+      "before_f1": 1.0,
+      "after_f1": 0.9166666666666666,
+      "changes": [
+        {
+          "index": 5,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5614,
+      "text_sha256": "fe57bc8e2145158088bd1d11ddb5474f1bc28424a75be0f831095cfcf441f3a9",
+      "before_f1": 0.72,
+      "after_f1": 0.8,
+      "changes": [
+        {
+          "index": 3,
+          "form": "일",
+          "before_pos": "NR",
+          "after_pos": "NNG"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5625,
+      "text_sha256": "97311b530f7ee2207b608fb12fcec2c4d025213e0e200a48cd1d3fb2a40d8afe",
+      "before_f1": 0.7878787878787878,
+      "after_f1": 0.7272727272727273,
+      "changes": [
+        {
+          "index": 16,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5679,
+      "text_sha256": "53b25aa3a833c242e735f1a3e37c6d24a5ef0c734374c6ff01d121c6dfd63d25",
+      "before_f1": 0.7222222222222222,
+      "after_f1": 0.7777777777777778,
+      "changes": [
+        {
+          "index": 5,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5748,
+      "text_sha256": "32fb87d9eabbd426a9f96134df2c6c8bb168d445c0eb87be5b4cc756672aa9be",
+      "before_f1": 0.8823529411764706,
+      "after_f1": 0.9411764705882353,
+      "changes": [
+        {
+          "index": 4,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5749,
+      "text_sha256": "a50e149ebc5092d1c0455b7b98fa07845ea31651042860525cdb5b32c4277150",
+      "before_f1": 0.9545454545454546,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 5,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5790,
+      "text_sha256": "7fa51308579e0053267d546f3137a2615adc3a6180d4322b06e46dcb299d8c9c",
+      "before_f1": 0.9333333333333333,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 12,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5853,
+      "text_sha256": "daf56a56f4d0978e6307ad2863155a7818d215b5751fa1f9d865d5ff82944c0d",
+      "before_f1": 0.7777777777777778,
+      "after_f1": 0.8333333333333334,
+      "changes": [
+        {
+          "index": 17,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5877,
+      "text_sha256": "1c7550e3dcefb8254f46c45daa16bcb50d60943cd66fe0ee93a62d1ac3335d6f",
+      "before_f1": 0.6956521739130435,
+      "after_f1": 0.782608695652174,
+      "changes": [
+        {
+          "index": 7,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5880,
+      "text_sha256": "5cc47c542ef59464afdeff3488823381b535664a1d170a88f23abddf0596a055",
+      "before_f1": 0.7407407407407407,
+      "after_f1": 0.8148148148148148,
+      "changes": [
+        {
+          "index": 5,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5903,
+      "text_sha256": "4a2ae265fb7574581e284d1cfca2658b84a7dd434fdc0257bf42833b3dd1a933",
+      "before_f1": 0.7692307692307693,
+      "after_f1": 0.8205128205128205,
+      "changes": [
+        {
+          "index": 18,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5948,
+      "text_sha256": "94af150390de3fe2e406063c5349bc77fc7e0353f6817b346acfe807132e607d",
+      "before_f1": 0.9444444444444444,
+      "after_f1": 0.8888888888888888,
+      "changes": [
+        {
+          "index": 6,
+          "form": "이제",
+          "before_pos": "MAG",
+          "after_pos": "IC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 5976,
+      "text_sha256": "94e7a0b3f4e09520697d4817090760eb81efcedfb2d32d91c82a7b821b8910a3",
+      "before_f1": 0.7619047619047619,
+      "after_f1": 0.8571428571428571,
+      "changes": [
+        {
+          "index": 9,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 6092,
+      "text_sha256": "7c5f1d6702b93d14d70e918222e681cff4c4a3777e76174ca9c7ce92fca2fa43",
+      "before_f1": 0.8070175438596491,
+      "after_f1": 0.8421052631578947,
+      "changes": [
+        {
+          "index": 5,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 6557,
+      "text_sha256": "bd5c8df7e97c9a4767beb1b5726581e1307117adad7386691ffa76d7315866d0",
+      "before_f1": 0.8235294117647058,
+      "after_f1": 0.8627450980392157,
+      "changes": [
+        {
+          "index": 15,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 7309,
+      "text_sha256": "ab409d869439dbf14ccce497ce6cbcf40fda64da7ddd040807e5b39987eacc15",
+      "before_f1": 0.8461538461538461,
+      "after_f1": 0.8076923076923077,
+      "changes": [
+        {
+          "index": 12,
+          "form": "보",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 7325,
+      "text_sha256": "fc3b92c917ebd2f820db37701309476761ab841ce6fb795d160f663d36addd47",
+      "before_f1": 0.8666666666666667,
+      "after_f1": 0.9,
+      "changes": [
+        {
+          "index": 5,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 7693,
+      "text_sha256": "43cc0958cab99b931ef5af0fb884961a53341169e9552a2a3d8759c0894b8f9a",
+      "before_f1": 0.896551724137931,
+      "after_f1": 0.8275862068965517,
+      "changes": [
+        {
+          "index": 5,
+          "form": "있",
+          "before_pos": "VA",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 7735,
+      "text_sha256": "6329db3b255a2f2ea91928bdbc288cc91c179aef4a1622b2c85f6982bec6e757",
+      "before_f1": 0.9090909090909091,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 5,
+          "form": "손",
+          "before_pos": "NNP",
+          "after_pos": "NNG"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 7857,
+      "text_sha256": "d857fdab702b67d7c3aa895260451eae352cde8ac77a41e28754575356508c34",
+      "before_f1": 1.0,
+      "after_f1": 0.9523809523809523,
+      "changes": [
+        {
+          "index": 11,
+          "form": "가지",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 8157,
+      "text_sha256": "2256b005bcc8ca022c7557e3e769c90f35b84bff05399188dd8935c8011c83f0",
+      "before_f1": 0.8214285714285714,
+      "after_f1": 0.7857142857142857,
+      "changes": [
+        {
+          "index": 17,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 8896,
+      "text_sha256": "6ebbb65f18594b79e78f2e78fc42ab28684171b5393d812e15ed518f750c56fa",
+      "before_f1": 1.0,
+      "after_f1": 0.9090909090909091,
+      "changes": [
+        {
+          "index": 5,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 8973,
+      "text_sha256": "31506e6edd4bf8c025369f2ebdb2e90c7a94416e98e2e5ca31f39aa95d5501d1",
+      "before_f1": 0.9,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 4,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 9102,
+      "text_sha256": "1de1f18f93c91e7f6dc70f10b7f07d2c0669c63a14d4606087f22121ea3d075c",
+      "before_f1": 0.8108108108108109,
+      "after_f1": 0.8648648648648649,
+      "changes": [
+        {
+          "index": 0,
+          "form": "가지",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 9925,
+      "text_sha256": "6d8e2f947efe1230ef118cfb5f68cf402b50783272f3a413766eccc753d42dc9",
+      "before_f1": 0.9047619047619048,
+      "after_f1": 0.9285714285714286,
+      "changes": [
+        {
+          "index": 35,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 10084,
+      "text_sha256": "e20bafba732f5f9ad12f7d4fc59051ccea4db2494a82f9783b4ad335de03fd8b",
+      "before_f1": 0.9428571428571428,
+      "after_f1": 0.9714285714285714,
+      "changes": [
+        {
+          "index": 18,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 10283,
+      "text_sha256": "d85906d728dc9dc2975abd4789e605e6f4331c1311e5d8eed7b4f091cfba2297",
+      "before_f1": 0.8936170212765957,
+      "after_f1": 0.851063829787234,
+      "changes": [
+        {
+          "index": 11,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 11007,
+      "text_sha256": "33187a3709fc7c9d278c4ab60786b79069d0ac65ded590daefd12201a4151d36",
+      "before_f1": 0.8181818181818182,
+      "after_f1": 0.7727272727272727,
+      "changes": [
+        {
+          "index": 18,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 11850,
+      "text_sha256": "c511efb3af0a57067dc7bb335fb436b9e9ac577c99b10e7269be1f4ed901ce86",
+      "before_f1": 0.9333333333333333,
+      "after_f1": 0.8666666666666667,
+      "changes": [
+        {
+          "index": 13,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 13022,
+      "text_sha256": "3b41de00ac656e86e15290dc290b8aa99915f703d9c6c423ef62dc95ac917051",
+      "before_f1": 0.9375,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 13,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 13162,
+      "text_sha256": "9d690565f0c79e75ca36821b689c6c724e303b8939acfcff65e9c1e11f6fc567",
+      "before_f1": 0.9285714285714286,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 11,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 13250,
+      "text_sha256": "2371f5ffde67459137b077aa8e9613b4b08e13148cca45514842b25138a45445",
+      "before_f1": 0.9,
+      "after_f1": 0.95,
+      "changes": [
+        {
+          "index": 9,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 13439,
+      "text_sha256": "6c33ea81d54ae5a0214ddec8f8e2ad589e6c6504d6311f7f50bd273dfb64e44d",
+      "before_f1": 0.8484848484848485,
+      "after_f1": 0.9090909090909091,
+      "changes": [
+        {
+          "index": 12,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14039,
+      "text_sha256": "39264da198437bc4bbbc95b2163b7219dbbcc2ba530b77a436f3eadc89e8dae0",
+      "before_f1": 0.9473684210526315,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 16,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14084,
+      "text_sha256": "c97db4abc865e15f87d7e553a6dcb02da25e4b48a706ce18fd9197a7c29bb8bc",
+      "before_f1": 0.9230769230769231,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 10,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14166,
+      "text_sha256": "6a8a6b0da13dccba5856e65eb6d71a0f1c8533fd7e7afc43542e98cc7ea0e8e9",
+      "before_f1": 0.9230769230769231,
+      "after_f1": 0.9230769230769231,
+      "changes": [
+        {
+          "index": 5,
+          "form": "하",
+          "before_pos": "VV",
+          "after_pos": "VX"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14226,
+      "text_sha256": "191d96ce524c7df87a718dc56037e80e6c133a47b1c38912ba116adced0559b5",
+      "before_f1": 0.782608695652174,
+      "after_f1": 0.8695652173913043,
+      "changes": [
+        {
+          "index": 9,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14296,
+      "text_sha256": "8e47610a866cffb110844f4d8d26edef26e220e54a2b39b1b31a9811c0d0cff6",
+      "before_f1": 0.9411764705882353,
+      "after_f1": 1.0,
+      "changes": [
+        {
+          "index": 14,
+          "form": "있",
+          "before_pos": "VX",
+          "after_pos": "VA"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14483,
+      "text_sha256": "d42ff4c945f58c4948cfdafa3846079deeaf09b839c9f1f64ddc525572151c98",
+      "before_f1": 0.8461538461538461,
+      "after_f1": 0.9230769230769231,
+      "changes": [
+        {
+          "index": 10,
+          "form": "일",
+          "before_pos": "NR",
+          "after_pos": "NNG"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14704,
+      "text_sha256": "c72996f641b6dde99695ecb3d396a0204000a224724df0e884656c37d70c1344",
+      "before_f1": 0.7692307692307693,
+      "after_f1": 0.8205128205128205,
+      "changes": [
+        {
+          "index": 12,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 14966,
+      "text_sha256": "bec3d8914af697c5a39c7dfbc9e33094ac3038e2a4346db929a202c14f369308",
+      "before_f1": 0.7727272727272727,
+      "after_f1": 0.8181818181818182,
+      "changes": [
+        {
+          "index": 14,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 15300,
+      "text_sha256": "b8a74e3c4bf68a13a124cc5434e06679c91e8ebf16f2869d6d54d86c87aee122",
+      "before_f1": 0.8387096774193549,
+      "after_f1": 0.9032258064516129,
+      "changes": [
+        {
+          "index": 1,
+          "form": "이",
+          "before_pos": "JKS",
+          "after_pos": "JKC"
+        }
+      ]
+    },
+    {
+      "split": "spoken",
+      "row": 16399,
+      "text_sha256": "f9344cba671d9f100b109bb75ada8df28343baa88f7a17c901d1d7abd9e9f7ca",
+      "before_f1": 0.9090909090909091,
+      "after_f1": 0.8181818181818182,
+      "changes": [
+        {
+          "index": 9,
+          "form": "보",
+          "before_pos": "VX",
+          "after_pos": "VV"
+        }
+      ]
+    }
+  ]
+}

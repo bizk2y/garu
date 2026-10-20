@@ -1,7 +1,16 @@
 
 use garu_core::model::Analyzer;
+use garu_core::types::Token;
 use std::fs;
 use std::io::{self, BufRead, Write};
+
+fn write_json(out: &mut impl Write, tokens: &[Token]) {
+    let pairs: Vec<(&str, &str)> = tokens.iter()
+        .map(|t| (t.text.as_str(), t.pos.as_str()))
+        .collect();
+    serde_json::to_writer(&mut *out, &pairs).unwrap();
+    writeln!(out).unwrap();
+}
 
 fn main() {
     let model_path = std::env::var("GARU_MODEL").unwrap_or_else(|_| "models/codebook.gmdl".to_string());
@@ -30,10 +39,7 @@ fn main() {
         let result = analyzer.analyze(line);
 
         if json_mode {
-            let tokens: Vec<String> = result.tokens.iter()
-                .map(|t| format!("[\"{}\",\"{}\"]", t.text.replace('"', "\\\""), t.pos.as_str()))
-                .collect();
-            writeln!(out, "[{}]", tokens.join(",")).unwrap();
+            write_json(&mut out, &result.tokens);
         } else {
             let tokens: Vec<String> = result.tokens.iter()
                 .map(|t| format!("{}\t{}", t.text, t.pos.as_str()))
@@ -41,5 +47,30 @@ fn main() {
             writeln!(out, "{}", tokens.join("\n")).unwrap();
             writeln!(out, "---").unwrap();
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use garu_core::types::Pos;
+
+    #[test]
+    fn json_controls_roundtrip() {
+        // Embedded newlines cannot be passed through the line-oriented CLI.
+        let text = "한글\\\"\n\r\t\u{0000}\u{0008}\u{000c}\u{001f}";
+        let tokens = vec![Token {
+            text: text.to_string(),
+            pos: Pos::SW,
+            start: 0,
+            end: text.chars().count(),
+            score: None,
+        }];
+        let mut output = Vec::new();
+        write_json(&mut output, &tokens);
+
+        let decoded: Vec<(String, String)> = serde_json::from_slice(&output).unwrap();
+        assert_eq!(decoded, vec![(text.to_string(), "SW".to_string())]);
+        assert_eq!(output.iter().filter(|&&byte| byte == b'\n').count(), 1);
     }
 }

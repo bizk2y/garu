@@ -4,13 +4,18 @@
 - feature: raw 후보 토큰에서 추출 (features.extract) — Rust production과 동일 입력
 - 타깃: ep_norm 정규화 후 문장 F1 최대 후보 (동률 시 낮은 rank)
 - 전처리 캐시: <data_dir>/cache_{split}.npz (feature/counts 재계산 방지)
+- gold/dump 바이트와 전처리·feature·ep_norm 소스가 모두 같을 때만 캐시 재사용
 출력: <data_dir>/weights.npz (dev micro F1 최고 에폭의 averaged weights)
 """
 import argparse
+import hashlib
 import json
 import os
 import sys
+import tempfile
 import time
+import zipfile
+import zlib
 from collections import Counter
 from pathlib import Path
 
@@ -21,6 +26,40 @@ sys.path.insert(0, str(BASE))
 sys.path.insert(0, str(BASE.parent / "gold_testset/expand"))
 from ep_norm import normalize_ep_morphemes  # noqa: E402
 from features import extract, hash_feats  # noqa: E402
+
+
+CACHE_KEYS = ("ids", "vals", "feat_off", "sent_off", "counts", "srcs")
+CACHE_MANIFEST = "_manifest"
+HASH_CHUNK_SIZE = 1024 * 1024
+
+
+def file_digest(path):
+    digest = hashlib.sha256()
+    with open(path, "rb") as source:
+        for chunk in iter(lambda: source.read(HASH_CHUNK_SIZE), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+# Capture the source contract when these implementations are loaded.
+PREPROCESS_SOURCES = {
+    "producer": file_digest(__file__),
+    "features": file_digest(extract.__code__.co_filename),
+    "ep_norm": file_digest(normalize_ep_morphemes.__code__.co_filename),
+}
+
+
+def save_cache(cache, out, manifest):
+    temp_path = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=cache.parent, prefix=f".{cache.name}.",
+                                         suffix=".npz", delete=False) as temp:
+            temp_path = Path(temp.name)
+            np.savez_compressed(temp, **out, **{CACHE_MANIFEST: manifest})
+        os.replace(temp_path, cache)
+    finally:
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
 
 
 def norm(tokens):
@@ -40,12 +79,26 @@ def sent_f1(tp, fp, fn):
 
 def preprocess(data_dir, split):
     cache = data_dir / f"cache_{split}.npz"
+    gold_path = data_dir / f"{split}.jsonl"
+    dump_path = data_dir / f"{split}_top10.jsonl"
+    manifest = json.dumps({
+        "gold": file_digest(gold_path),
+        "dump": file_digest(dump_path),
+        "sources": PREPROCESS_SOURCES,
+    }, sort_keys=True)
     if cache.exists():
-        z = np.load(cache)
-        return {k: z[k] for k in z.files}
+        try:
+            with np.load(cache, allow_pickle=False) as z:
+                if (CACHE_MANIFEST in z and z[CACHE_MANIFEST].item() == manifest
+                        and all(key in z for key in CACHE_KEYS)):
+                    return {key: z[key] for key in CACHE_KEYS}
+        except (OSError, ValueError, EOFError, zipfile.BadZipFile, zlib.error):
+            pass  # A partial or corrupt archive is not a reusable cache.
 
-    gold_recs = [json.loads(l) for l in open(data_dir / f"{split}.jsonl")]
-    dumps = [json.loads(l) for l in open(data_dir / f"{split}_top10.jsonl")]
+    with gold_path.open(encoding="utf-8") as source:
+        gold_recs = [json.loads(line) for line in source]
+    with dump_path.open(encoding="utf-8") as source:
+        dumps = [json.loads(line) for line in source]
     assert len(gold_recs) == len(dumps)
 
     all_ids, all_vals = [], []
@@ -79,7 +132,7 @@ def preprocess(data_dir, split):
         "counts": np.array(counts, dtype=np.int32),
         "srcs": np.array(srcs, dtype=np.int8),
     }
-    np.savez_compressed(cache, **out)
+    save_cache(cache, out, manifest)
     print(f"  {split}: {len(gold_recs)} sents, {len(counts)} cands, "
           f"{len(all_ids)} feat entries ({time.time()-t0:.0f}s)")
     return out

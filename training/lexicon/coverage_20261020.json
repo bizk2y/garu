@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-20",
+  "scope": "Coverage diagnosis of the 1449 adopted NNG entries in the fixed evaluation references; no model or analyzer changes.",
+  "method": "Count exact word/NNG forms in each gold sentence, then compare their per-sentence multiset presence in Node/WASM outputs. Not span-sensitive and not full-sentence F1. Substring counts use longest-first non-overlapping matches and do not assert morphological boundaries.",
+  "models": {
+    "committed_baseline": "190e1d2bd63e984377468664f059d8d13acd56aba9df6e8899d0963c724c9b96",
+    "current": "5c67af7801cf444229a007dc67b41d486c5a1b80542b235e1b5fc8c0c795686d"
+  },
+  "source_sha256": {
+    "gold": "3a5fa4194b2ae3eec58296674408e8f1d409a72205777044455b9c1b838bbb96",
+    "spoken": "79117622c4fbd51d097b9234e4a8d09a74d1d36a66dd949624dd3cb40bb06f16"
+  },
+  "normalization": "Gold as stored; spoken load_sx feed text and reverse_convert labels; texts stripped identically for Node. NNG target count is unaffected by EP normalization.",
+  "gold": {
+    "sentences": 9000,
+    "total_ep_norm_gold_morphemes": 100515,
+    "target_sentences": 2,
+    "target_occurrences": 2,
+    "target_types": 2,
+    "words": {
+      "엔데믹": 1,
+      "스무드": 1
+    },
+    "rows": [
+      395,
+      5892
+    ],
+    "recognized_before": 1,
+    "recognized_after": 2,
+    "substring_types": 7,
+    "substring_occurrences": 8,
+    "other_reference_tags": [
+      {
+        "word": "펫시팅",
+        "pos": "NNP",
+        "count": 1
+      }
+    ]
+  },
+  "spoken": {
+    "sentences": 16407,
+    "total_ep_norm_gold_morphemes": 208087,
+    "target_sentences": 26,
+    "target_occurrences": 28,
+    "target_types": 9,
+    "words": {
+      "어질리티": 1,
+      "맥시멀리스트": 1,
+      "그사세": 1,
+      "한능검": 2,
+      "내돈내산": 2,
+      "아샷추": 11,
+      "몰티즈": 3,
+      "피나스테라이드": 1,
+      "엠피스리": 6
+    },
+    "rows": [
+      119,
+      2596,
+      3497,
+      4686,
+      4689,
+      6020,
+      6026,
+      7018,
+      7019,
+      7020,
+      7021,
+      7042,
+      7044,
+      7045,
+      7047,
+      7048,
+      7378,
+      7380,
+      7466,
+      9751,
+      11269,
+      11270,
+      11277,
+      11279,
+      11285,
+      11287
+    ],
+    "recognized_before": 8,
+    "recognized_after": 28,
+    "substring_types": 10,
+    "substring_occurrences": 29
+  },
+  "interpretation": "Few new entries have a matching exact-NNG target in the fixed references, and some were already recognized without explicit FST entries. This explains limited direct coverage gain; it neither proves no benefit outside these sets nor measures generalization on unseen new-word contexts."
+}

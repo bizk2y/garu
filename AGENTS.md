@@ -3,9 +3,10 @@
 ## 프로젝트 개요
 
 브라우저에서 실행되는 초경량 한국어 형태소 분석기. 코드북 + N-best Viterbi + 어절 캐시 + 후처리 규칙 + 재순위 perceptron으로 동작 (CNN 폐기).
-- **F1 96.0%** (9,000문장 v15k 골드 테스트셋, ep_norm 정규화) / 2025 구어 held-out 91.2%
-- **모델 1.2 MB** (brotli q=11 압축, npm 패키지에 포함, CDN 불필요. 재순위 가중치 Section 14 +200KB 포함)
-- **WASM** — 브라우저에서 실행 (raw 412KB / gzip 176KB, opt-level=3 + wasm-opt -O3 + brotli decoder. viterbi_nbest 최적화가 재순위 비용을 상쇄해 Kiwi 대비 격차 2.4×→2.07×)
+- **F1 96.054%** (9,000문장 v15k 골드 테스트셋, ep_norm 정규화) / 2025 구어 고정 평가 91.227% — 2026-10-20 실측, 연구 선택에 노출된 고정셋
+- **기본 모델 1,260,476 B** (brotli q=11, npm 패키지에 포함, CDN 불필요. 재순위 Section14와 문맥 POS 교정 Section16 포함)
+- **WASM** — raw 424,696 B / gzip 181,869 B (opt-level=3 + wasm-opt -O3 + brotli decoder). 현재 실행 비용 비교는 연구 이력 #70 참조.
+- **선택형 무공백 처리** — `garu-ko/text`의 `restoreSpacing`·`splitUnspaced`, `garu-ko/sentences`의 인용문 보존·Q4 문맥 검증. `splitSentences(text)`는 분석기 없이 실행하는 빠른 기본 호출이며, `(text, garu)`는 기존 형태소 검증 경로다. 기본 분석 경로에는 자동 적용하지 않음. 속도·정확도 범위는 연구 이력 #71·#73·#74 참조.
 
 ### Purpose (영문 원문)
 
@@ -35,6 +36,7 @@ Primary constraints:
 - Do not add speculative design or planning documents to the repo unless the user explicitly asks for that artifact.
 - Keep changes narrowly scoped to the current research question.
 - Do not overwrite untracked model artifacts or generated files unless the task requires regenerating them.
+- Record rejected research findings in `docs/wiki/research-history.md`, then remove its temporary workspace, models, dumps and checkpoints. Keep original corpora, reusable annotated data, and adopted code/models in their source-of-truth locations. The user-requested archive cleanup is recorded in `~/workspace/data/cleanup.json`; `~/workspace/data/README.md` identifies the current corpora, including `korean_pos/`. The old `garu_*` research folders and linked worktrees were removed; their historical paths are not runnable instructions.
 - If metrics or file sizes are mentioned in docs, verify whether they reflect the current artifacts before treating them as current facts.
 
 ## Source Priority
@@ -53,6 +55,7 @@ Primary constraints:
            → 문장 수준 Trigram N-best Viterbi (top-10)
            → 후처리 (VCP 분리, MM 관형사 교정, POS 보정 등 fix_*)
            → 재순위 perceptron (Section 14, 확신 마진 τ=4 넘을 때만 교체)
+           → 학습 문맥 조건에 따른 최종 POS 교정 (Section16, 형태·경계 유지)
            → 출력
 ```
 
@@ -69,6 +72,8 @@ Primary constraints:
 - `js/src/core.ts` — `GaruBase` 클래스 (`analyze` / `tokenize` / `nouns` / `modelInfo` / 런타임 사용자 사전 `addUserWord`·`addUserWords`·`clearUserWords`·`userWordCount`)
 - `js/src/{browser,node}.ts` — `Garu extends GaruBase` + static `load()` (browser=WASM fetch / node=fs)
 - `js/src/normalize.ts` — `normalizeText` / `splitSentences`
+- `js/src/text.ts`, `boundaries.ts`, `boundary-data.ts` — 선택형 공백 복원·무공백 문장 분리, int8 문자 경계 모델
+- `js/src/sentences.ts`, `sentence-verifier.ts`, `sentence-{fast-,}data.ts` — 선택형 바깥 문장 분리. 기본은 작은 문자 문맥 Q4, 분석기 전달 시 형태소 검증
 - `js/models/base.gmdl` — 번들된 모델
 - `js/pkg/` — wasm-pack 빌드 출력
 
@@ -109,6 +114,18 @@ Do not restart from approaches already shown to be poor fits unless the goal is 
 - Perceptron POS reranking produced only tiny gains because many remaining errors are segmentation errors.
 - Decomposition preference penalties increased over-segmentation.
 - Cost-scale normalization did not improve over tuned parameters.
+- Score-calibrated MBR on the existing candidates and a document-local noun lexicon inferred from first-pass repetitions were not adopted. MBR regressed fixed F1; the lexicon propagated segmentation/POS mismatches and added two-pass cost. Keep synthetic name demonstrations separate from corpus evidence, and do not repeat these same recipes without a new hypothesis. See research-history #62.
+- A separate direct CNN + contextual model was tested without Garu candidates or fallback. Its complete Q4 file fit 3MB and improved fixed spoken F1, but broad gold and nickname regressions prevented a default replacement. It was a Python prototype unsupported by current GMDL/WASM; the discarded artifacts were removed. See research-history #63. The old BIO preparation loses morphemes on contractions, so audit target round-trip before reusing it.
+- Search-time linear cost learning and learned morphology edits were tested separately. Search learning improved spoken F1 with a small sidecar and no clear native slowdown in the measured sample, but domain regressions remained. Edit rules also showed reference-convention conflicts. Neither was adopted; experimental artifacts were removed. A fixed top-k oracle does not bound every possible learned search cost; see research-history #64 for the corrected scope and measured reachability limits.
+- Adding validated KLUE-DP, UD Korean-Kaist and UD Korean-KSL training sentences to the existing perceptron slightly improved external source evaluations but regressed fixed gold/spoken against the shipped model. That model was rejected and removed; the reusable original and normalized data are in `~/workspace/data/korean_pos/`. The experiment changed Section 14 only. UD lemmas may omit endings despite multi-morpheme XPOS: use an explicit OrigLemma when available and exclude unsupported targets. Native KAIST xsa is an adverb suffix, not Sejong XSA. See research-history #65; this did not test adding the data to the 5M contextual model or rebuilding candidates.
+
+- Bulk MeCab-ko-dic, 한국어기초사전 and 우리말샘 imports were tested. Adding every compatible entry regressed fixed gold/spoken and inflated the model; only 1,449 reviewed NNG entries were adopted in Section 6. Source noun labels and raw occurrence counts are not contextual POS gold. Preserve the 55 surrounding-token guards, per-word provenance and source licenses; see research-history #69 and `js/models/NOTICE.md`.
+
+- Contextual POS alternatives are applied after reranking only when the original cached form/POS/span matches and no user-word override exists. Injecting them as extra lattice arcs regressed surrounding analyses. Dump Section14 training candidates through `analyze_topn_for_rerank`, before this final correction. See research-history #70.
+- Unspaced text restoration is an opt-in JS module. Boundary F1 is not morphological F1; preserving characters does not mean all spacing is correct. Conservative mode favors fewer false insertions, and quotations/ambiguous text remain difficult. See research-history #71.
+- Internal spoken-boundary relabeling was tested with SF-backed proposals, uncertain-EF masking and terminal-deletion augmentation. It did not establish a gain over a threshold-only control, so the new weights and threshold were rejected. EF alone includes reported speech and postposed clauses; keep reviewed training references separate from held-out references. See research-history #72 and `training/boundaries/review_labels_20261020.json`.
+- The optional Q4 sentence verifier combines candidate filtering, matched hard negatives and character/morphology context. Its quote-preserving API reaches95.73/96.30% boundary F1 on inspected2025NX whitespace/terminal-deletion variants; quote protection alone accounts for most of the gain. Original2021 references sometimes split within quotes and regress under this policy. Do not call this universal95% accuracy or a pure neural gain. PyTorch2.8 MPS locally ignores embedding padding_idx in backward: retain the explicit padding mask and export guard. See research-history #73.
+- The no-analyzer sentence default uses a separately trained C24/E8/H32 verifier and unrolled, bit-equivalent FNV scoring. Fixed2025NX F1 is95.91/96.28%, loaded sample mean20µs in Node and18µs in Chrome on M4; Node P95 is61µs. Do not conflate loaded means with all-input or cold-start guarantees. The analyzer-supplied path retains its full model. See research-history #74.
 
 Strong historical wins:
 
@@ -131,6 +148,7 @@ Prefer work that targets known residual error classes:
 - Typos and spacing noise: improve typo arcs, noisy training, and pre/postprocessing while measuring clean-text regressions.
 - Domain robustness: compare same-domain, split, and cross-domain NIKL results. Do not optimize only one split.
 - Model-size discipline: record size deltas for every model or dictionary change.
+- Optional contextual model research is allowed under the user's revised budget: self-trained roughly 5M parameters, a complete additional 4-bit model file within 3 MB, fully offline, and selectable separately from the base analyzer. Extended training and masked-character pretraining fit the size budget but retained name/domain regressions; neither was integrated and their discarded artifacts were removed. The single-seed pretraining comparison reused existing raw training texts and gave a small additional spoken-F1 gain with nearly unchanged gold F1. See `docs/wiki/research-history.md`. Keep data lineage, seed coverage, candidate availability and baseline-versus-added gains explicit. These experiments do not establish a model-capacity limit.
 
 ## Experiment Protocol
 
@@ -158,5 +176,5 @@ When analyzing dataset errors, preserve exact sentence references and describe w
 - [docs/wiki/model-build.md](docs/wiki/model-build.md) — **모델/학습 빌드**. GMDL v3 섹션 구성(사전/코드북/트라이그램/캐시), build_codebook_model.py의 캐시 보존 동작, 학습 파이프라인 스크립트. 모델·사전·코드북 리빌드하거나 학습 스크립트 만질 때.
 - [docs/wiki/analyzer-internals.md](docs/wiki/analyzer-internals.md) — **codebook.rs 동작 지도**. 아크 출처(사전/코드북/캐시/재구성 전략 A2b·A2c·E·A3·A4·D·B·C), viterbi vs nbest 불일치, 후처리 fix_* 체인이 analyze와 analyze_topn에서 다름, 디버깅 방법. "[분석 오류]" 이슈 디버깅하거나 후처리 규칙 추가할 때.
 - [docs/wiki/morphology-conventions.md](docs/wiki/morphology-conventions.md) — **분석 정답 기준**. 표준국어대사전 우선(골드/Kiwi 맹신 금지), 높임 -시- 분리 원칙(기본형↔보충법, 드시=들+시), ㅂ불규칙 모음조화, 으시 OOV, ep_norm. 분석 정답이 헷갈리거나 골드 라벨 바꿀 때.
-- [docs/wiki/research-history.md](docs/wiki/research-history.md) — **연구 이력 54항목 + 폐기된 CNN**. 무엇을 왜 채택/폐기했는지, 같은 실패 반복 방지. 과거 맥락이 필요하거나 폐기 접근(CNN·perceptron) 재도입 검토 시.
+- [docs/wiki/research-history.md](docs/wiki/research-history.md) — **연구 이력과 폐기된 CNN**. 무엇을 왜 채택/폐기했는지, 같은 실패 반복 방지. 과거 맥락이 필요하거나 폐기 접근(CNN·perceptron) 재도입 검토 시.
 - [docs/wiki/benchmarks.md](docs/wiki/benchmarks.md) — **빌드·평가 명령 전문**. NIKL MP 2021/2025 벤치마크, `--norm-2025` 정규화 범위와 천장 측정, 골드·구어 held-out 평가. 벤치마크를 돌리거나 2025판 점수를 해석할 때.

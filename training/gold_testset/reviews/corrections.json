@@ -1,0 +1,188 @@
+{
+  "source": "/Users/cyj/workspace/personal/garu/training/gold_testset/gold_testset.jsonl",
+  "source_sha256": "3a5fa4194b2ae3eec58296674408e8f1d409a72205777044455b9c1b838bbb96",
+  "terms_reviewed": [
+    "가속도계",
+    "노드",
+    "자이로스코프",
+    "클러스터"
+  ],
+  "occurrences_reviewed": [
+    {
+      "gold_line": 219,
+      "token_index": 4,
+      "text": "광주시가 AI 산업 클러스터 조성에 나섰다.",
+      "token": [
+        "클러스터",
+        "NNG"
+      ],
+      "domain": "뉴스"
+    },
+    {
+      "gold_line": 2938,
+      "token_index": 0,
+      "text": "자이로스코프는 각속도를 측정하는 관성 센서이다.",
+      "token": [
+        "자이로스코프",
+        "NNG"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3307,
+      "token_index": 5,
+      "text": "쿼럼 기반 합의는 과반수 노드의 동의를 요구한다.",
+      "token": [
+        "노드",
+        "NNP"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3312,
+      "token_index": 8,
+      "text": "일관된 해싱은 분산 캐시의 노드 추가/제거를 효율화한다.",
+      "token": [
+        "노드",
+        "NNG"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3355,
+      "token_index": 4,
+      "text": "그래프 어텐션 네트워크는 노드 간 가중 메시지를 전달한다.",
+      "token": [
+        "노드",
+        "NNG"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3382,
+      "token_index": 0,
+      "text": "클러스터 오토스케일러는 노드 풀의 크기를 자동 조절한다.",
+      "token": [
+        "클러스터",
+        "NNP"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3382,
+      "token_index": 3,
+      "text": "클러스터 오토스케일러는 노드 풀의 크기를 자동 조절한다.",
+      "token": [
+        "노드",
+        "NNP"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3435,
+      "token_index": 4,
+      "text": "컨센서스 프로토콜은 분산 노드 간 합의를 도출한다.",
+      "token": [
+        "노드",
+        "NNG"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3494,
+      "token_index": 4,
+      "text": "관성항법시스템은 가속도계와 자이로스코프를 결합한다.",
+      "token": [
+        "가속도계",
+        "NNP"
+      ],
+      "domain": "기술"
+    },
+    {
+      "gold_line": 3494,
+      "token_index": 6,
+      "text": "관성항법시스템은 가속도계와 자이로스코프를 결합한다.",
+      "token": [
+        "자이로스코프",
+        "NNP"
+      ],
+      "domain": "기술"
+    }
+  ],
+  "patches": [
+    {
+      "gold_line": 3307,
+      "token_index": 5,
+      "text": "쿼럼 기반 합의는 과반수 노드의 동의를 요구한다.",
+      "before": [
+        "노드",
+        "NNP"
+      ],
+      "after": [
+        "노드",
+        "NNG"
+      ],
+      "reason": "이 문맥은 특정 고유 이름이 아닌 장치/네트워크 요소/일반 집합 개념을 가리킴. 품사만 교정하며 내부 합성어 경계는 변경하지 않음.",
+      "principle_source": "https://www.korean.go.kr/front/mcfaq/mcfaqView.do?mcfaq_seq=8251",
+      "usage_source": "https://terms.tta.or.kr/dictionary/dictionaryView.do?word_seq=170524-3",
+      "status": "reviewed_common_noun_correction",
+      "review_scope": "문맥과 국립국어원 일반/고유명사 원칙의 적용. 각 출처가 세종태그를 직접 부여한 것은 아님."
+    },
+    {
+      "gold_line": 3382,
+      "token_index": 3,
+      "text": "클러스터 오토스케일러는 노드 풀의 크기를 자동 조절한다.",
+      "before": [
+        "노드",
+        "NNP"
+      ],
+      "after": [
+        "노드",
+        "NNG"
+      ],
+      "reason": "이 문맥은 특정 고유 이름이 아닌 장치/네트워크 요소/일반 집합 개념을 가리킴. 품사만 교정하며 내부 합성어 경계는 변경하지 않음.",
+      "principle_source": "https://www.korean.go.kr/front/mcfaq/mcfaqView.do?mcfaq_seq=8251",
+      "usage_source": "https://terms.tta.or.kr/dictionary/dictionaryView.do?word_seq=170524-3",
+      "status": "reviewed_common_noun_correction",
+      "review_scope": "문맥과 국립국어원 일반/고유명사 원칙의 적용. 각 출처가 세종태그를 직접 부여한 것은 아님."
+    },
+    {
+      "gold_line": 3494,
+      "token_index": 4,
+      "text": "관성항법시스템은 가속도계와 자이로스코프를 결합한다.",
+      "before": [
+        "가속도계",
+        "NNP"
+      ],
+      "after": [
+        "가속도계",
+        "NNG"
+      ],
+      "reason": "이 문맥은 특정 고유 이름이 아닌 장치/네트워크 요소/일반 집합 개념을 가리킴. 품사만 교정하며 내부 합성어 경계는 변경하지 않음.",
+      "principle_source": "https://www.korean.go.kr/front/mcfaq/mcfaqView.do?mcfaq_seq=8251",
+      "usage_source": "https://kli.korean.go.kr/term/trgtWord/indexTrgtWord.do?trgtWordNo=2477446",
+      "status": "reviewed_common_noun_correction",
+      "review_scope": "문맥과 국립국어원 일반/고유명사 원칙의 적용. 각 출처가 세종태그를 직접 부여한 것은 아님."
+    },
+    {
+      "gold_line": 3494,
+      "token_index": 6,
+      "text": "관성항법시스템은 가속도계와 자이로스코프를 결합한다.",
+      "before": [
+        "자이로스코프",
+        "NNP"
+      ],
+      "after": [
+        "자이로스코프",
+        "NNG"
+      ],
+      "reason": "이 문맥은 특정 고유 이름이 아닌 장치/네트워크 요소/일반 집합 개념을 가리킴. 품사만 교정하며 내부 합성어 경계는 변경하지 않음.",
+      "principle_source": "https://www.korean.go.kr/front/mcfaq/mcfaqView.do?mcfaq_seq=8251",
+      "usage_source": "https://kli.korean.go.kr/term/trgtWord/indexTrgtWord.do?trgtWordNo=202183",
+      "status": "reviewed_common_noun_correction",
+      "review_scope": "문맥과 국립국어원 일반/고유명사 원칙의 적용. 각 출처가 세종태그를 직접 부여한 것은 아님."
+    }
+  ],
+  "frozen_benchmark_policy": "Original gold remains the primary regression gate; this corrected copy is a separately reported annotation view, never a training input or parameter-selection set.",
+  "review_note": "독립 리뷰 후 클러스터 오토스케일러는 Cluster Autoscaler 소프트웨어명 해석이 가능하므로 클러스터 토큰의 품사 교정은 보류. 나머지4토큰만 별도 주석판에서 교정."
+}

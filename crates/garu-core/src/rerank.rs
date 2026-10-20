@@ -3,7 +3,7 @@
 //! feature 문자열 생성 규칙과 FNV-1a 해시는 `training/rerank/features.py`와
 //! 바이트 단위로 동일해야 한다 — 학습(Python)·추론(Rust) 정합의 전제.
 //! 입력 tokens는 model 레벨 보정(apply_adj_root_xsa 등)까지 끝난 형태
-//! (= 학습 덤프를 만든 `Model::analyze_topn`의 출력과 동일).
+//! (= 학습 덤프의 `Analyzer::analyze_topn_for_rerank` 출력과 동일).
 
 use crate::types::Token;
 use std::fmt::Write;

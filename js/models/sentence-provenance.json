@@ -1,0 +1,70 @@
+{
+  "module": "garu-ko/sentences",
+  "task": "Quote-preserving top-level sentence candidate verification",
+  "training_source": "National Institute of Korean Language (국립국어원), morphological corpus2021",
+  "base_boundary_weights_sha256": "cccb0d95f11397c1483d08df0053fdcc8d14acca9738fa803e2c356cdd26b832",
+  "analyzer_model_sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+  "wasm_sha256": "4b61b32bec7d6f09fdedc986788fb0c0fefd41944c606810c0fba94e7623a8f1",
+  "training": {
+    "source_rows": 134055,
+    "candidate_positive_positions": 123042,
+    "matched_hard_negative_positions": 7318,
+    "dataset_sha256": "534a2c55967a6f061d1ebba6bce3c1d21d23dc6f5e060f60ca9e820019125b23"
+  },
+  "policy": "Balanced quotations are preserved by an explicit rule added after fixed-set error inspection. Original2021 source records sometimes split quotes; preserve both reference metrics.",
+  "original_corpus_text_included": false,
+  "schema_version": 2,
+  "default_mode": "fast",
+  "models": {
+    "fast": {
+      "call": "splitSentences(text)",
+      "parameters": 41737,
+      "context": 24,
+      "embedding": 8,
+      "hidden": 32,
+      "complete_q4_json_bytes": 69458,
+      "complete_q4_json_sha256": "5c70b4b2ac2da9eed1b81ac34cc639e5927dfdd2098031115c03750053b8beab",
+      "generated_typescript_sha256": "5b4d0e03fd875d75070e156b93b7b455cc8fe05630c6766c3b11a95edac5a9dd",
+      "compiled_module_bytes": 73240,
+      "compiled_gzip_bytes": 46261,
+      "artifact_source": "js/src/sentence-fast-data.ts",
+      "selection": {
+        "seed": 20261020,
+        "epoch": 9,
+        "threshold": 0.2,
+        "criterion": "Development macro F1 across NX/SX and punctuation variants, includes missing gold outside frozen candidate set",
+        "architectures_compared": [
+          [
+            12,
+            8,
+            32
+          ],
+          [
+            24,
+            8,
+            32
+          ]
+        ],
+        "test_used_for_selection": false
+      },
+      "evidence": "training/boundaries/review_speed_20261020.json"
+    },
+    "morphology": {
+      "parameters": 198937,
+      "complete_q4_json_bytes": 174894,
+      "complete_q4_json_sha256": "e190e536b59b872a493225336f2175ddc89eef93d6309ae7a5454b816c0cb251",
+      "generated_typescript_sha256": "cfec44b55f141d9691dae9c6be40178bc5ea2f2312635ef678c09172cf590f69",
+      "artifact_source": "js/src/sentence-data.ts",
+      "selection": {
+        "seed": 20261020,
+        "epoch": 4,
+        "threshold": -0.0,
+        "criterion": "Development macro F1 across NX/SX and punctuation variants, includes missing gold outside frozen candidate set"
+      },
+      "evidence": "training/boundaries/review_verifier_20261020.json",
+      "call": "splitSentences(text, analyzer)"
+    }
+  },
+  "evaluation_wasm_sha256": "1a3ac3a324fcfce72a1388fa1b84e12512cbfe41ac19de1bb8ebaf84f75935fd",
+  "runtime_version": "0.10.0"
+}
