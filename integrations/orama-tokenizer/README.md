@@ -98,4 +98,4 @@ Total ~1.9MB. That's smaller than most JS frameworks and *much* smaller than the
 
 ## License
 
-MIT
+[Apache-2.0](LICENSE). Project attribution is provided in [NOTICE](NOTICE).

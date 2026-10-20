@@ -1,0 +1,8 @@
+Garu MiniSearch Tokenizer (garu-minisearch-tokenizer)
+Copyright 2026 Yongjin Cho
+https://github.com/ongjin/garu
+
+This package provides Korean tokenization for MiniSearch using Garu.
+It is licensed under the Apache License, Version 2.0.
+
+The garu-ko dependency includes its own project and dictionary data notices.

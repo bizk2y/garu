@@ -112,4 +112,4 @@ This skips Garu entirely. Smaller bundle, less power. Useful when your Korean is
 
 ## License
 
-MIT
+[Apache-2.0](LICENSE). Project attribution is provided in [NOTICE](NOTICE).

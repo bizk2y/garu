@@ -1,12 +1,14 @@
 {
   "name": "garu-minisearch-tokenizer",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Korean tokenizer for MiniSearch, powered by garu-ko (1.26MB browser-native Korean morphological analyzer)",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist",
+    "LICENSE",
+    "NOTICE",
     "README.md"
   ],
   "scripts": {
@@ -29,9 +31,9 @@
     "url": "git+https://github.com/ongjin/garu.git",
     "directory": "integrations/minisearch-tokenizer"
   },
-  "license": "MIT",
+  "license": "Apache-2.0",
   "dependencies": {
-    "garu-ko": "^0.10.0"
+    "garu-ko": "^0.11.0"
   },
   "peerDependencies": {
     "minisearch": ">=6.0.0"
