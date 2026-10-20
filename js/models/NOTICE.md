@@ -1,6 +1,6 @@
 # Dictionary data notices
 
-The Garu engine and package code retain their MIT license. The imported dictionary entries embedded in Section 6 of `base.gmdl` retain the terms of their sources. The other model sections are unchanged by this dictionary import.
+The Garu engine and package code are licensed under Apache-2.0. The imported dictionary entries embedded in Section 6 of `base.gmdl` retain the terms of their sources. The other model sections are unchanged by this dictionary import.
 
 `bulk-provenance.json` identifies the imported words, source records, snapshots and model hash. The source list is maintained in `training/codebook_data/bulk_supplement.tsv` in the Garu repository. Our selection and normalization of this combined imported list is offered under CC BY-SA 2.0 KR; this does not replace the original source licenses or the rights granted for the MeCab portions under Apache-2.0.
 

@@ -1,0 +1,10 @@
+Garu (garu-ko)
+Copyright 2026 Yongjin Cho
+https://github.com/ongjin/garu
+
+Garu is a Korean morphological analyzer developed by Yongjin Cho.
+The engine and package code are licensed under the Apache License, Version 2.0.
+
+Bundled dictionary data retains its source licenses. Attribution, modification
+notices and source-specific terms are provided in models/NOTICE.md, with
+license texts in models/licenses/ and provenance in models/bulk-provenance.json.

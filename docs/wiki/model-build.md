@@ -104,7 +104,7 @@ git show 3229d92:js/models/base.gmdl > /tmp/garu-baseline-3229d92.gmdl
 python3 training/lexicon/replay.py --baseline /tmp/garu-baseline-3229d92.gmdl
 ```
 
-가루 엔진·패키지 코드는 MIT를 유지하며, 반입 사전 데이터에는 출처별 조건이 적용된다. [데이터 NOTICE](../../js/models/NOTICE.md), `js/models/licenses/`, `js/models/bulk-provenance.json`의 출처·원본 ID·변경 고지를 모델과 함께 보존한다. 원본 사전·정규화 어휘·간결한 검토 근거는 `~/workspace/data/korean_lexicon/`에 둔다. 예문·뜻풀이·멀티미디어·원문 문단은 반입 어휘 목록에 포함하지 않는다.
+가루 엔진·패키지 코드는 Apache-2.0이며, 반입 사전 데이터에는 출처별 조건이 적용된다. [데이터 NOTICE](../../js/models/NOTICE.md), `js/models/licenses/`, `js/models/bulk-provenance.json`의 출처·원본 ID·변경 고지를 모델과 함께 보존한다. 원본 사전·정규화 어휘·간결한 검토 근거는 `~/workspace/data/korean_lexicon/`에 둔다. 예문·뜻풀이·멀티미디어·원문 문단은 반입 어휘 목록에 포함하지 않는다.
 
 
 원본을 새로 정규화할 때 사용하는 수집기는 `training/lexicon/import_mecab.py`, `import_krdict.py`, `import_opendict.py`다. MeCab에는 `--source-dir`로 snapshot의 `source/seed`, 한국어기초사전에는 위치 인자로 JSON ZIP, 우리말샘에는 `--source-zip`으로 JSON ZIP을 지정한다. 모두 `--output`을 받고, 요약 파일은 MeCab·우리말샘의 `--summary`, 한국어기초사전의 `--report`로 지정한다. 기존 정규화 파일을 덮어쓰기 전에 새 출력의 행 수·품사 매핑·해시를 검증한다. 정규화 출력 전체를 그대로 모델에 넣지 않고 채택한 목록만 bulk supplement에 반영한다.

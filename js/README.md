@@ -224,7 +224,7 @@ No. It combines a codebook, an eojeol cache, sentence-level N-best trigram Viter
 The same `npm install garu-ko` works in browser ESM, Node.js 18+, Bun, and Deno with one API.
 
 **Is it free for commercial use?**
-The engine is MIT-licensed. Bundled dictionary data also carries Apache-2.0 and CC BY-SA 2.0 KR terms, including attribution and applicable ShareAlike requirements. See the [dictionary data notices](models/NOTICE.md).
+The engine is licensed under Apache-2.0, which permits commercial use. Bundled dictionary data also carries Apache-2.0 and CC BY-SA 2.0 KR terms, including attribution and applicable ShareAlike requirements. See the [dictionary data notices](models/NOTICE.md).
 
 ## Acknowledgments
 
@@ -232,4 +232,4 @@ The model uses frequency statistics from the **NIKL Morpheme-Tagged Corpus (v1.1
 
 ## License
 
-Engine and package code: [MIT](LICENSE). Imported dictionary data: [source-specific terms and attribution](models/NOTICE.md).
+Engine and package code: [Apache-2.0](LICENSE), with project attribution in [NOTICE](NOTICE). Imported dictionary data: [source-specific terms and attribution](models/NOTICE.md).

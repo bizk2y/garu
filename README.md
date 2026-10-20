@@ -370,7 +370,7 @@ cd js && npm test
 
 ## 라이선스
 
-분석기 코드는 [MIT](LICENSE)입니다. 번들 사전에 가져온 데이터에는 Apache-2.0 및 CC BY-SA 2.0 KR 조건이 적용됩니다. 출처·변경 내역과 재배포 조건은 [사전 데이터 고지](js/models/NOTICE.md)에 있습니다.
+분석기 코드는 [Apache-2.0](LICENSE)이며, 프로젝트 출처는 [NOTICE](NOTICE)에 있습니다. 번들 사전에 가져온 데이터에는 Apache-2.0 및 CC BY-SA 2.0 KR 조건이 적용됩니다. 출처·변경 내역과 재배포 조건은 [사전 데이터 고지](js/models/NOTICE.md)에 있습니다.
 
 ---
 
