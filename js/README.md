@@ -103,6 +103,24 @@ No morphological analyzer is needed. The Q4 model ships in the package and infer
 
 On the inspected, fixed NIKL2025 news set of 9,355 paragraphs, the default call's boundary F1 is 95.91% after whitespace deletion and 96.28% after terminal punctuation deletion as well. On Apple M4, loaded mean latency was 0.020ms in Node and 0.018ms in Chrome (median of seven rounds, 1,250 inputs averaging82.5 codepoints). Node P95 was0.061ms;45µs is not a per-input guarantee. Import and first-call costs are separate. The quote rule was added after inspecting fixed-set errors; reference conventions that split within quotations produce lower scores. See the repository research history for exact evaluation and latency scope.
 
+### English text (NLTK-compatible)
+
+`garu-ko/english` ports NLTK's `word_tokenize` tokenizer and `PorterStemmer` (default NLTK_EXTENSIONS mode) to TypeScript. It needs no WASM, model or data download.
+
+```typescript
+import { analyzeEnglish, tokenizeEnglish, stemEnglish } from 'garu-ko/english';
+
+tokenizeEnglish("They're running. It works!");
+// ['They', "'re", 'running', '.', 'It', 'works', '!']
+stemEnglish('connections'); // 'connect'
+analyzeEnglish('Cats are running.');
+// [{ text: 'Cats', pos: 'SL', stem: 'cat', start: 0, end: 4 }, ..., { text: '.', pos: 'SF', stem: '.', start: 16, end: 17 }]
+```
+
+- `tokenizeEnglish(text, { preserveLine? })` follows NLTK's Treebank-style rules for clitics, quotes, punctuation and contractions. NLTK splits sentences with its trained Punkt model first; here a small capitalization and abbreviation heuristic stands in for it, so sentence-internal periods can differ. `preserveLine: true` skips sentence splitting, like `word_tokenize(text, preserve_line=True)`.
+- `analyzeEnglish` tags words `SL`, numbers `SN` and punctuation with the same Sejong symbol tags as `Garu.analyze`, adds Porter stems to `SL` tokens, and returns code point offsets. PTB quote tokens (`` `` `` and `''`) map back to the original quote.
+- There is no English part-of-speech tagger. `Garu.analyze` does not call this module.
+
 ## API
 
 ### `Garu.load(options?): Promise<Garu>`
