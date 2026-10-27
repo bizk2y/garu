@@ -128,6 +128,35 @@ splitSentences('“안녕하세요반갑습니다”');
 
 기본 호출의 고정 NIKL2025 뉴스 9,355문단 경계 F1은 공백 삭제 **95.91%**, 공백·종결부호 삭제 **96.28%**입니다. Apple M4에서 로드 후 평균은 Node **0.020ms**, Chrome **0.018ms**였습니다(1,250입력, 평균82.5문자, 7회 측정의 중앙값). Node P95는0.061ms로 모든 문단의45µs 보장은 아닙니다. 초기 import와 첫 호출은 별도 비용입니다. 인용문 보호는 고정셋 오류를 확인한 뒤 추가한 정책이며, 인용 내부도 나누는 다른 참조 기준에서는 점수가 내려갑니다. [측정 조건과 한계](docs/wiki/research-history.md)를 참고하세요.
 
+### 영어 텍스트 (NLTK 호환)
+
+`garu-ko/english`는 NLTK의 `word_tokenize` 토크나이저와 `PorterStemmer`(기본 NLTK_EXTENSIONS 모드)를 TypeScript로 옮긴 선택 진입점입니다. WASM·모델·데이터 다운로드가 필요 없습니다.
+
+```typescript
+import { analyzeEnglish, tokenizeEnglish, stemEnglish } from 'garu-ko/english';
+
+tokenizeEnglish("They're running. It works!");
+// ['They', "'re", 'running', '.', 'It', 'works', '!']
+stemEnglish('connections'); // 'connect'
+analyzeEnglish('Cats are running.');
+// [{ text: 'Cats', pos: 'SL', stem: 'cat', start: 0, end: 4 }, ..., { text: '.', pos: 'SF', stem: '.', start: 16, end: 17 }]
+```
+
+축약형·따옴표·구두점 분리는 NLTK 규칙을 따릅니다. NLTK는 먼저 학습된 Punkt 모델로 문장을 나누지만, 여기서는 대문자·약어 기반 간이 규칙으로 대신하므로 문장 중간 마침표 처리가 다를 수 있습니다. `preserveLine: true`는 `word_tokenize(text, preserve_line=True)`처럼 문장 분리를 건너뜁니다. `analyzeEnglish`는 `Garu.analyze`와 같은 세종 기호 태그(단어 `SL`, 숫자 `SN`, 구두점 `SF`/`SP`/`SS` 등)와 `SL` 토큰의 Porter 어간, 코드포인트 offset을 반환합니다. 영어 품사 태거는 포함하지 않으며 기본 `Garu.analyze`는 이 모듈을 호출하지 않습니다.
+
+한국어와 영어가 섞인 텍스트는 불러온 분석기를 `analyzeMixed`에 넘깁니다. 공백으로 나뉜 어절에 한글이 있으면 Garu 형태소 분석, 라틴 문자만 있으면 영어 규칙을 쓰고, 숫자·기호·이모지는 이웃한 구간에 붙습니다.
+
+```typescript
+import { Garu } from 'garu-ko';
+import { analyzeMixed } from 'garu-ko/english';
+
+const garu = await Garu.load();
+analyzeMixed("I don't like 김치.", garu);
+// I/SL(en) do/SL(en) n't/SL(en) like/SL(en) 김치/NNG(ko) ./SF(ko) — 각 토큰에 lang과 원문 offset 포함
+```
+
+`learning을`처럼 한글이 섞인 어절은 어절 전체를 Garu가 분석합니다. 한국어 토큰은 Garu의 어절 offset을 유지하고, 영어 토큰에는 `stem`이 추가됩니다.
+
 ---
 
 ## 아키텍처

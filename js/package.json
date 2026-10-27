@@ -15,6 +15,10 @@
       "types": "./dist/sentences.d.ts",
       "default": "./dist/sentences.js"
     },
+    "./english": {
+      "types": "./dist/english.d.ts",
+      "default": "./dist/english.js"
+    },
     ".": {
       "types": "./dist/node.d.ts",
       "browser": "./dist/browser.js",
