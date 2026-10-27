@@ -144,6 +144,19 @@ analyzeEnglish('Cats are running.');
 
 축약형·따옴표·구두점 분리는 NLTK 규칙을 따릅니다. NLTK는 먼저 학습된 Punkt 모델로 문장을 나누지만, 여기서는 대문자·약어 기반 간이 규칙으로 대신하므로 문장 중간 마침표 처리가 다를 수 있습니다. `preserveLine: true`는 `word_tokenize(text, preserve_line=True)`처럼 문장 분리를 건너뜁니다. `analyzeEnglish`는 `Garu.analyze`와 같은 세종 기호 태그(단어 `SL`, 숫자 `SN`, 구두점 `SF`/`SP`/`SS` 등)와 `SL` 토큰의 Porter 어간, 코드포인트 offset을 반환합니다. 영어 품사 태거는 포함하지 않으며 기본 `Garu.analyze`는 이 모듈을 호출하지 않습니다.
 
+한국어와 영어가 섞인 텍스트는 불러온 분석기를 `analyzeMixed`에 넘깁니다. 공백으로 나뉜 어절에 한글이 있으면 Garu 형태소 분석, 라틴 문자만 있으면 영어 규칙을 쓰고, 숫자·기호·이모지는 이웃한 구간에 붙습니다.
+
+```typescript
+import { Garu } from 'garu-ko';
+import { analyzeMixed } from 'garu-ko/english';
+
+const garu = await Garu.load();
+analyzeMixed("I don't like 김치.", garu);
+// I/SL(en) do/SL(en) n't/SL(en) like/SL(en) 김치/NNG(ko) ./SF(ko) — 각 토큰에 lang과 원문 offset 포함
+```
+
+`learning을`처럼 한글이 섞인 어절은 어절 전체를 Garu가 분석합니다. 한국어 토큰은 Garu의 어절 offset을 유지하고, 영어 토큰에는 `stem`이 추가됩니다.
+
 ---
 
 ## 아키텍처

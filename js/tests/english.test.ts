@@ -1,5 +1,8 @@
-import { describe, it, expect } from 'vitest';
-import { analyzeEnglish, stemEnglish, tokenizeEnglish } from '../src/english';
+import { describe, it, expect, beforeAll, afterAll } from 'vitest';
+import { analyzeEnglish, analyzeMixed, stemEnglish, tokenizeEnglish } from '../src/english';
+import type { MixedToken } from '../src/english';
+import type { AnalyzeResult } from '../src/core';
+import { Garu } from '../src/node';
 
 // Expected values are NLTK 3.x outputs from its documentation and doctests.
 describe('tokenizeEnglish (NLTK word_tokenize)', () => {
@@ -136,5 +139,66 @@ describe('analyzeEnglish', () => {
     expect(analyzeEnglish('It costs $3.88 today.').map((t) => [t.text, t.pos])).toEqual([
       ['It', 'SL'], ['costs', 'SL'], ['$', 'SW'], ['3.88', 'SN'], ['today', 'SL'], ['.', 'SF'],
     ]);
+  });
+});
+
+describe('analyzeMixed', () => {
+  let garu: Garu;
+
+  beforeAll(async () => {
+    garu = await Garu.load();
+  });
+
+  afterAll(() => {
+    garu?.destroy();
+  });
+
+  const summary = (tokens: MixedToken[]) => tokens.map((t) => `${t.text}/${t.pos}/${t.lang}`);
+
+  it('analyzes English words with NLTK rules and Korean words with Garu', () => {
+    const tokens = analyzeMixed("I don't like 김치 and 불고기.", garu);
+    expect(summary(tokens)).toEqual([
+      'I/SL/en', 'do/SL/en', "n't/SL/en", 'like/SL/en',
+      '김치/NNG/ko', 'and/SL/en', '불고기/NNG/ko', './SF/ko',
+    ]);
+    expect(tokens.find((t) => t.text === '김치')).toMatchObject({ start: 13, end: 15 });
+  });
+
+  it('switches language between sentences', () => {
+    expect(summary(analyzeMixed('Cats are running. 안녕하세요!', garu))).toEqual([
+      'Cats/SL/en', 'are/SL/en', 'running/SL/en', './SF/en',
+      '안녕/NNG/ko', '하/XSA/ko', '세요/EF/ko', '!/SF/ko',
+    ]);
+    const stems = analyzeMixed('Cats are running.', garu).map((t) => t.stem);
+    expect(stems).toEqual(['cat', 'are', 'run', '.']);
+  });
+
+  it('keeps an eojeol containing Hangul on the Korean path', () => {
+    const tokens = analyzeMixed('나는 machine learning을 공부한다.', garu);
+    expect(tokens.find((t) => t.text === 'machine')).toMatchObject({ lang: 'en', stem: 'machin', start: 3, end: 10 });
+    expect(tokens.find((t) => t.text === 'learning')).toMatchObject({ lang: 'ko', pos: 'SL' });
+    expect(tokens.find((t) => t.text === '을')).toMatchObject({ lang: 'ko', pos: 'JKO' });
+  });
+
+  it('matches Garu exactly for Korean-only text', () => {
+    const text = '배가 아파서 약을 먹었다.';
+    const expected = (garu.analyze(text) as AnalyzeResult).tokens;
+    expect(analyzeMixed(text, garu)).toEqual(expected.map((t) => ({ ...t, lang: 'ko' })));
+  });
+
+  it('attaches numbers and symbols to the neighbouring run', () => {
+    expect(summary(analyzeMixed('😀 Hello 2026', garu))).toEqual(['😀/SW/en', 'Hello/SL/en', '2026/SN/en']);
+    expect(analyzeMixed('2026 !!', garu).every((t) => t.lang === 'ko')).toBe(true);
+    expect(analyzeMixed('', garu)).toEqual([]);
+  });
+
+  it('returns code point offsets into the original text', () => {
+    const text = '😀 "Hi," 그녀가 말했다. She left!';
+    const cps = [...text];
+    for (const t of analyzeMixed(text, garu)) {
+      const span = cps.slice(t.start, t.end).join('');
+      if (t.lang === 'en') expect(span).toBe(t.text);
+      else expect(span).toMatch(/^\S+$/u);
+    }
   });
 });

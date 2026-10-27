@@ -121,6 +121,19 @@ analyzeEnglish('Cats are running.');
 - `analyzeEnglish` tags words `SL`, numbers `SN` and punctuation with the same Sejong symbol tags as `Garu.analyze`, adds Porter stems to `SL` tokens, and returns code point offsets. PTB quote tokens (`` `` `` and `''`) map back to the original quote.
 - There is no English part-of-speech tagger. `Garu.analyze` does not call this module.
 
+For text mixing Korean and English, pass a loaded analyzer to `analyzeMixed`. Whitespace-separated words containing Hangul go to Garu, words with Latin letters use the English rules, and numbers, symbols and emoji join the neighbouring run.
+
+```typescript
+import { Garu } from 'garu-ko';
+import { analyzeMixed } from 'garu-ko/english';
+
+const garu = await Garu.load();
+analyzeMixed("I don't like 김치.", garu);
+// I/SL(en) do/SL(en) n't/SL(en) like/SL(en) 김치/NNG(ko) ./SF(ko) — each token has `lang` and offsets into the input
+```
+
+A word such as `learning을` contains Hangul, so Garu analyzes the whole word. Korean tokens keep Garu's eojeol offsets; English tokens also carry `stem`.
+
 ## API
 
 ### `Garu.load(options?): Promise<Garu>`

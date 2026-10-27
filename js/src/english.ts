@@ -4,7 +4,7 @@
  * Ports NLTK's `NLTKWordTokenizer` (the tokenizer behind `word_tokenize`) and
  * `PorterStemmer` in its default NLTK_EXTENSIONS mode. No data files are needed.
  */
-import type { POS } from './core.js';
+import type { AnalyzeResult, POS, Token } from './core.js';
 
 export interface EnglishTokenizeOptions {
   /** Skip sentence splitting, matching NLTK `word_tokenize(text, preserve_line=True)`. */
@@ -399,4 +399,87 @@ export function analyzeEnglish(text: string, options?: EnglishTokenizeOptions): 
     cursorCp = end;
   }
   return result;
+}
+
+// ---------------------------------------------------------------------------
+// Mixed Korean/English analysis
+// ---------------------------------------------------------------------------
+
+export interface KoreanAnalyzer {
+  analyze(text: string): AnalyzeResult | AnalyzeResult[];
+}
+
+export type Language = 'ko' | 'en';
+
+export interface MixedToken extends Token {
+  lang: Language;
+  /** Present on English tokens: the Porter stem for SL, otherwise the surface. */
+  stem?: string;
+}
+
+interface Run {
+  lang: Language;
+  /** UTF-16 range, for slicing. */
+  from: number;
+  to: number;
+  /** Code point offset of `from`. */
+  cp: number;
+}
+
+const HANGUL = /[ᄀ-ᇿ㄰-㆏가-힣]/u;
+const LATIN = /\p{Script=Latin}/u;
+
+function splitRuns(text: string): Run[] {
+  const runs: Run[] = [];
+  let pendingNeutral: { from: number; to: number; cp: number } | undefined;
+  let utf16 = 0;
+  let cp = 0;
+  for (const m of text.matchAll(/\S+/gu)) {
+    const from = m.index!;
+    cp += [...text.slice(utf16, from)].length;
+    const to = from + m[0].length;
+    const wordCp = cp;
+    cp += [...m[0]].length;
+    utf16 = to;
+
+    const lang: Language | undefined = HANGUL.test(m[0]) ? 'ko' : LATIN.test(m[0]) ? 'en' : undefined;
+    const last = runs[runs.length - 1];
+    if (lang === undefined) {
+      if (last) last.to = to;
+      else if (pendingNeutral) pendingNeutral.to = to;
+      else pendingNeutral = { from, to, cp: wordCp };
+    } else if (last && last.lang === lang) {
+      last.to = to;
+    } else {
+      const start = pendingNeutral ?? { from, cp: wordCp };
+      pendingNeutral = undefined;
+      runs.push({ lang, from: start.from, to, cp: start.cp });
+    }
+  }
+  if (pendingNeutral) runs.push({ lang: 'ko', ...pendingNeutral });
+  return runs;
+}
+
+/**
+ * Analyze text that mixes Korean and English. Whitespace-separated words
+ * containing Hangul go to `analyzer` (a loaded `Garu`); words with Latin letters
+ * use `analyzeEnglish`. Numbers, symbols and emoji join the neighbouring run.
+ * Offsets are Unicode code points in `text`; Korean tokens keep Garu's eojeol spans.
+ */
+export function analyzeMixed(text: string, analyzer: KoreanAnalyzer): MixedToken[] {
+  const tokens: MixedToken[] = [];
+  for (const run of splitRuns(text)) {
+    const chunk = text.slice(run.from, run.to);
+    if (run.lang === 'en') {
+      for (const t of analyzeEnglish(chunk)) {
+        tokens.push({ ...t, start: t.start + run.cp, end: t.end + run.cp, lang: 'en' });
+      }
+    } else {
+      const result = analyzer.analyze(chunk) as AnalyzeResult;
+      for (const t of result.tokens) {
+        tokens.push({ ...t, start: t.start + run.cp, end: t.end + run.cp, lang: 'ko' });
+      }
+    }
+  }
+  return tokens;
 }
