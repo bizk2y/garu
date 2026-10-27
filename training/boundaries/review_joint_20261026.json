@@ -1,0 +1,3840 @@
+{
+  "date": "2026-10-26",
+  "question": "Can bounded spacing alternatives selected by actual morphology output improve synthetic no/partial-spacing morphology?",
+  "decision": "Reject automatic/default adoption: noisy morphology improves, normal/domain regressions remain and noisy execution costs3to4x current. Not an improved spacing-restoration model.",
+  "production_changes": "None. Main repository read-only. Existing boundary weights, base.gmdl and WASM unchanged.",
+  "exposure": [
+    "Legacy dev previously selected conservative threshold; existing morphology engine has prior training/selection exposure.",
+    "Original2021 document grouping separates this selector fit from selection, not the full analyzer from all prior data.",
+    "Fixed gold/spoken repeatedly inspected historically; current parameters frozen before current fixed labels/results.",
+    "Whitespace conditions are correlated synthetic variants of original texts."
+  ],
+  "sources": {
+    "dev_rows_original": 6000,
+    "dev_rows": 5995,
+    "fixed_text_overlap_excluded": 5,
+    "sources": {
+      "/Users/cyj/workspace/personal/garu/training/rerank/data/dev.jsonl": "ee6e669a2a8dcea91dec3626cc563659b8b3ecddb7f665d5b343b0e1a0954763",
+      "/Users/cyj/workspace/personal/garu/training/gold_testset/gold_testset.jsonl": "3a5fa4194b2ae3eec58296674408e8f1d409a72205777044455b9c1b838bbb96",
+      "/Users/cyj/workspace/data/nikl_mp_2025/SXMP2502512312.json": "79117622c4fbd51d097b9234e4a8d09a74d1d36a66dd949624dd3cb40bb06f16"
+    },
+    "exposure": "Legacy 6000 dev selected current conservative threshold. Boundary weights exclude these texts; base analyzer and repeated research are not independent."
+  },
+  "artifacts": {
+    "js/models/base.gmdl": {
+      "bytes": 1260476,
+      "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7"
+    },
+    "js/pkg/garu_wasm_bg.wasm": {
+      "bytes": 424696,
+      "sha256": "4469411fdc11ac3f4ed49908b568b6d8b784eef1119471f5b2e21fc04cd75dac"
+    },
+    "js/dist/boundaries.js": {
+      "bytes": 5324,
+      "sha256": "dde6813391f17eb003d36691364821cbd6ed98253d9ecbc22c1e8a32c76d30b3"
+    },
+    "js/dist/boundary-data.js": {
+      "bytes": 1401236,
+      "sha256": "5fca5f44e92373c219040f2ceedf2fbca6c23a1f73a09202f679f8527d53d412"
+    },
+    "js/src/boundaries.ts": {
+      "bytes": 5544,
+      "sha256": "b14d1a0cc40696c00392db56c1b82d1f65745c78bc0e8450dcc9903fcca7df04"
+    },
+    "js/src/boundary-data.ts": {
+      "bytes": 1401230,
+      "sha256": "1287a3f204ff33a05b6a7184c84786f57e2eb99853178db88b295c7b48e017b9"
+    },
+    "prototype_config": {
+      "bytes_compact_json": 191,
+      "coefficient_count": 6,
+      "float64_parameter_bytes": 48,
+      "note": "No production package rebuilt; wrapper code bytes additional and not represented by coefficient count."
+    }
+  },
+  "selection": {
+    "models": {
+      "threshold_selected": {
+        "kind": "threshold",
+        "name": "t1",
+        "gate": 24
+      },
+      "boundary_only_selected": {
+        "kind": "linear",
+        "coefficients": [
+          -0.17702963725932616,
+          0.5203467593374231,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "lambda": 0.001,
+        "gate": 0,
+        "margin": 0.25
+      },
+      "joint_selected": {
+        "kind": "linear",
+        "coefficients": [
+          -0.06459582148935032,
+          0.24231457599140824,
+          0.11498430161852437,
+          -0.11078478508224951,
+          0.9305922558838458,
+          1.0766350741060675
+        ],
+        "lambda": 0.01,
+        "gate": 0,
+        "margin": 0.25
+      },
+      "threshold_ungated": {
+        "kind": "threshold",
+        "name": "t1",
+        "gate": 0
+      }
+    },
+    "controls": {
+      "raw": {
+        "kind": "threshold",
+        "name": "raw",
+        "gate": 0
+      },
+      "t-0.5": {
+        "kind": "threshold",
+        "name": "t-0.5",
+        "gate": 0
+      },
+      "t0": {
+        "kind": "threshold",
+        "name": "t0",
+        "gate": 0
+      },
+      "t0.5": {
+        "kind": "threshold",
+        "name": "t0.5",
+        "gate": 0
+      },
+      "t1": {
+        "kind": "threshold",
+        "name": "t1",
+        "gate": 0
+      },
+      "t1.5": {
+        "kind": "threshold",
+        "name": "t1.5",
+        "gate": 0
+      },
+      "t2": {
+        "kind": "threshold",
+        "name": "t2",
+        "gate": 0
+      }
+    },
+    "created_before_fixed_evaluation": true,
+    "fit_rows": 4531,
+    "selection_rows": 1464,
+    "split_policy": "Original 2021 document connected components for exact duplicate legacy dev texts; component SHA256 modulo3 ==0 selects, others fit.",
+    "features": [
+      "sum_inserted_boundary_scores",
+      "inserted_spaces",
+      "wasm_analysis_score",
+      "token_count",
+      "eojeol_initial_dependent_POS",
+      "single_char_NNG_NNP_count"
+    ],
+    "objective": "Predict candidate error-count change vs conservative using ridge, choose min predicted loss; select mean no-space/partial-space microF1 subject to normal-space microF1 >= raw.",
+    "candidate_family": {
+      "thresholds": [
+        -0.5,
+        0,
+        0.5,
+        1,
+        1.5,
+        2
+      ],
+      "flips": "nearest two scores to1 within0.75; each toggled separately around threshold1",
+      "max_candidates": 9,
+      "raw_always_included": true
+    },
+    "hashes": {
+      "research.mjs": "038cd76cd91af144af03cc46ee096f24a7b5b1bc3935ff7e1e6406a71b0dc7ff",
+      "calibrate.py": "3086fc7e40fb3a6d88998d5932e18d5a7fd4cb74c44a7cfbb6b176ee229d2fc6",
+      "dev-splits.json": "f357b73cea643ad4b917f2c1abff7f198354f58abf9f31809981e6615a51be29",
+      "dev.features.jsonl": "bca676ef4e89f9e1517ab90281d1c3193f543f5692cb16157633e693380e5ee4",
+      "sources.json": "90a8beb2e698120d7518b016f583bfe8644c5e61a076f4a0ab81aef9757e0d9f"
+    },
+    "fixed_protocol": "all9000gold and16407spoken, none/partial/normal whitespace; no tuning after this lock"
+  },
+  "selection_lock_sha256": "fcfb24ce9f01183770e004538e7d7e76c6d6701b3a27400517a97f22039777b3",
+  "metrics": {
+    "selection_dev": {
+      "raw": {
+        "none": {
+          "tp": 33063,
+          "fp": 2814,
+          "fn": 3248,
+          "f1": 0.9160248240704826,
+          "rows": 1464,
+          "boundary": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 14881,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 28448,
+              "fp": 2078,
+              "fn": 2412,
+              "f1": 0.9268562864496791,
+              "precision": 0.9319268820022276,
+              "recall": 0.9218405703175632
+            },
+            "SX": {
+              "tp": 4615,
+              "fp": 736,
+              "fn": 836,
+              "f1": 0.8544713941862618,
+              "precision": 0.8624556157727528,
+              "recall": 0.8466336452027151
+            }
+          },
+          "input_preserved": 1464,
+          "exact_spaces": 9,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 1464
+        },
+        "partial": {
+          "tp": 33368,
+          "fp": 2582,
+          "fn": 2943,
+          "f1": 0.9235410525733107,
+          "rows": 1464,
+          "boundary": {
+            "tp": 7072,
+            "fp": 0,
+            "fn": 7809,
+            "f1": 0.6442855190634538,
+            "precision": 1.0,
+            "recall": 0.47523687924198643
+          },
+          "domain": {
+            "NX": {
+              "tp": 28700,
+              "fp": 1896,
+              "fn": 2160,
+              "f1": 0.9340015620932048,
+              "precision": 0.9380311151784547,
+              "recall": 0.9300064808813999
+            },
+            "SX": {
+              "tp": 4668,
+              "fp": 686,
+              "fn": 783,
+              "f1": 0.8640444238778343,
+              "precision": 0.8718714979454614,
+              "recall": 0.8563566318106769
+            }
+          },
+          "input_preserved": 1464,
+          "exact_spaces": 9,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 1464
+        },
+        "normal": {
+          "tp": 34488,
+          "fp": 1792,
+          "fn": 1823,
+          "f1": 0.9502004380708352,
+          "rows": 1464,
+          "boundary": {
+            "tp": 14881,
+            "fp": 0,
+            "fn": 0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 29360,
+              "fp": 1427,
+              "fn": 1500,
+              "f1": 0.9525199928625886,
+              "precision": 0.9536492675479911,
+              "recall": 0.9513933895009722
+            },
+            "SX": {
+              "tp": 5128,
+              "fp": 365,
+              "fn": 323,
+              "f1": 0.9371345029239766,
+              "precision": 0.9335517931913344,
+              "recall": 0.9407448174646854
+            }
+          },
+          "input_preserved": 1464,
+          "exact_spaces": 1464,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 1464
+        }
+      },
+      "t1": {
+        "none": {
+          "tp": 33550,
+          "fp": 2473,
+          "fn": 2761,
+          "f1": 0.9276412198965908,
+          "rows": 1464,
+          "boundary": {
+            "tp": 11065,
+            "fp": 231,
+            "fn": 3816,
+            "f1": 0.8453986323872101,
+            "precision": 0.9795502832861189,
+            "recall": 0.7435656205900141
+          },
+          "domain": {
+            "NX": {
+              "tp": 28712,
+              "fp": 1937,
+              "fn": 2148,
+              "f1": 0.9335869547545887,
+              "precision": 0.9368005481418643,
+              "recall": 0.9303953337653921
+            },
+            "SX": {
+              "tp": 4838,
+              "fp": 536,
+              "fn": 613,
+              "f1": 0.8938568129330254,
+              "precision": 0.9002605135839226,
+              "recall": 0.8875435699871583
+            }
+          },
+          "input_preserved": 36,
+          "exact_spaces": 235,
+          "changed_morph": 537,
+          "wins_vs_raw": 398,
+          "losses_vs_raw": 123,
+          "ties_vs_raw": 943
+        },
+        "partial": {
+          "tp": 33929,
+          "fp": 2293,
+          "fn": 2382,
+          "f1": 0.9355465787986158,
+          "rows": 1464,
+          "boundary": {
+            "tp": 12850,
+            "fp": 231,
+            "fn": 2031,
+            "f1": 0.9191044989628782,
+            "precision": 0.9823407996330555,
+            "recall": 0.8635172367448424
+          },
+          "domain": {
+            "NX": {
+              "tp": 28986,
+              "fp": 1800,
+              "fn": 1874,
+              "f1": 0.9404016481199104,
+              "precision": 0.9415318651335023,
+              "recall": 0.9392741412832145
+            },
+            "SX": {
+              "tp": 4943,
+              "fp": 493,
+              "fn": 508,
+              "f1": 0.9080554790116653,
+              "precision": 0.909308314937454,
+              "recall": 0.9068060906255733
+            }
+          },
+          "input_preserved": 68,
+          "exact_spaces": 409,
+          "changed_morph": 513,
+          "wins_vs_raw": 383,
+          "losses_vs_raw": 114,
+          "ties_vs_raw": 967
+        },
+        "normal": {
+          "tp": 34416,
+          "fp": 2006,
+          "fn": 1895,
+          "f1": 0.9463654737189446,
+          "rows": 1464,
+          "boundary": {
+            "tp": 14881,
+            "fp": 231,
+            "fn": 0,
+            "f1": 0.9922982029140133,
+            "precision": 0.9847141344626786,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 29292,
+              "fp": 1626,
+              "fn": 1568,
+              "f1": 0.948298747126809,
+              "precision": 0.9474092761498156,
+              "recall": 0.9491898898250162
+            },
+            "SX": {
+              "tp": 5124,
+              "fp": 380,
+              "fn": 327,
+              "f1": 0.9354632587859425,
+              "precision": 0.9309593023255814,
+              "recall": 0.9400110071546505
+            }
+          },
+          "input_preserved": 1266,
+          "exact_spaces": 1266,
+          "changed_morph": 107,
+          "wins_vs_raw": 18,
+          "losses_vs_raw": 85,
+          "ties_vs_raw": 1361
+        }
+      },
+      "threshold_selected": {
+        "none": {
+          "tp": 33392,
+          "fp": 2587,
+          "fn": 2919,
+          "f1": 0.9238345552635219,
+          "rows": 1464,
+          "boundary": {
+            "tp": 9524,
+            "fp": 190,
+            "fn": 5357,
+            "f1": 0.7744663549501931,
+            "precision": 0.9804406011941528,
+            "recall": 0.6400107519655938
+          },
+          "domain": {
+            "NX": {
+              "tp": 28699,
+              "fp": 1935,
+              "fn": 2161,
+              "f1": 0.9333918756301428,
+              "precision": 0.9368348893386433,
+              "recall": 0.9299740764744006
+            },
+            "SX": {
+              "tp": 4693,
+              "fp": 652,
+              "fn": 758,
+              "f1": 0.8693960726194887,
+              "precision": 0.8780168381665108,
+              "recall": 0.8609429462483947
+            }
+          },
+          "input_preserved": 531,
+          "exact_spaces": 78,
+          "changed_morph": 396,
+          "wins_vs_raw": 284,
+          "losses_vs_raw": 101,
+          "ties_vs_raw": 1079
+        },
+        "partial": {
+          "tp": 33369,
+          "fp": 2585,
+          "fn": 2942,
+          "f1": 0.923517608800941,
+          "rows": 1464,
+          "boundary": {
+            "tp": 7094,
+            "fp": 4,
+            "fn": 7787,
+            "f1": 0.6455252741253015,
+            "precision": 0.9994364609749226,
+            "recall": 0.47671527451112156
+          },
+          "domain": {
+            "NX": {
+              "tp": 28701,
+              "fp": 1899,
+              "fn": 2159,
+              "f1": 0.9339733159778718,
+              "precision": 0.9379411764705883,
+              "recall": 0.9300388852883992
+            },
+            "SX": {
+              "tp": 4668,
+              "fp": 686,
+              "fn": 783,
+              "f1": 0.8640444238778343,
+              "precision": 0.8718714979454614,
+              "recall": 0.8563566318106769
+            }
+          },
+          "input_preserved": 1460,
+          "exact_spaces": 9,
+          "changed_morph": 2,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 1,
+          "ties_vs_raw": 1463
+        },
+        "normal": {
+          "tp": 34488,
+          "fp": 1792,
+          "fn": 1823,
+          "f1": 0.9502004380708352,
+          "rows": 1464,
+          "boundary": {
+            "tp": 14881,
+            "fp": 1,
+            "fn": 0,
+            "f1": 0.9999664012364345,
+            "precision": 0.999932804730547,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 29360,
+              "fp": 1427,
+              "fn": 1500,
+              "f1": 0.9525199928625886,
+              "precision": 0.9536492675479911,
+              "recall": 0.9513933895009722
+            },
+            "SX": {
+              "tp": 5128,
+              "fp": 365,
+              "fn": 323,
+              "f1": 0.9371345029239766,
+              "precision": 0.9335517931913344,
+              "recall": 0.9407448174646854
+            }
+          },
+          "input_preserved": 1463,
+          "exact_spaces": 1463,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 1464
+        }
+      },
+      "boundary_only_selected": {
+        "none": {
+          "tp": 33371,
+          "fp": 2518,
+          "fn": 2940,
+          "f1": 0.924404432132964,
+          "rows": 1464,
+          "boundary": {
+            "tp": 8120,
+            "fp": 50,
+            "fn": 6761,
+            "f1": 0.7045247494685697,
+            "precision": 0.9938800489596084,
+            "recall": 0.5456622538807876
+          },
+          "domain": {
+            "NX": {
+              "tp": 28634,
+              "fp": 1913,
+              "fn": 2226,
+              "f1": 0.9325972608985946,
+              "precision": 0.9373751923265787,
+              "recall": 0.9278677900194426
+            },
+            "SX": {
+              "tp": 4737,
+              "fp": 605,
+              "fn": 714,
+              "f1": 0.8777911609376448,
+              "precision": 0.886746536877574,
+              "recall": 0.8690148596587782
+            }
+          },
+          "input_preserved": 348,
+          "exact_spaces": 91,
+          "changed_morph": 320,
+          "wins_vs_raw": 259,
+          "losses_vs_raw": 50,
+          "ties_vs_raw": 1155
+        },
+        "partial": {
+          "tp": 33731,
+          "fp": 2331,
+          "fn": 2580,
+          "f1": 0.9321432025755462,
+          "rows": 1464,
+          "boundary": {
+            "tp": 10757,
+            "fp": 38,
+            "fn": 4124,
+            "f1": 0.8379031001713663,
+            "precision": 0.996479851783233,
+            "recall": 0.7228680868221222
+          },
+          "domain": {
+            "NX": {
+              "tp": 28918,
+              "fp": 1756,
+              "fn": 1942,
+              "f1": 0.9399031429778659,
+              "precision": 0.9427528199778313,
+              "recall": 0.9370706416072586
+            },
+            "SX": {
+              "tp": 4813,
+              "fp": 575,
+              "fn": 638,
+              "f1": 0.8880893071316542,
+              "precision": 0.8932813659985153,
+              "recall": 0.8829572555494405
+            }
+          },
+          "input_preserved": 572,
+          "exact_spaces": 147,
+          "changed_morph": 264,
+          "wins_vs_raw": 220,
+          "losses_vs_raw": 35,
+          "ties_vs_raw": 1209
+        },
+        "normal": {
+          "tp": 34488,
+          "fp": 1792,
+          "fn": 1823,
+          "f1": 0.9502004380708352,
+          "rows": 1464,
+          "boundary": {
+            "tp": 14881,
+            "fp": 4,
+            "fn": 0,
+            "f1": 0.9998656184908956,
+            "precision": 0.9997312730937185,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 29360,
+              "fp": 1427,
+              "fn": 1500,
+              "f1": 0.9525199928625886,
+              "precision": 0.9536492675479911,
+              "recall": 0.9513933895009722
+            },
+            "SX": {
+              "tp": 5128,
+              "fp": 365,
+              "fn": 323,
+              "f1": 0.9371345029239766,
+              "precision": 0.9335517931913344,
+              "recall": 0.9407448174646854
+            }
+          },
+          "input_preserved": 1460,
+          "exact_spaces": 1460,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 1464
+        }
+      },
+      "joint_selected": {
+        "none": {
+          "tp": 33657,
+          "fp": 2275,
+          "fn": 2654,
+          "f1": 0.9317719363813796,
+          "rows": 1464,
+          "boundary": {
+            "tp": 7550,
+            "fp": 119,
+            "fn": 7331,
+            "f1": 0.6696230598669624,
+            "precision": 0.9844829834398227,
+            "recall": 0.5073583764531954
+          },
+          "domain": {
+            "NX": {
+              "tp": 28740,
+              "fp": 1800,
+              "fn": 2120,
+              "f1": 0.9361563517915309,
+              "precision": 0.9410609037328095,
+              "recall": 0.931302657161374
+            },
+            "SX": {
+              "tp": 4917,
+              "fp": 475,
+              "fn": 534,
+              "f1": 0.9069445725352762,
+              "precision": 0.911906528189911,
+              "recall": 0.9020363236103467
+            }
+          },
+          "input_preserved": 564,
+          "exact_spaces": 148,
+          "changed_morph": 469,
+          "wins_vs_raw": 387,
+          "losses_vs_raw": 69,
+          "ties_vs_raw": 1008
+        },
+        "partial": {
+          "tp": 34026,
+          "fp": 2093,
+          "fn": 2285,
+          "f1": 0.9395554328316996,
+          "rows": 1464,
+          "boundary": {
+            "tp": 11046,
+            "fp": 130,
+            "fn": 3835,
+            "f1": 0.8478335955789231,
+            "precision": 0.9883679312813171,
+            "recall": 0.7422888246757611
+          },
+          "domain": {
+            "NX": {
+              "tp": 29026,
+              "fp": 1650,
+              "fn": 1834,
+              "f1": 0.9433827353094124,
+              "precision": 0.9462120224279567,
+              "recall": 0.9405703175631885
+            },
+            "SX": {
+              "tp": 5000,
+              "fp": 443,
+              "fn": 451,
+              "f1": 0.9179364787956673,
+              "precision": 0.9186110600771633,
+              "recall": 0.91726288754357
+            }
+          },
+          "input_preserved": 575,
+          "exact_spaces": 231,
+          "changed_morph": 450,
+          "wins_vs_raw": 375,
+          "losses_vs_raw": 62,
+          "ties_vs_raw": 1027
+        },
+        "normal": {
+          "tp": 34503,
+          "fp": 1806,
+          "fn": 1808,
+          "f1": 0.9502340952905536,
+          "rows": 1464,
+          "boundary": {
+            "tp": 14881,
+            "fp": 87,
+            "fn": 0,
+            "f1": 0.9970853294917753,
+            "precision": 0.9941876002137894,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 29367,
+              "fp": 1440,
+              "fn": 1493,
+              "f1": 0.9524380949292166,
+              "precision": 0.95325737657026,
+              "recall": 0.9516202203499676
+            },
+            "SX": {
+              "tp": 5136,
+              "fp": 366,
+              "fn": 315,
+              "f1": 0.9378252533552451,
+              "precision": 0.9334787350054525,
+              "recall": 0.9422124380847551
+            }
+          },
+          "input_preserved": 1391,
+          "exact_spaces": 1391,
+          "changed_morph": 44,
+          "wins_vs_raw": 18,
+          "losses_vs_raw": 20,
+          "ties_vs_raw": 1426
+        }
+      }
+    },
+    "all_dev": {
+      "raw": {
+        "none": {
+          "tp": 109317,
+          "fp": 10200,
+          "fn": 11559,
+          "f1": 0.9094857171381863,
+          "rows": 5995,
+          "boundary": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 49528,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 82721,
+              "fp": 5914,
+              "fn": 6710,
+              "f1": 0.9291049386182652,
+              "precision": 0.9332769222090597,
+              "recall": 0.9249700886717134
+            },
+            "SX": {
+              "tp": 26596,
+              "fp": 4286,
+              "fn": 4849,
+              "f1": 0.8534343061594494,
+              "precision": 0.8612136519655462,
+              "recall": 0.845794243917952
+            }
+          },
+          "input_preserved": 5995,
+          "exact_spaces": 58,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 5995
+        },
+        "partial": {
+          "tp": 110169,
+          "fp": 9272,
+          "fn": 10707,
+          "f1": 0.9168639754990283,
+          "rows": 5995,
+          "boundary": {
+            "tp": 23260,
+            "fp": 0,
+            "fn": 26268,
+            "f1": 0.6391163378578887,
+            "precision": 1.0,
+            "recall": 0.46963333871749313
+          },
+          "domain": {
+            "NX": {
+              "tp": 83233,
+              "fp": 5360,
+              "fn": 6198,
+              "f1": 0.9350761695052352,
+              "precision": 0.9394986059846715,
+              "recall": 0.9306951728147957
+            },
+            "SX": {
+              "tp": 26936,
+              "fp": 3912,
+              "fn": 4509,
+              "f1": 0.8648162714911788,
+              "precision": 0.8731846473029046,
+              "recall": 0.8566067737319129
+            }
+          },
+          "input_preserved": 5995,
+          "exact_spaces": 58,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 5995
+        },
+        "normal": {
+          "tp": 114583,
+          "fp": 6264,
+          "fn": 6293,
+          "f1": 0.9480521092324685,
+          "rows": 5995,
+          "boundary": {
+            "tp": 49528,
+            "fp": 0,
+            "fn": 0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 85178,
+              "fp": 4084,
+              "fn": 4253,
+              "f1": 0.953344563021495,
+              "precision": 0.9542470480159531,
+              "recall": 0.9524437834755286
+            },
+            "SX": {
+              "tp": 29405,
+              "fp": 2180,
+              "fn": 2040,
+              "f1": 0.9330477550372839,
+              "precision": 0.9309798955200254,
+              "recall": 0.9351248211162347
+            }
+          },
+          "input_preserved": 5995,
+          "exact_spaces": 5995,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 5995
+        }
+      },
+      "t1": {
+        "none": {
+          "tp": 111338,
+          "fp": 8675,
+          "fn": 9538,
+          "f1": 0.924392562549556,
+          "rows": 5995,
+          "boundary": {
+            "tp": 36812,
+            "fp": 809,
+            "fn": 12716,
+            "f1": 0.8448060218705894,
+            "precision": 0.9784960527365035,
+            "recall": 0.7432563398481667
+          },
+          "domain": {
+            "NX": {
+              "tp": 83452,
+              "fp": 5538,
+              "fn": 5979,
+              "f1": 0.935450423436703,
+              "precision": 0.9377682885717497,
+              "recall": 0.9331439881025595
+            },
+            "SX": {
+              "tp": 27886,
+              "fp": 3137,
+              "fn": 3559,
+              "f1": 0.8928091182685535,
+              "precision": 0.8988814750346517,
+              "recall": 0.8868182540944506
+            }
+          },
+          "input_preserved": 236,
+          "exact_spaces": 1391,
+          "changed_morph": 2228,
+          "wins_vs_raw": 1634,
+          "losses_vs_raw": 527,
+          "ties_vs_raw": 3834
+        },
+        "partial": {
+          "tp": 112545,
+          "fp": 8025,
+          "fn": 8331,
+          "f1": 0.9322581446783131,
+          "rows": 5995,
+          "boundary": {
+            "tp": 42764,
+            "fp": 809,
+            "fn": 6764,
+            "f1": 0.9186582313831215,
+            "precision": 0.9814334564982903,
+            "recall": 0.863430786625747
+          },
+          "domain": {
+            "NX": {
+              "tp": 84111,
+              "fp": 5124,
+              "fn": 5320,
+              "f1": 0.9415445580020821,
+              "precision": 0.9425785846360732,
+              "recall": 0.9405127975757847
+            },
+            "SX": {
+              "tp": 28434,
+              "fp": 2901,
+              "fn": 3011,
+              "f1": 0.9058298821280663,
+              "precision": 0.9074198180947822,
+              "recall": 0.9042455080298935
+            }
+          },
+          "input_preserved": 434,
+          "exact_spaces": 2156,
+          "changed_morph": 2039,
+          "wins_vs_raw": 1553,
+          "losses_vs_raw": 433,
+          "ties_vs_raw": 4009
+        },
+        "normal": {
+          "tp": 114328,
+          "fp": 6963,
+          "fn": 6548,
+          "f1": 0.9442079226319028,
+          "rows": 5995,
+          "boundary": {
+            "tp": 49528,
+            "fp": 809,
+            "fn": 0,
+            "f1": 0.9918990637360436,
+            "precision": 0.9839283231022906,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 84967,
+              "fp": 4640,
+              "fn": 4464,
+              "f1": 0.9491504596789508,
+              "precision": 0.948218331157164,
+              "recall": 0.9500844226275005
+            },
+            "SX": {
+              "tp": 29361,
+              "fp": 2323,
+              "fn": 2084,
+              "f1": 0.9301905621821983,
+              "precision": 0.9266822370912764,
+              "recall": 0.933725552552075
+            }
+          },
+          "input_preserved": 5308,
+          "exact_spaces": 5308,
+          "changed_morph": 374,
+          "wins_vs_raw": 59,
+          "losses_vs_raw": 305,
+          "ties_vs_raw": 5631
+        }
+      },
+      "threshold_selected": {
+        "none": {
+          "tp": 110350,
+          "fp": 9522,
+          "fn": 10526,
+          "f1": 0.9167262033329456,
+          "rows": 5995,
+          "boundary": {
+            "tp": 28209,
+            "fp": 571,
+            "fn": 21319,
+            "f1": 0.7204627879654697,
+            "precision": 0.9801598332175122,
+            "recall": 0.5695566144403166
+          },
+          "domain": {
+            "NX": {
+              "tp": 83409,
+              "fp": 5545,
+              "fn": 6022,
+              "f1": 0.9351571040165934,
+              "precision": 0.937664410819075,
+              "recall": 0.9326631704889803
+            },
+            "SX": {
+              "tp": 26941,
+              "fp": 3977,
+              "fn": 4504,
+              "f1": 0.8640059009348492,
+              "precision": 0.8713694288116954,
+              "recall": 0.8567657815232946
+            }
+          },
+          "input_preserved": 3213,
+          "exact_spaces": 245,
+          "changed_morph": 1184,
+          "wins_vs_raw": 826,
+          "losses_vs_raw": 325,
+          "ties_vs_raw": 4844
+        },
+        "partial": {
+          "tp": 110169,
+          "fp": 9279,
+          "fn": 10707,
+          "f1": 0.916837269685924,
+          "rows": 5995,
+          "boundary": {
+            "tp": 23333,
+            "fp": 9,
+            "fn": 26195,
+            "f1": 0.6404007135995609,
+            "precision": 0.9996144289263987,
+            "recall": 0.47110725246325313
+          },
+          "domain": {
+            "NX": {
+              "tp": 83233,
+              "fp": 5367,
+              "fn": 6198,
+              "f1": 0.9350394032499958,
+              "precision": 0.9394243792325057,
+              "recall": 0.9306951728147957
+            },
+            "SX": {
+              "tp": 26936,
+              "fp": 3912,
+              "fn": 4509,
+              "f1": 0.8648162714911788,
+              "precision": 0.8731846473029046,
+              "recall": 0.8566067737319129
+            }
+          },
+          "input_preserved": 5978,
+          "exact_spaces": 60,
+          "changed_morph": 5,
+          "wins_vs_raw": 1,
+          "losses_vs_raw": 3,
+          "ties_vs_raw": 5991
+        },
+        "normal": {
+          "tp": 114583,
+          "fp": 6264,
+          "fn": 6293,
+          "f1": 0.9480521092324685,
+          "rows": 5995,
+          "boundary": {
+            "tp": 49528,
+            "fp": 1,
+            "fn": 0,
+            "f1": 0.9999899048022856,
+            "precision": 0.9999798098083951,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 85178,
+              "fp": 4084,
+              "fn": 4253,
+              "f1": 0.953344563021495,
+              "precision": 0.9542470480159531,
+              "recall": 0.9524437834755286
+            },
+            "SX": {
+              "tp": 29405,
+              "fp": 2180,
+              "fn": 2040,
+              "f1": 0.9330477550372839,
+              "precision": 0.9309798955200254,
+              "recall": 0.9351248211162347
+            }
+          },
+          "input_preserved": 5994,
+          "exact_spaces": 5994,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 5995
+        }
+      },
+      "boundary_only_selected": {
+        "none": {
+          "tp": 110463,
+          "fp": 9075,
+          "fn": 10413,
+          "f1": 0.9189398287953281,
+          "rows": 5995,
+          "boundary": {
+            "tp": 25837,
+            "fp": 166,
+            "fn": 23691,
+            "f1": 0.6841429346890681,
+            "precision": 0.9936161212167827,
+            "recall": 0.521664513002746
+          },
+          "domain": {
+            "NX": {
+              "tp": 83210,
+              "fp": 5466,
+              "fn": 6221,
+              "f1": 0.9343821410725014,
+              "precision": 0.9383598718931841,
+              "recall": 0.9304379913005557
+            },
+            "SX": {
+              "tp": 27253,
+              "fp": 3609,
+              "fn": 4192,
+              "f1": 0.8747973742918131,
+              "precision": 0.88306007387726,
+              "recall": 0.8666878677055175
+            }
+          },
+          "input_preserved": 2026,
+          "exact_spaces": 458,
+          "changed_morph": 1197,
+          "wins_vs_raw": 956,
+          "losses_vs_raw": 204,
+          "ties_vs_raw": 4835
+        },
+        "partial": {
+          "tp": 111517,
+          "fp": 8355,
+          "fn": 9359,
+          "f1": 0.9264209879209796,
+          "rows": 5995,
+          "boundary": {
+            "tp": 35089,
+            "fp": 126,
+            "fn": 14439,
+            "f1": 0.8281273969531406,
+            "precision": 0.9964219792701974,
+            "recall": 0.7084679373283799
+          },
+          "domain": {
+            "NX": {
+              "tp": 83859,
+              "fp": 4986,
+              "fn": 5572,
+              "f1": 0.9407772218358051,
+              "precision": 0.9438797906466317,
+              "recall": 0.9376949827241113
+            },
+            "SX": {
+              "tp": 27658,
+              "fp": 3369,
+              "fn": 3787,
+              "f1": 0.8854526828018953,
+              "precision": 0.8914171528023979,
+              "recall": 0.8795674988074416
+            }
+          },
+          "input_preserved": 2865,
+          "exact_spaces": 686,
+          "changed_morph": 944,
+          "wins_vs_raw": 796,
+          "losses_vs_raw": 124,
+          "ties_vs_raw": 5075
+        },
+        "normal": {
+          "tp": 114583,
+          "fp": 6264,
+          "fn": 6293,
+          "f1": 0.9480521092324685,
+          "rows": 5995,
+          "boundary": {
+            "tp": 49528,
+            "fp": 11,
+            "fn": 0,
+            "f1": 0.9998889640344414,
+            "precision": 0.9997779527241164,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 85178,
+              "fp": 4084,
+              "fn": 4253,
+              "f1": 0.953344563021495,
+              "precision": 0.9542470480159531,
+              "recall": 0.9524437834755286
+            },
+            "SX": {
+              "tp": 29405,
+              "fp": 2180,
+              "fn": 2040,
+              "f1": 0.9330477550372839,
+              "precision": 0.9309798955200254,
+              "recall": 0.9351248211162347
+            }
+          },
+          "input_preserved": 5987,
+          "exact_spaces": 5987,
+          "changed_morph": 1,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 5995
+        }
+      },
+      "joint_selected": {
+        "none": {
+          "tp": 111703,
+          "fp": 7939,
+          "fn": 9173,
+          "f1": 0.9288535577378824,
+          "rows": 5995,
+          "boundary": {
+            "tp": 25493,
+            "fp": 469,
+            "fn": 24035,
+            "f1": 0.6754007153265333,
+            "precision": 0.9819351359679531,
+            "recall": 0.5147189468583427
+          },
+          "domain": {
+            "NX": {
+              "tp": 83550,
+              "fp": 5087,
+              "fn": 5881,
+              "f1": 0.9384055529348339,
+              "precision": 0.9426086171689024,
+              "recall": 0.9342398049893214
+            },
+            "SX": {
+              "tp": 28153,
+              "fp": 2852,
+              "fn": 3292,
+              "f1": 0.9016172938350681,
+              "precision": 0.9080148363167231,
+              "recall": 0.8953092701542376
+            }
+          },
+          "input_preserved": 2307,
+          "exact_spaces": 932,
+          "changed_morph": 2017,
+          "wins_vs_raw": 1643,
+          "losses_vs_raw": 305,
+          "ties_vs_raw": 4047
+        },
+        "partial": {
+          "tp": 112881,
+          "fp": 7314,
+          "fn": 7995,
+          "f1": 0.9364958871037993,
+          "rows": 5995,
+          "boundary": {
+            "tp": 36692,
+            "fp": 477,
+            "fn": 12836,
+            "f1": 0.8464422067660934,
+            "precision": 0.9871667249589712,
+            "recall": 0.7408334679373284
+          },
+          "domain": {
+            "NX": {
+              "tp": 84238,
+              "fp": 4656,
+              "fn": 5193,
+              "f1": 0.9447693817468106,
+              "precision": 0.9476230116768286,
+              "recall": 0.9419328868065883
+            },
+            "SX": {
+              "tp": 28643,
+              "fp": 2658,
+              "fn": 2802,
+              "f1": 0.9129825008765499,
+              "precision": 0.9150825852209195,
+              "recall": 0.9108920337096518
+            }
+          },
+          "input_preserved": 2430,
+          "exact_spaces": 1298,
+          "changed_morph": 1893,
+          "wins_vs_raw": 1586,
+          "losses_vs_raw": 251,
+          "ties_vs_raw": 4158
+        },
+        "normal": {
+          "tp": 114617,
+          "fp": 6343,
+          "fn": 6259,
+          "f1": 0.9478903058270894,
+          "rows": 5995,
+          "boundary": {
+            "tp": 49528,
+            "fp": 343,
+            "fn": 0,
+            "f1": 0.9965492610589644,
+            "precision": 0.993122255418981,
+            "recall": 1.0
+          },
+          "domain": {
+            "NX": {
+              "tp": 85189,
+              "fp": 4120,
+              "fn": 4242,
+              "f1": 0.9532169631867518,
+              "precision": 0.9538680312174584,
+              "recall": 0.9525667833301652
+            },
+            "SX": {
+              "tp": 29428,
+              "fp": 2223,
+              "fn": 2017,
+              "f1": 0.9328008114618993,
+              "precision": 0.9297652522827082,
+              "recall": 0.9358562569565909
+            }
+          },
+          "input_preserved": 5697,
+          "exact_spaces": 5697,
+          "changed_morph": 167,
+          "wins_vs_raw": 73,
+          "losses_vs_raw": 75,
+          "ties_vs_raw": 5847
+        }
+      }
+    },
+    "all_dev_oracle": {
+      "none": {
+        "tp": 113769,
+        "fp": 6865,
+        "fn": 7107,
+        "f1": 0.9421473230922115,
+        "rows": 5995,
+        "boundary": {
+          "tp": 19811,
+          "fp": 840,
+          "fn": 29717,
+          "f1": 0.5645848473189986,
+          "precision": 0.9593240036802092,
+          "recall": 0.3999959618801486
+        },
+        "domain": {
+          "NX": {
+            "tp": 84701,
+            "fp": 4504,
+            "fn": 4730,
+            "f1": 0.9483082917217134,
+            "precision": 0.9495095566392019,
+            "recall": 0.9471100625062898
+          },
+          "SX": {
+            "tp": 29068,
+            "fp": 2361,
+            "fn": 2377,
+            "f1": 0.9246429366669847,
+            "precision": 0.9248782971141303,
+            "recall": 0.9244076959771029
+          }
+        },
+        "input_preserved": 3719,
+        "exact_spaces": 957,
+        "changed_morph": 2276,
+        "wins_vs_raw": 2273,
+        "losses_vs_raw": 2,
+        "ties_vs_raw": 3720
+      },
+      "partial": {
+        "tp": 114230,
+        "fp": 6470,
+        "fn": 6646,
+        "f1": 0.9457065271384575,
+        "rows": 5995,
+        "boundary": {
+          "tp": 32538,
+          "fp": 740,
+          "fn": 16990,
+          "f1": 0.785885080791247,
+          "precision": 0.9777630867239617,
+          "recall": 0.6569617186238087
+        },
+        "domain": {
+          "NX": {
+            "tp": 85012,
+            "fp": 4196,
+            "fn": 4419,
+            "f1": 0.9517742486243206,
+            "precision": 0.9529638597435207,
+            "recall": 0.9505876038510136
+          },
+          "SX": {
+            "tp": 29218,
+            "fp": 2274,
+            "fn": 2227,
+            "f1": 0.9284840395951507,
+            "precision": 0.9277911850628731,
+            "recall": 0.9291779297185562
+          }
+        },
+        "input_preserved": 3953,
+        "exact_spaces": 1094,
+        "changed_morph": 2042,
+        "wins_vs_raw": 2042,
+        "losses_vs_raw": 0,
+        "ties_vs_raw": 3953
+      },
+      "normal": {
+        "tp": 114833,
+        "fp": 6147,
+        "fn": 6043,
+        "f1": 0.9495981079650702,
+        "rows": 5995,
+        "boundary": {
+          "tp": 49528,
+          "fp": 241,
+          "fn": 0,
+          "f1": 0.9975729377523994,
+          "precision": 0.9951576282424802,
+          "recall": 1.0
+        },
+        "domain": {
+          "NX": {
+            "tp": 85334,
+            "fp": 4013,
+            "fn": 4097,
+            "f1": 0.9546364765239571,
+            "precision": 0.9550852294984723,
+            "recall": 0.9541881450503741
+          },
+          "SX": {
+            "tp": 29499,
+            "fp": 2134,
+            "fn": 1946,
+            "f1": 0.9353181774945306,
+            "precision": 0.9325388044131129,
+            "recall": 0.9381141675942121
+          }
+        },
+        "input_preserved": 5832,
+        "exact_spaces": 5832,
+        "changed_morph": 163,
+        "wins_vs_raw": 163,
+        "losses_vs_raw": 0,
+        "ties_vs_raw": 5832
+      }
+    },
+    "gold": {
+      "raw": {
+        "none": {
+          "tp": 92521,
+          "fp": 6801,
+          "fn": 7994,
+          "f1": 0.9259646611988771,
+          "rows": 9000,
+          "boundary": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 39349,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5900,
+              "fp": 475,
+              "fn": 635,
+              "f1": 0.9140201394268009,
+              "precision": 0.9254901960784314,
+              "recall": 0.9028309104820199
+            },
+            "구어": {
+              "tp": 22808,
+              "fp": 2944,
+              "fn": 3411,
+              "f1": 0.8777202670720209,
+              "precision": 0.8856787822305063,
+              "recall": 0.8699035050917274
+            },
+            "기술": {
+              "tp": 9519,
+              "fp": 354,
+              "fn": 376,
+              "f1": 0.9630716309186564,
+              "precision": 0.9641446368884837,
+              "recall": 0.96200101061142
+            },
+            "뉴스": {
+              "tp": 34669,
+              "fp": 1614,
+              "fn": 1920,
+              "f1": 0.9515040070260182,
+              "precision": 0.9555163575228068,
+              "recall": 0.9475252124955588
+            },
+            "문학": {
+              "tp": 5282,
+              "fp": 298,
+              "fn": 316,
+              "f1": 0.9450706745392736,
+              "precision": 0.9465949820788531,
+              "recall": 0.9435512683101107
+            },
+            "엣지케이스": {
+              "tp": 7702,
+              "fp": 378,
+              "fn": 464,
+              "f1": 0.9481718576880462,
+              "precision": 0.9532178217821782,
+              "recall": 0.9431790350232672
+            },
+            "일상": {
+              "tp": 6641,
+              "fp": 738,
+              "fn": 872,
+              "f1": 0.8918882621541767,
+              "precision": 0.8999864480281881,
+              "recall": 0.8839345135099161
+            }
+          },
+          "input_preserved": 9000,
+          "exact_spaces": 56,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 9000
+        },
+        "partial": {
+          "tp": 92889,
+          "fp": 6114,
+          "fn": 7626,
+          "f1": 0.9311340330195772,
+          "rows": 9000,
+          "boundary": {
+            "tp": 17420,
+            "fp": 0,
+            "fn": 21929,
+            "f1": 0.6137152319047368,
+            "precision": 1.0,
+            "recall": 0.44270502426999414
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5874,
+              "fp": 462,
+              "fn": 661,
+              "f1": 0.9127495921062855,
+              "precision": 0.9270833333333334,
+              "recall": 0.8988523335883704
+            },
+            "구어": {
+              "tp": 22976,
+              "fp": 2655,
+              "fn": 3243,
+              "f1": 0.8862487945998071,
+              "precision": 0.8964144980687448,
+              "recall": 0.8763110721232694
+            },
+            "기술": {
+              "tp": 9511,
+              "fp": 310,
+              "fn": 384,
+              "f1": 0.9648001623047271,
+              "precision": 0.9684349862539456,
+              "recall": 0.9611925214754927
+            },
+            "뉴스": {
+              "tp": 34780,
+              "fp": 1425,
+              "fn": 1809,
+              "f1": 0.9555732615325438,
+              "precision": 0.960640795470239,
+              "recall": 0.9505589111481593
+            },
+            "문학": {
+              "tp": 5310,
+              "fp": 263,
+              "fn": 288,
+              "f1": 0.950675857130069,
+              "precision": 0.9528081823075543,
+              "recall": 0.9485530546623794
+            },
+            "엣지케이스": {
+              "tp": 7711,
+              "fp": 341,
+              "fn": 455,
+              "f1": 0.9509187322727833,
+              "precision": 0.9576502732240437,
+              "recall": 0.9442811658094539
+            },
+            "일상": {
+              "tp": 6727,
+              "fp": 658,
+              "fn": 786,
+              "f1": 0.9030742381527722,
+              "precision": 0.9109004739336493,
+              "recall": 0.8953813390123786
+            }
+          },
+          "input_preserved": 9000,
+          "exact_spaces": 56,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 9000
+        },
+        "normal": {
+          "tp": 96512,
+          "fp": 3927,
+          "fn": 4003,
+          "f1": 0.9605382326303532,
+          "rows": 9000,
+          "boundary": {
+            "tp": 39349,
+            "fp": 0,
+            "fn": 0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6137,
+              "fp": 330,
+              "fn": 398,
+              "f1": 0.9440086140593755,
+              "precision": 0.9489717024895624,
+              "recall": 0.939097169089518
+            },
+            "구어": {
+              "tp": 24726,
+              "fp": 1563,
+              "fn": 1493,
+              "f1": 0.9417993448617353,
+              "precision": 0.9405454752938491,
+              "recall": 0.9430565620351653
+            },
+            "기술": {
+              "tp": 9616,
+              "fp": 247,
+              "fn": 279,
+              "f1": 0.9733778722542767,
+              "precision": 0.9749569096623746,
+              "recall": 0.9718039413845376
+            },
+            "뉴스": {
+              "tp": 35583,
+              "fp": 983,
+              "fn": 1006,
+              "f1": 0.9728111543981957,
+              "precision": 0.9731171033200241,
+              "recall": 0.9725053977971522
+            },
+            "문학": {
+              "tp": 5436,
+              "fp": 177,
+              "fn": 162,
+              "f1": 0.9697618410489698,
+              "precision": 0.968466060929984,
+              "recall": 0.9710610932475884
+            },
+            "엣지케이스": {
+              "tp": 7941,
+              "fp": 231,
+              "fn": 225,
+              "f1": 0.9720896070510466,
+              "precision": 0.9717327459618208,
+              "recall": 0.9724467303453344
+            },
+            "일상": {
+              "tp": 7073,
+              "fp": 396,
+              "fn": 440,
+              "f1": 0.9441997063142438,
+              "precision": 0.946980854197349,
+              "recall": 0.9414348462664714
+            }
+          },
+          "input_preserved": 9000,
+          "exact_spaces": 9000,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 9000
+        }
+      },
+      "t1": {
+        "none": {
+          "tp": 93384,
+          "fp": 6265,
+          "fn": 7131,
+          "f1": 0.9330748785995484,
+          "rows": 9000,
+          "boundary": {
+            "tp": 26201,
+            "fp": 601,
+            "fn": 13148,
+            "f1": 0.7921573370017082,
+            "precision": 0.9775763002760988,
+            "recall": 0.6658619024625785
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5859,
+              "fp": 518,
+              "fn": 676,
+              "f1": 0.9075278810408922,
+              "precision": 0.9187705817782656,
+              "recall": 0.8965570007651109
+            },
+            "구어": {
+              "tp": 23536,
+              "fp": 2292,
+              "fn": 2683,
+              "f1": 0.9044133187311468,
+              "precision": 0.9112590986526251,
+              "recall": 0.8976696288950761
+            },
+            "기술": {
+              "tp": 9442,
+              "fp": 489,
+              "fn": 453,
+              "f1": 0.9524866337133058,
+              "precision": 0.9507602456952976,
+              "recall": 0.9542193026781203
+            },
+            "뉴스": {
+              "tp": 34874,
+              "fp": 1598,
+              "fn": 1715,
+              "f1": 0.9546543299434719,
+              "precision": 0.9561855670103093,
+              "recall": 0.9531279892863975
+            },
+            "문학": {
+              "tp": 5223,
+              "fp": 344,
+              "fn": 375,
+              "f1": 0.935602328705777,
+              "precision": 0.9382072929764684,
+              "recall": 0.9330117899249732
+            },
+            "엣지케이스": {
+              "tp": 7771,
+              "fp": 330,
+              "fn": 395,
+              "f1": 0.955431241163091,
+              "precision": 0.9592642883594618,
+              "recall": 0.9516287043840314
+            },
+            "일상": {
+              "tp": 6679,
+              "fp": 694,
+              "fn": 834,
+              "f1": 0.8973532177885262,
+              "precision": 0.9058727790587278,
+              "recall": 0.8889924131505391
+            }
+          },
+          "input_preserved": 586,
+          "exact_spaces": 2199,
+          "changed_morph": 2000,
+          "wins_vs_raw": 1219,
+          "losses_vs_raw": 709,
+          "ties_vs_raw": 7072
+        },
+        "partial": {
+          "tp": 94401,
+          "fp": 5738,
+          "fn": 6114,
+          "f1": 0.9409331486040647,
+          "rows": 9000,
+          "boundary": {
+            "tp": 31584,
+            "fp": 601,
+            "fn": 7765,
+            "f1": 0.8830486202365309,
+            "precision": 0.9813267049867951,
+            "recall": 0.8026633459554245
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5950,
+              "fp": 478,
+              "fn": 585,
+              "f1": 0.917997377150351,
+              "precision": 0.9256378344741755,
+              "recall": 0.9104820198928845
+            },
+            "구어": {
+              "tp": 24007,
+              "fp": 2054,
+              "fn": 2212,
+              "f1": 0.9184009181331293,
+              "precision": 0.9211849123210928,
+              "recall": 0.9156337007513635
+            },
+            "기술": {
+              "tp": 9467,
+              "fp": 466,
+              "fn": 428,
+              "f1": 0.9549122453096631,
+              "precision": 0.9530856740159066,
+              "recall": 0.9567458312278929
+            },
+            "뉴스": {
+              "tp": 35051,
+              "fp": 1481,
+              "fn": 1538,
+              "f1": 0.9587122714404891,
+              "precision": 0.9594601992773459,
+              "recall": 0.9579655087594632
+            },
+            "문학": {
+              "tp": 5311,
+              "fp": 297,
+              "fn": 287,
+              "f1": 0.9478850615741568,
+              "precision": 0.947039942938659,
+              "recall": 0.9487316898892462
+            },
+            "엣지케이스": {
+              "tp": 7823,
+              "fp": 317,
+              "fn": 343,
+              "f1": 0.9595241015577088,
+              "precision": 0.961056511056511,
+              "recall": 0.9579965711486652
+            },
+            "일상": {
+              "tp": 6792,
+              "fp": 645,
+              "fn": 721,
+              "f1": 0.908628762541806,
+              "precision": 0.9132714804356595,
+              "recall": 0.9040330094502862
+            }
+          },
+          "input_preserved": 1363,
+          "exact_spaces": 3277,
+          "changed_morph": 1809,
+          "wins_vs_raw": 1182,
+          "losses_vs_raw": 579,
+          "ties_vs_raw": 7239
+        },
+        "normal": {
+          "tp": 96216,
+          "fp": 4663,
+          "fn": 4299,
+          "f1": 0.9555001638579104,
+          "rows": 9000,
+          "boundary": {
+            "tp": 39349,
+            "fp": 601,
+            "fn": 0,
+            "f1": 0.9924210897993669,
+            "precision": 0.9849561952440551,
+            "recall": 1.0
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6112,
+              "fp": 387,
+              "fn": 423,
+              "f1": 0.9378548411845942,
+              "precision": 0.9404523772888137,
+              "recall": 0.9352716143840857
+            },
+            "구어": {
+              "tp": 24691,
+              "fp": 1687,
+              "fn": 1528,
+              "f1": 0.9388748407703862,
+              "precision": 0.9360451891727956,
+              "recall": 0.9417216522369274
+            },
+            "기술": {
+              "tp": 9549,
+              "fp": 410,
+              "fn": 346,
+              "f1": 0.9619220308250227,
+              "precision": 0.9588312079526057,
+              "recall": 0.965032844871147
+            },
+            "뉴스": {
+              "tp": 35476,
+              "fp": 1239,
+              "fn": 1113,
+              "f1": 0.9679144385026738,
+              "precision": 0.9662535748331744,
+              "recall": 0.9695810216185192
+            },
+            "문학": {
+              "tp": 5402,
+              "fp": 239,
+              "fn": 196,
+              "f1": 0.961295488922502,
+              "precision": 0.9576316255982982,
+              "recall": 0.9649874955341193
+            },
+            "엣지케이스": {
+              "tp": 7932,
+              "fp": 254,
+              "fn": 234,
+              "f1": 0.9701565557729941,
+              "precision": 0.9689714146103103,
+              "recall": 0.9713445995591476
+            },
+            "일상": {
+              "tp": 7054,
+              "fp": 447,
+              "fn": 459,
+              "f1": 0.9396563207672839,
+              "precision": 0.9404079456072524,
+              "recall": 0.93890589644616
+            }
+          },
+          "input_preserved": 8429,
+          "exact_spaces": 8429,
+          "changed_morph": 361,
+          "wins_vs_raw": 39,
+          "losses_vs_raw": 314,
+          "ties_vs_raw": 8647
+        }
+      },
+      "threshold_selected": {
+        "none": {
+          "tp": 92872,
+          "fp": 6590,
+          "fn": 7643,
+          "f1": 0.9288268150837347,
+          "rows": 9000,
+          "boundary": {
+            "tp": 8854,
+            "fp": 206,
+            "fn": 30495,
+            "f1": 0.3657997479807474,
+            "precision": 0.9772626931567329,
+            "recall": 0.22501207146306132
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5900,
+              "fp": 475,
+              "fn": 635,
+              "f1": 0.9140201394268009,
+              "precision": 0.9254901960784314,
+              "recall": 0.9028309104820199
+            },
+            "구어": {
+              "tp": 23003,
+              "fp": 2761,
+              "fn": 3216,
+              "f1": 0.8850201027258912,
+              "precision": 0.8928349635149821,
+              "recall": 0.8773408596819101
+            },
+            "기술": {
+              "tp": 9499,
+              "fp": 399,
+              "fn": 396,
+              "f1": 0.9598342848481787,
+              "precision": 0.9596888260254597,
+              "recall": 0.9599797877716019
+            },
+            "뉴스": {
+              "tp": 34845,
+              "fp": 1541,
+              "fn": 1744,
+              "f1": 0.9549845837615621,
+              "precision": 0.9576485461441213,
+              "recall": 0.9523354013501325
+            },
+            "문학": {
+              "tp": 5282,
+              "fp": 298,
+              "fn": 316,
+              "f1": 0.9450706745392736,
+              "precision": 0.9465949820788531,
+              "recall": 0.9435512683101107
+            },
+            "엣지케이스": {
+              "tp": 7702,
+              "fp": 378,
+              "fn": 464,
+              "f1": 0.9481718576880462,
+              "precision": 0.9532178217821782,
+              "recall": 0.9431790350232672
+            },
+            "일상": {
+              "tp": 6641,
+              "fp": 738,
+              "fn": 872,
+              "f1": 0.8918882621541767,
+              "precision": 0.8999864480281881,
+              "recall": 0.8839345135099161
+            }
+          },
+          "input_preserved": 7507,
+          "exact_spaces": 237,
+          "changed_morph": 508,
+          "wins_vs_raw": 333,
+          "losses_vs_raw": 160,
+          "ties_vs_raw": 8507
+        },
+        "partial": {
+          "tp": 92889,
+          "fp": 6114,
+          "fn": 7626,
+          "f1": 0.9311340330195772,
+          "rows": 9000,
+          "boundary": {
+            "tp": 17420,
+            "fp": 0,
+            "fn": 21929,
+            "f1": 0.6137152319047368,
+            "precision": 1.0,
+            "recall": 0.44270502426999414
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5874,
+              "fp": 462,
+              "fn": 661,
+              "f1": 0.9127495921062855,
+              "precision": 0.9270833333333334,
+              "recall": 0.8988523335883704
+            },
+            "구어": {
+              "tp": 22976,
+              "fp": 2655,
+              "fn": 3243,
+              "f1": 0.8862487945998071,
+              "precision": 0.8964144980687448,
+              "recall": 0.8763110721232694
+            },
+            "기술": {
+              "tp": 9511,
+              "fp": 310,
+              "fn": 384,
+              "f1": 0.9648001623047271,
+              "precision": 0.9684349862539456,
+              "recall": 0.9611925214754927
+            },
+            "뉴스": {
+              "tp": 34780,
+              "fp": 1425,
+              "fn": 1809,
+              "f1": 0.9555732615325438,
+              "precision": 0.960640795470239,
+              "recall": 0.9505589111481593
+            },
+            "문학": {
+              "tp": 5310,
+              "fp": 263,
+              "fn": 288,
+              "f1": 0.950675857130069,
+              "precision": 0.9528081823075543,
+              "recall": 0.9485530546623794
+            },
+            "엣지케이스": {
+              "tp": 7711,
+              "fp": 341,
+              "fn": 455,
+              "f1": 0.9509187322727833,
+              "precision": 0.9576502732240437,
+              "recall": 0.9442811658094539
+            },
+            "일상": {
+              "tp": 6727,
+              "fp": 658,
+              "fn": 786,
+              "f1": 0.9030742381527722,
+              "precision": 0.9109004739336493,
+              "recall": 0.8953813390123786
+            }
+          },
+          "input_preserved": 9000,
+          "exact_spaces": 56,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 9000
+        },
+        "normal": {
+          "tp": 96512,
+          "fp": 3927,
+          "fn": 4003,
+          "f1": 0.9605382326303532,
+          "rows": 9000,
+          "boundary": {
+            "tp": 39349,
+            "fp": 0,
+            "fn": 0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6137,
+              "fp": 330,
+              "fn": 398,
+              "f1": 0.9440086140593755,
+              "precision": 0.9489717024895624,
+              "recall": 0.939097169089518
+            },
+            "구어": {
+              "tp": 24726,
+              "fp": 1563,
+              "fn": 1493,
+              "f1": 0.9417993448617353,
+              "precision": 0.9405454752938491,
+              "recall": 0.9430565620351653
+            },
+            "기술": {
+              "tp": 9616,
+              "fp": 247,
+              "fn": 279,
+              "f1": 0.9733778722542767,
+              "precision": 0.9749569096623746,
+              "recall": 0.9718039413845376
+            },
+            "뉴스": {
+              "tp": 35583,
+              "fp": 983,
+              "fn": 1006,
+              "f1": 0.9728111543981957,
+              "precision": 0.9731171033200241,
+              "recall": 0.9725053977971522
+            },
+            "문학": {
+              "tp": 5436,
+              "fp": 177,
+              "fn": 162,
+              "f1": 0.9697618410489698,
+              "precision": 0.968466060929984,
+              "recall": 0.9710610932475884
+            },
+            "엣지케이스": {
+              "tp": 7941,
+              "fp": 231,
+              "fn": 225,
+              "f1": 0.9720896070510466,
+              "precision": 0.9717327459618208,
+              "recall": 0.9724467303453344
+            },
+            "일상": {
+              "tp": 7073,
+              "fp": 396,
+              "fn": 440,
+              "f1": 0.9441997063142438,
+              "precision": 0.946980854197349,
+              "recall": 0.9414348462664714
+            }
+          },
+          "input_preserved": 9000,
+          "exact_spaces": 9000,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 9000
+        }
+      },
+      "boundary_only_selected": {
+        "none": {
+          "tp": 92946,
+          "fp": 6249,
+          "fn": 7569,
+          "f1": 0.9308096740273396,
+          "rows": 9000,
+          "boundary": {
+            "tp": 13788,
+            "fp": 85,
+            "fn": 25561,
+            "f1": 0.5181315997144038,
+            "precision": 0.9938729907013624,
+            "recall": 0.35040280566215154
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5908,
+              "fp": 467,
+              "fn": 627,
+              "f1": 0.9152594887683966,
+              "precision": 0.9267450980392157,
+              "recall": 0.9040550879877582
+            },
+            "구어": {
+              "tp": 23123,
+              "fp": 2555,
+              "fn": 3096,
+              "f1": 0.891111239570688,
+              "precision": 0.9004984811901239,
+              "recall": 0.8819176932758687
+            },
+            "기술": {
+              "tp": 9516,
+              "fp": 349,
+              "fn": 379,
+              "f1": 0.9631578947368421,
+              "precision": 0.9646224024328434,
+              "recall": 0.9616978271854472
+            },
+            "뉴스": {
+              "tp": 34780,
+              "fp": 1516,
+              "fn": 1809,
+              "f1": 0.9543801879673458,
+              "precision": 0.958232312100507,
+              "recall": 0.9505589111481593
+            },
+            "문학": {
+              "tp": 5265,
+              "fp": 293,
+              "fn": 333,
+              "f1": 0.9438866977411259,
+              "precision": 0.9472831953940266,
+              "recall": 0.9405144694533762
+            },
+            "엣지케이스": {
+              "tp": 7718,
+              "fp": 350,
+              "fn": 448,
+              "f1": 0.950843907847727,
+              "precision": 0.9566187407040159,
+              "recall": 0.9451383786431545
+            },
+            "일상": {
+              "tp": 6636,
+              "fp": 719,
+              "fn": 877,
+              "f1": 0.8926553672316384,
+              "precision": 0.9022433718558803,
+              "recall": 0.8832690003993079
+            }
+          },
+          "input_preserved": 4799,
+          "exact_spaces": 634,
+          "changed_morph": 782,
+          "wins_vs_raw": 539,
+          "losses_vs_raw": 212,
+          "ties_vs_raw": 8249
+        },
+        "partial": {
+          "tp": 93521,
+          "fp": 5735,
+          "fn": 6994,
+          "f1": 0.9362820429391654,
+          "rows": 9000,
+          "boundary": {
+            "tp": 23168,
+            "fp": 54,
+            "fn": 16181,
+            "f1": 0.740534752521136,
+            "precision": 0.9976746188958746,
+            "recall": 0.5887824341152252
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5884,
+              "fp": 461,
+              "fn": 651,
+              "f1": 0.9136645962732919,
+              "precision": 0.927344365642238,
+              "recall": 0.9003825554705432
+            },
+            "구어": {
+              "tp": 23404,
+              "fp": 2344,
+              "fn": 2815,
+              "f1": 0.9007254603883234,
+              "precision": 0.9089638030138263,
+              "recall": 0.8926351119417216
+            },
+            "기술": {
+              "tp": 9517,
+              "fp": 323,
+              "fn": 378,
+              "f1": 0.9644793514061313,
+              "precision": 0.9671747967479675,
+              "recall": 0.9617988883274381
+            },
+            "뉴스": {
+              "tp": 34921,
+              "fp": 1370,
+              "fn": 1668,
+              "f1": 0.9583150384193194,
+              "precision": 0.9622495935631423,
+              "recall": 0.9544125283555167
+            },
+            "문학": {
+              "tp": 5327,
+              "fp": 253,
+              "fn": 271,
+              "f1": 0.9531222043299338,
+              "precision": 0.9546594982078853,
+              "recall": 0.951589853519114
+            },
+            "엣지케이스": {
+              "tp": 7739,
+              "fp": 328,
+              "fn": 427,
+              "f1": 0.9534898047187828,
+              "precision": 0.9593405231188794,
+              "recall": 0.9477100171442566
+            },
+            "일상": {
+              "tp": 6729,
+              "fp": 656,
+              "fn": 784,
+              "f1": 0.9033427305678614,
+              "precision": 0.9111712931618144,
+              "recall": 0.8956475442566219
+            }
+          },
+          "input_preserved": 6221,
+          "exact_spaces": 951,
+          "changed_morph": 591,
+          "wins_vs_raw": 445,
+          "losses_vs_raw": 130,
+          "ties_vs_raw": 8425
+        },
+        "normal": {
+          "tp": 96513,
+          "fp": 3926,
+          "fn": 4002,
+          "f1": 0.9605481851568021,
+          "rows": 9000,
+          "boundary": {
+            "tp": 39349,
+            "fp": 4,
+            "fn": 0,
+            "f1": 0.9999491753703845,
+            "precision": 0.9998983559067923,
+            "recall": 1.0
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6137,
+              "fp": 330,
+              "fn": 398,
+              "f1": 0.9440086140593755,
+              "precision": 0.9489717024895624,
+              "recall": 0.939097169089518
+            },
+            "구어": {
+              "tp": 24727,
+              "fp": 1562,
+              "fn": 1492,
+              "f1": 0.9418374342957264,
+              "precision": 0.9405835140172696,
+              "recall": 0.9430947023151149
+            },
+            "기술": {
+              "tp": 9616,
+              "fp": 247,
+              "fn": 279,
+              "f1": 0.9733778722542767,
+              "precision": 0.9749569096623746,
+              "recall": 0.9718039413845376
+            },
+            "뉴스": {
+              "tp": 35583,
+              "fp": 983,
+              "fn": 1006,
+              "f1": 0.9728111543981957,
+              "precision": 0.9731171033200241,
+              "recall": 0.9725053977971522
+            },
+            "문학": {
+              "tp": 5436,
+              "fp": 177,
+              "fn": 162,
+              "f1": 0.9697618410489698,
+              "precision": 0.968466060929984,
+              "recall": 0.9710610932475884
+            },
+            "엣지케이스": {
+              "tp": 7941,
+              "fp": 231,
+              "fn": 225,
+              "f1": 0.9720896070510466,
+              "precision": 0.9717327459618208,
+              "recall": 0.9724467303453344
+            },
+            "일상": {
+              "tp": 7073,
+              "fp": 396,
+              "fn": 440,
+              "f1": 0.9441997063142438,
+              "precision": 0.946980854197349,
+              "recall": 0.9414348462664714
+            }
+          },
+          "input_preserved": 8996,
+          "exact_spaces": 8996,
+          "changed_morph": 1,
+          "wins_vs_raw": 1,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 8999
+        }
+      },
+      "joint_selected": {
+        "none": {
+          "tp": 93650,
+          "fp": 5579,
+          "fn": 6865,
+          "f1": 0.9377002563281,
+          "rows": 9000,
+          "boundary": {
+            "tp": 14069,
+            "fp": 392,
+            "fn": 25280,
+            "f1": 0.5229139565136591,
+            "precision": 0.9728926077034783,
+            "recall": 0.3575440290731658
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5865,
+              "fp": 496,
+              "fn": 670,
+              "f1": 0.9095843672456576,
+              "precision": 0.9220248388618142,
+              "recall": 0.8974751338944147
+            },
+            "구어": {
+              "tp": 23683,
+              "fp": 2111,
+              "fn": 2536,
+              "f1": 0.9106569511468287,
+              "precision": 0.9181592618438397,
+              "recall": 0.9032762500476753
+            },
+            "기술": {
+              "tp": 9493,
+              "fp": 348,
+              "fn": 402,
+              "f1": 0.9619983785974868,
+              "precision": 0.9646377400670664,
+              "recall": 0.9593734209196564
+            },
+            "뉴스": {
+              "tp": 34910,
+              "fp": 1392,
+              "fn": 1679,
+              "f1": 0.9578685983180365,
+              "precision": 0.9616550052338714,
+              "recall": 0.9541118915521059
+            },
+            "문학": {
+              "tp": 5249,
+              "fp": 289,
+              "fn": 349,
+              "f1": 0.9427083333333334,
+              "precision": 0.9478150957024196,
+              "recall": 0.9376563058235085
+            },
+            "엣지케이스": {
+              "tp": 7722,
+              "fp": 328,
+              "fn": 444,
+              "f1": 0.9523926985693143,
+              "precision": 0.9592546583850932,
+              "recall": 0.9456282145481264
+            },
+            "일상": {
+              "tp": 6728,
+              "fp": 615,
+              "fn": 785,
+              "f1": 0.9057619816908993,
+              "precision": 0.9162467656271279,
+              "recall": 0.8955144416345002
+            }
+          },
+          "input_preserved": 5254,
+          "exact_spaces": 1293,
+          "changed_morph": 1868,
+          "wins_vs_raw": 1274,
+          "losses_vs_raw": 513,
+          "ties_vs_raw": 7213
+        },
+        "partial": {
+          "tp": 94751,
+          "fp": 5030,
+          "fn": 5764,
+          "f1": 0.946109757558813,
+          "rows": 9000,
+          "boundary": {
+            "tp": 25164,
+            "fp": 405,
+            "fn": 14185,
+            "f1": 0.775254936997443,
+            "precision": 0.9841605068637803,
+            "recall": 0.639507992579227
+          },
+          "domain": {
+            "SNS": {
+              "tp": 5957,
+              "fp": 447,
+              "fn": 578,
+              "f1": 0.9207821315403045,
+              "precision": 0.9301998750780762,
+              "recall": 0.9115531752104055
+            },
+            "구어": {
+              "tp": 24156,
+              "fp": 1891,
+              "fn": 2063,
+              "f1": 0.9243485248536334,
+              "precision": 0.927400468384075,
+              "recall": 0.921316602463862
+            },
+            "기술": {
+              "tp": 9512,
+              "fp": 321,
+              "fn": 383,
+              "f1": 0.9643146796431468,
+              "precision": 0.967354825587308,
+              "recall": 0.9612935826174835
+            },
+            "뉴스": {
+              "tp": 35135,
+              "fp": 1261,
+              "fn": 1454,
+              "f1": 0.9628005754607111,
+              "precision": 0.965353335531377,
+              "recall": 0.9602612807127825
+            },
+            "문학": {
+              "tp": 5339,
+              "fp": 243,
+              "fn": 259,
+              "f1": 0.9550983899821109,
+              "precision": 0.9564672160515945,
+              "recall": 0.9537334762415148
+            },
+            "엣지케이스": {
+              "tp": 7773,
+              "fp": 312,
+              "fn": 393,
+              "f1": 0.9566180542735832,
+              "precision": 0.9614100185528757,
+              "recall": 0.9518736223365173
+            },
+            "일상": {
+              "tp": 6879,
+              "fp": 555,
+              "fn": 634,
+              "f1": 0.9204522646684954,
+              "precision": 0.9253430185633575,
+              "recall": 0.9156129375748703
+            }
+          },
+          "input_preserved": 5419,
+          "exact_spaces": 1719,
+          "changed_morph": 1739,
+          "wins_vs_raw": 1288,
+          "losses_vs_raw": 392,
+          "ties_vs_raw": 7320
+        },
+        "normal": {
+          "tp": 96485,
+          "fp": 4075,
+          "fn": 4030,
+          "f1": 0.9596916573417879,
+          "rows": 9000,
+          "boundary": {
+            "tp": 39349,
+            "fp": 347,
+            "fn": 0,
+            "f1": 0.9956100955152128,
+            "precision": 0.9912585650947199,
+            "recall": 1.0
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6129,
+              "fp": 352,
+              "fn": 406,
+              "f1": 0.9417639827904118,
+              "precision": 0.9456873939206912,
+              "recall": 0.9378729915837797
+            },
+            "구어": {
+              "tp": 24744,
+              "fp": 1578,
+              "fn": 1475,
+              "f1": 0.9418929978492987,
+              "precision": 0.9400501481650331,
+              "recall": 0.9437430870742591
+            },
+            "기술": {
+              "tp": 9600,
+              "fp": 276,
+              "fn": 295,
+              "f1": 0.9711193161701482,
+              "precision": 0.9720534629404617,
+              "recall": 0.9701869631126832
+            },
+            "뉴스": {
+              "tp": 35560,
+              "fp": 1034,
+              "fn": 1029,
+              "f1": 0.9718103931240862,
+              "precision": 0.9717440017489206,
+              "recall": 0.9718767935718385
+            },
+            "문학": {
+              "tp": 5428,
+              "fp": 187,
+              "fn": 170,
+              "f1": 0.9681619548738072,
+              "precision": 0.9666963490650045,
+              "recall": 0.9696320114326545
+            },
+            "엣지케이스": {
+              "tp": 7940,
+              "fp": 236,
+              "fn": 226,
+              "f1": 0.9717292865010403,
+              "precision": 0.9711350293542075,
+              "recall": 0.9723242713690914
+            },
+            "일상": {
+              "tp": 7084,
+              "fp": 412,
+              "fn": 429,
+              "f1": 0.9439669531614364,
+              "precision": 0.9450373532550693,
+              "recall": 0.9428989751098097
+            }
+          },
+          "input_preserved": 8692,
+          "exact_spaces": 8692,
+          "changed_morph": 175,
+          "wins_vs_raw": 52,
+          "losses_vs_raw": 105,
+          "ties_vs_raw": 8843
+        }
+      },
+      "oracle": {
+        "none": {
+          "tp": 95935,
+          "fp": 4233,
+          "fn": 4580,
+          "f1": 0.9560849698280373,
+          "rows": 9000,
+          "boundary": {
+            "tp": 9440,
+            "fp": 477,
+            "fn": 29909,
+            "f1": 0.38322575406974385,
+            "precision": 0.9519007764444892,
+            "recall": 0.23990444483976722
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6113,
+              "fp": 351,
+              "fn": 422,
+              "f1": 0.940533887222094,
+              "precision": 0.9456992574257426,
+              "recall": 0.935424636572303
+            },
+            "구어": {
+              "tp": 24548,
+              "fp": 1572,
+              "fn": 1671,
+              "f1": 0.9380385563346644,
+              "precision": 0.9398162327718224,
+              "recall": 0.9362675922041268
+            },
+            "기술": {
+              "tp": 9590,
+              "fp": 288,
+              "fn": 305,
+              "f1": 0.9700096090628635,
+              "precision": 0.9708443004656813,
+              "recall": 0.9691763516927742
+            },
+            "뉴스": {
+              "tp": 35413,
+              "fp": 1083,
+              "fn": 1176,
+              "f1": 0.9690907847027433,
+              "precision": 0.9703255151249452,
+              "recall": 0.9678591926535297
+            },
+            "문학": {
+              "tp": 5379,
+              "fp": 221,
+              "fn": 219,
+              "f1": 0.9607072691552063,
+              "precision": 0.9605357142857143,
+              "recall": 0.9608788853161844
+            },
+            "엣지케이스": {
+              "tp": 7912,
+              "fp": 248,
+              "fn": 254,
+              "f1": 0.9692515006737719,
+              "precision": 0.9696078431372549,
+              "recall": 0.9688954200342885
+            },
+            "일상": {
+              "tp": 6980,
+              "fp": 470,
+              "fn": 533,
+              "f1": 0.9329679877030007,
+              "precision": 0.9369127516778524,
+              "recall": 0.9290563024091575
+            }
+          },
+          "input_preserved": 7032,
+          "exact_spaces": 1055,
+          "changed_morph": 1968,
+          "wins_vs_raw": 1963,
+          "losses_vs_raw": 4,
+          "ties_vs_raw": 7033
+        },
+        "partial": {
+          "tp": 96280,
+          "fp": 3939,
+          "fn": 4235,
+          "f1": 0.9592794444389092,
+          "rows": 9000,
+          "boundary": {
+            "tp": 22166,
+            "fp": 454,
+            "fn": 17183,
+            "f1": 0.7153899530410367,
+            "precision": 0.9799292661361627,
+            "recall": 0.563318000457445
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6129,
+              "fp": 332,
+              "fn": 406,
+              "f1": 0.943213296398892,
+              "precision": 0.948614765516174,
+              "recall": 0.9378729915837797
+            },
+            "구어": {
+              "tp": 24705,
+              "fp": 1462,
+              "fn": 1514,
+              "f1": 0.9431909288741267,
+              "precision": 0.9441281002789773,
+              "recall": 0.9422556161562226
+            },
+            "기술": {
+              "tp": 9597,
+              "fp": 255,
+              "fn": 298,
+              "f1": 0.9719957461892946,
+              "precision": 0.9741169305724726,
+              "recall": 0.9698837796867105
+            },
+            "뉴스": {
+              "tp": 35515,
+              "fp": 1010,
+              "fn": 1074,
+              "f1": 0.9714965670049511,
+              "precision": 0.9723477070499658,
+              "recall": 0.9706469157397032
+            },
+            "문학": {
+              "tp": 5418,
+              "fp": 185,
+              "fn": 180,
+              "f1": 0.9674136237835907,
+              "precision": 0.9669819739425308,
+              "recall": 0.9678456591639871
+            },
+            "엣지케이스": {
+              "tp": 7908,
+              "fp": 242,
+              "fn": 258,
+              "f1": 0.9693552341260113,
+              "precision": 0.9703067484662576,
+              "recall": 0.9684055841293167
+            },
+            "일상": {
+              "tp": 7008,
+              "fp": 453,
+              "fn": 505,
+              "f1": 0.9360224388940831,
+              "precision": 0.9392842782468838,
+              "recall": 0.9327831758285638
+            }
+          },
+          "input_preserved": 7190,
+          "exact_spaces": 1147,
+          "changed_morph": 1810,
+          "wins_vs_raw": 1808,
+          "losses_vs_raw": 2,
+          "ties_vs_raw": 7190
+        },
+        "normal": {
+          "tp": 96777,
+          "fp": 3781,
+          "fn": 3738,
+          "f1": 0.962605620844171,
+          "rows": 9000,
+          "boundary": {
+            "tp": 39349,
+            "fp": 196,
+            "fn": 0,
+            "f1": 0.9975156539153801,
+            "precision": 0.9950436211910482,
+            "recall": 1.0
+          },
+          "domain": {
+            "SNS": {
+              "tp": 6160,
+              "fp": 319,
+              "fn": 375,
+              "f1": 0.946672813892731,
+              "precision": 0.9507640067911715,
+              "recall": 0.9426166794185157
+            },
+            "구어": {
+              "tp": 24839,
+              "fp": 1491,
+              "fn": 1380,
+              "f1": 0.9453652781213724,
+              "precision": 0.943372578807444,
+              "recall": 0.9473664136694764
+            },
+            "기술": {
+              "tp": 9640,
+              "fp": 238,
+              "fn": 255,
+              "f1": 0.9750670105699691,
+              "precision": 0.9759060538570561,
+              "recall": 0.9742294087923193
+            },
+            "뉴스": {
+              "tp": 35627,
+              "fp": 956,
+              "fn": 962,
+              "f1": 0.973787787678347,
+              "precision": 0.9738676434409426,
+              "recall": 0.9737079450107956
+            },
+            "문학": {
+              "tp": 5455,
+              "fp": 168,
+              "fn": 143,
+              "f1": 0.9722841101506104,
+              "precision": 0.9701227102969945,
+              "recall": 0.9744551625580564
+            },
+            "엣지케이스": {
+              "tp": 7947,
+              "fp": 230,
+              "fn": 219,
+              "f1": 0.9725264639295111,
+              "precision": 0.9718723248135013,
+              "recall": 0.973181484202792
+            },
+            "일상": {
+              "tp": 7109,
+              "fp": 379,
+              "fn": 404,
+              "f1": 0.9478034797680155,
+              "precision": 0.9493856837606838,
+              "recall": 0.9462265406628511
+            }
+          },
+          "input_preserved": 8845,
+          "exact_spaces": 8845,
+          "changed_morph": 155,
+          "wins_vs_raw": 155,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 8845
+        }
+      }
+    },
+    "spoken": {
+      "raw": {
+        "none": {
+          "tp": 177334,
+          "fp": 30804,
+          "fn": 30753,
+          "f1": 0.852106432818788,
+          "rows": 16407,
+          "boundary": {
+            "tp": 0,
+            "fp": 0,
+            "fn": 93981,
+            "f1": 0.0,
+            "precision": 0.0,
+            "recall": 0.0
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 177334,
+              "fp": 30804,
+              "fn": 30753,
+              "f1": 0.852106432818788,
+              "precision": 0.8520020371099943,
+              "recall": 0.8522108541139043
+            }
+          },
+          "input_preserved": 16407,
+          "exact_spaces": 408,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 16407
+        },
+        "partial": {
+          "tp": 179498,
+          "fp": 27929,
+          "fn": 28589,
+          "f1": 0.8639805156986287,
+          "rows": 16407,
+          "boundary": {
+            "tp": 42969,
+            "fp": 0,
+            "fn": 51012,
+            "f1": 0.6275136911281489,
+            "precision": 1.0,
+            "recall": 0.45720943594981966
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 179498,
+              "fp": 27929,
+              "fn": 28589,
+              "f1": 0.8639805156986287,
+              "precision": 0.8653550405684891,
+              "recall": 0.8626103504784056
+            }
+          },
+          "input_preserved": 16407,
+          "exact_spaces": 408,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 16407
+        },
+        "normal": {
+          "tp": 191250,
+          "fp": 19945,
+          "fn": 16837,
+          "f1": 0.9122738395638258,
+          "rows": 16407,
+          "boundary": {
+            "tp": 93981,
+            "fp": 0,
+            "fn": 0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 191250,
+              "fp": 19945,
+              "fn": 16837,
+              "f1": 0.9122738395638258,
+              "precision": 0.9055612112029168,
+              "recall": 0.9190867281473615
+            }
+          },
+          "input_preserved": 16407,
+          "exact_spaces": 16407,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 16407
+        }
+      },
+      "t1": {
+        "none": {
+          "tp": 183232,
+          "fp": 25093,
+          "fn": 24855,
+          "f1": 0.8800514874691412,
+          "rows": 16407,
+          "boundary": {
+            "tp": 73810,
+            "fp": 781,
+            "fn": 20171,
+            "f1": 0.8757088959020478,
+            "precision": 0.9895295679103377,
+            "recall": 0.7853715112629148
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 183232,
+              "fp": 25093,
+              "fn": 24855,
+              "f1": 0.8800514874691412,
+              "precision": 0.8795487819512781,
+              "recall": 0.8805547679576331
+            }
+          },
+          "input_preserved": 721,
+          "exact_spaces": 5618,
+          "changed_morph": 6485,
+          "wins_vs_raw": 4888,
+          "losses_vs_raw": 1332,
+          "ties_vs_raw": 10187
+        },
+        "partial": {
+          "tp": 186402,
+          "fp": 23566,
+          "fn": 21685,
+          "f1": 0.8917582614727727,
+          "rows": 16407,
+          "boundary": {
+            "tp": 83012,
+            "fp": 781,
+            "fn": 10969,
+            "f1": 0.9339048454779664,
+            "precision": 0.9906794123614144,
+            "recall": 0.8832849192921973
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 186402,
+              "fp": 23566,
+              "fn": 21685,
+              "f1": 0.8917582614727727,
+              "precision": 0.8877638497294826,
+              "recall": 0.8957887806542456
+            }
+          },
+          "input_preserved": 1164,
+          "exact_spaces": 8167,
+          "changed_morph": 5815,
+          "wins_vs_raw": 4544,
+          "losses_vs_raw": 999,
+          "ties_vs_raw": 10864
+        },
+        "normal": {
+          "tp": 190735,
+          "fp": 21010,
+          "fn": 17352,
+          "f1": 0.9086253549038663,
+          "rows": 16407,
+          "boundary": {
+            "tp": 93981,
+            "fp": 781,
+            "fn": 0,
+            "f1": 0.9958620981970192,
+            "precision": 0.9917582997404023,
+            "recall": 1.0
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 190735,
+              "fp": 21010,
+              "fn": 17352,
+              "f1": 0.9086253549038663,
+              "precision": 0.9007768778483554,
+              "recall": 0.9166118017944418
+            }
+          },
+          "input_preserved": 15674,
+          "exact_spaces": 15674,
+          "changed_morph": 553,
+          "wins_vs_raw": 27,
+          "losses_vs_raw": 490,
+          "ties_vs_raw": 15890
+        }
+      },
+      "threshold_selected": {
+        "none": {
+          "tp": 179626,
+          "fp": 28607,
+          "fn": 28461,
+          "f1": 0.8629227517294389,
+          "rows": 16407,
+          "boundary": {
+            "tp": 30605,
+            "fp": 321,
+            "fn": 63376,
+            "f1": 0.4900445931773239,
+            "precision": 0.9896203841427925,
+            "recall": 0.3256509294431853
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 179626,
+              "fp": 28607,
+              "fn": 28461,
+              "f1": 0.8629227517294389,
+              "precision": 0.8626202379065758,
+              "recall": 0.8632254778049566
+            }
+          },
+          "input_preserved": 12840,
+          "exact_spaces": 907,
+          "changed_morph": 2158,
+          "wins_vs_raw": 1621,
+          "losses_vs_raw": 450,
+          "ties_vs_raw": 14336
+        },
+        "partial": {
+          "tp": 179498,
+          "fp": 27929,
+          "fn": 28589,
+          "f1": 0.8639805156986287,
+          "rows": 16407,
+          "boundary": {
+            "tp": 42969,
+            "fp": 0,
+            "fn": 51012,
+            "f1": 0.6275136911281489,
+            "precision": 1.0,
+            "recall": 0.45720943594981966
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 179498,
+              "fp": 27929,
+              "fn": 28589,
+              "f1": 0.8639805156986287,
+              "precision": 0.8653550405684891,
+              "recall": 0.8626103504784056
+            }
+          },
+          "input_preserved": 16407,
+          "exact_spaces": 408,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 16407
+        },
+        "normal": {
+          "tp": 191250,
+          "fp": 19945,
+          "fn": 16837,
+          "f1": 0.9122738395638258,
+          "rows": 16407,
+          "boundary": {
+            "tp": 93981,
+            "fp": 0,
+            "fn": 0,
+            "f1": 1.0,
+            "precision": 1.0,
+            "recall": 1.0
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 191250,
+              "fp": 19945,
+              "fn": 16837,
+              "f1": 0.9122738395638258,
+              "precision": 0.9055612112029168,
+              "recall": 0.9190867281473615
+            }
+          },
+          "input_preserved": 16407,
+          "exact_spaces": 16407,
+          "changed_morph": 0,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 0,
+          "ties_vs_raw": 16407
+        }
+      },
+      "boundary_only_selected": {
+        "none": {
+          "tp": 180216,
+          "fp": 27183,
+          "fn": 27871,
+          "f1": 0.8674949336439736,
+          "rows": 16407,
+          "boundary": {
+            "tp": 47491,
+            "fp": 129,
+            "fn": 46490,
+            "f1": 0.670772099067097,
+            "precision": 0.9972910541789164,
+            "recall": 0.5053255445249571
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 180216,
+              "fp": 27183,
+              "fn": 27871,
+              "f1": 0.8674949336439736,
+              "precision": 0.8689337942805896,
+              "recall": 0.8660608303257772
+            }
+          },
+          "input_preserved": 5971,
+          "exact_spaces": 2106,
+          "changed_morph": 3704,
+          "wins_vs_raw": 2831,
+          "losses_vs_raw": 712,
+          "ties_vs_raw": 12864
+        },
+        "partial": {
+          "tp": 182705,
+          "fp": 25615,
+          "fn": 25382,
+          "f1": 0.8775308772426976,
+          "rows": 16407,
+          "boundary": {
+            "tp": 63342,
+            "fp": 106,
+            "fn": 30639,
+            "f1": 0.8047056133241016,
+            "precision": 0.9983293405623502,
+            "recall": 0.6739872953043701
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 182705,
+              "fp": 25615,
+              "fn": 25382,
+              "f1": 0.8775308772426976,
+              "precision": 0.8770401305683564,
+              "recall": 0.8780221734178493
+            }
+          },
+          "input_preserved": 8856,
+          "exact_spaces": 2967,
+          "changed_morph": 2576,
+          "wins_vs_raw": 2084,
+          "losses_vs_raw": 339,
+          "ties_vs_raw": 13984
+        },
+        "normal": {
+          "tp": 191248,
+          "fp": 19950,
+          "fn": 16839,
+          "f1": 0.9122577721597481,
+          "rows": 16407,
+          "boundary": {
+            "tp": 93981,
+            "fp": 7,
+            "fn": 0,
+            "f1": 0.9999627598167783,
+            "precision": 0.9999255224071159,
+            "recall": 1.0
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 191248,
+              "fp": 19950,
+              "fn": 16839,
+              "f1": 0.9122577721597481,
+              "precision": 0.905538878209074,
+              "recall": 0.9190771167828841
+            }
+          },
+          "input_preserved": 16401,
+          "exact_spaces": 16401,
+          "changed_morph": 2,
+          "wins_vs_raw": 0,
+          "losses_vs_raw": 2,
+          "ties_vs_raw": 16405
+        }
+      },
+      "joint_selected": {
+        "none": {
+          "tp": 184522,
+          "fp": 23512,
+          "fn": 23565,
+          "f1": 0.8868670410769944,
+          "rows": 16407,
+          "boundary": {
+            "tp": 56099,
+            "fp": 557,
+            "fn": 37882,
+            "f1": 0.7448236489043196,
+            "precision": 0.9901687376447331,
+            "recall": 0.5969185260850598
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 184522,
+              "fp": 23512,
+              "fn": 23565,
+              "f1": 0.8868670410769944,
+              "precision": 0.8869800128825096,
+              "recall": 0.8867540980455291
+            }
+          },
+          "input_preserved": 5788,
+          "exact_spaces": 4287,
+          "changed_morph": 6501,
+          "wins_vs_raw": 5160,
+          "losses_vs_raw": 1060,
+          "ties_vs_raw": 10187
+        },
+        "partial": {
+          "tp": 187534,
+          "fp": 22055,
+          "fn": 20553,
+          "f1": 0.89798791407694,
+          "rows": 16407,
+          "boundary": {
+            "tp": 72901,
+            "fp": 559,
+            "fn": 21080,
+            "f1": 0.8707664192163209,
+            "precision": 0.9923904165532262,
+            "recall": 0.7756993434843213
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 187534,
+              "fp": 22055,
+              "fn": 20553,
+              "f1": 0.89798791407694,
+              "precision": 0.8947702408046224,
+              "recall": 0.9012288129484303
+            }
+          },
+          "input_preserved": 6297,
+          "exact_spaces": 5592,
+          "changed_morph": 5831,
+          "wins_vs_raw": 4839,
+          "losses_vs_raw": 704,
+          "ties_vs_raw": 10864
+        },
+        "normal": {
+          "tp": 191097,
+          "fp": 20251,
+          "fn": 16990,
+          "f1": 0.911211510722758,
+          "rows": 16407,
+          "boundary": {
+            "tp": 93981,
+            "fp": 383,
+            "fn": 0,
+            "f1": 0.997966497650588,
+            "precision": 0.995941248781315,
+            "recall": 1.0
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 191097,
+              "fp": 20251,
+              "fn": 16990,
+              "f1": 0.911211510722758,
+              "precision": 0.9041817287128338,
+              "recall": 0.9183514587648436
+            }
+          },
+          "input_preserved": 16062,
+          "exact_spaces": 16062,
+          "changed_morph": 268,
+          "wins_vs_raw": 39,
+          "losses_vs_raw": 173,
+          "ties_vs_raw": 16195
+        }
+      },
+      "oracle": {
+        "none": {
+          "tp": 189335,
+          "fp": 20810,
+          "fn": 18752,
+          "f1": 0.905406568603072,
+          "rows": 16407,
+          "boundary": {
+            "tp": 42868,
+            "fp": 766,
+            "fn": 51113,
+            "f1": 0.6230134796352141,
+            "precision": 0.9824448824311317,
+            "recall": 0.45613475064108705
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 189335,
+              "fp": 20810,
+              "fn": 18752,
+              "f1": 0.905406568603072,
+              "precision": 0.9009731375954698,
+              "recall": 0.9098838466602911
+            }
+          },
+          "input_preserved": 9870,
+          "exact_spaces": 4010,
+          "changed_morph": 6537,
+          "wins_vs_raw": 6515,
+          "losses_vs_raw": 20,
+          "ties_vs_raw": 9872
+        },
+        "partial": {
+          "tp": 190312,
+          "fp": 20111,
+          "fn": 17775,
+          "f1": 0.9094740866407015,
+          "rows": 16407,
+          "boundary": {
+            "tp": 63718,
+            "fp": 672,
+            "fn": 30263,
+            "f1": 0.8046675212002198,
+            "precision": 0.9895635968318062,
+            "recall": 0.6779881039784638
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 190312,
+              "fp": 20111,
+              "fn": 17775,
+              "f1": 0.9094740866407015,
+              "precision": 0.9044258469844076,
+              "recall": 0.9145789982074806
+            }
+          },
+          "input_preserved": 10614,
+          "exact_spaces": 4344,
+          "changed_morph": 5793,
+          "wins_vs_raw": 5790,
+          "losses_vs_raw": 3,
+          "ties_vs_raw": 10614
+        },
+        "normal": {
+          "tp": 191401,
+          "fp": 19846,
+          "fn": 16686,
+          "f1": 0.9128809016201882,
+          "rows": 16407,
+          "boundary": {
+            "tp": 93981,
+            "fp": 162,
+            "fn": 0,
+            "f1": 0.9991388658544365,
+            "precision": 0.9982792135368536,
+            "recall": 1.0
+          },
+          "domain": {
+            "2025SX": {
+              "tp": 191401,
+              "fp": 19846,
+              "fn": 16686,
+              "f1": 0.9128809016201882,
+              "precision": 0.9060531037127154,
+              "recall": 0.919812386165402
+            }
+          },
+          "input_preserved": 16265,
+          "exact_spaces": 16265,
+          "changed_morph": 142,
+          "wins_vs_raw": 141,
+          "losses_vs_raw": 1,
+          "ties_vs_raw": 16265
+        }
+      }
+    }
+  },
+  "posthoc_candidate_ablations": {
+    "policy": "Post-fixed diagnostic ablations only; coefficients and gates are unchanged; none selected for adoption.",
+    "f1": {
+      "dev": {
+        "raw_and_current": {
+          "none": 0.9241351776223311,
+          "partial": 0.9329956614701181,
+          "normal": 0.9481704542634248
+        },
+        "thresholds_no_flips": {
+          "none": 0.9286994117524787,
+          "partial": 0.9363848684346986,
+          "normal": 0.947858519198485
+        }
+      },
+      "gold": {
+        "raw_and_current": {
+          "none": 0.9346626473445434,
+          "partial": 0.942785012622791,
+          "normal": 0.9605588532363434
+        },
+        "thresholds_no_flips": {
+          "none": 0.9376517407954347,
+          "partial": 0.9459178782553124,
+          "normal": 0.9596470986094809
+        }
+      },
+      "spoken": {
+        "raw_and_current": {
+          "none": 0.8781488061039782,
+          "partial": 0.8910897735582167,
+          "normal": 0.9120243066569046
+        },
+        "thresholds_no_flips": {
+          "none": 0.8867960339330804,
+          "partial": 0.8975181600961516,
+          "normal": 0.9111984760669558
+        }
+      }
+    }
+  },
+  "verification": {
+    "runs": {
+      "dev": {
+        "rows": 5995,
+        "candidates": 61338,
+        "elapsedSec": 46.01421775,
+        "invariants": "all passed",
+        "publicThresholdParity": "all passed"
+      },
+      "gold": {
+        "rows": 9000,
+        "candidates": 73595,
+        "elapsedSec": 24.315932791999998,
+        "invariants": "all passed",
+        "publicThresholdParity": "all passed"
+      },
+      "spoken": {
+        "rows": 16407,
+        "candidates": 136626,
+        "elapsedSec": 56.184239791,
+        "invariants": "all passed",
+        "publicThresholdParity": "all passed"
+      }
+    },
+    "focused": {
+      "fixtures": 11,
+      "candidates": 27,
+      "mappedTokens": 274,
+      "characterAndWhitespacePreservation": true,
+      "protectedURLAndEmailRanges": true,
+      "unicodeCodepointMapping": true
+    },
+    "pipeline": {
+      "cases": 900,
+      "mappedTokens": 13336,
+      "selectionAndActualWasmOutputParity": true,
+      "offsetBounds": true
+    },
+    "ep_norm_runtime": {
+      "cases": 727,
+      "mismatches": 0
+    },
+    "native_baseline": "Raw normal gold0.9605382326303532/spoken0.9122738395638258 exactly match fresh native baseline."
+  },
+  "timing": {
+    "rows": 1200,
+    "perDataset": 200,
+    "rounds": [
+      {
+        "raw": 396.6980839999991,
+        "current": 402.5737840000005,
+        "joint": 1177.6755059999987
+      },
+      {
+        "joint": 1179.1181609999903,
+        "current": 403.372335999999,
+        "raw": 388.2539439999782
+      },
+      {
+        "raw": 390.86708200000066,
+        "current": 391.3237349999936,
+        "joint": 1164.1362120000194
+      },
+      {
+        "joint": 1158.7238409999973,
+        "current": 390.38907900002414,
+        "raw": 388.8461159999879
+      },
+      {
+        "raw": 388.1907019999753,
+        "current": 391.18132200001855,
+        "joint": 1157.240546999994
+      },
+      {
+        "joint": 1160.452334000045,
+        "current": 390.2439620000041,
+        "raw": 388.5211629999885
+      },
+      {
+        "raw": 387.829240999974,
+        "current": 391.80938799995965,
+        "joint": 1161.7815260000025
+      }
+    ],
+    "warmup": 50,
+    "checksum": 304291,
+    "scope": "Loaded Node/WASM synchronous execution, model loading and corpus I/O excluded. M4 machine; process contention must be coordinated.",
+    "summary": {
+      "all": {
+        "rows": 1200,
+        "medianTotalMs": {
+          "raw": 388.5211629999885,
+          "current": 391.3237349999936,
+          "joint": 1161.7815260000025
+        },
+        "jointOverRaw": 2.981113512090425,
+        "jointOverCurrent": 2.9651702117972785,
+        "raw": {
+          "meanMs": 0.3249055157142744,
+          "p50Ms": 0.27920799999992596,
+          "p95Ms": 0.7147079999995185
+        },
+        "current": {
+          "meanMs": 0.32867781023809545,
+          "p50Ms": 0.28745899999921676,
+          "p95Ms": 0.7127909999999247
+        },
+        "joint": {
+          "meanMs": 0.9713247770238143,
+          "p50Ms": 0.6409579999999551,
+          "p95Ms": 3.045707999999877
+        }
+      },
+      "none": {
+        "rows": 400,
+        "medianTotalMs": {
+          "raw": 133.0091639999955,
+          "current": 142.3119130000323,
+          "joint": 567.9909160000052
+        },
+        "jointOverRaw": 4.258391276874047,
+        "jointOverCurrent": 3.9847040701613787,
+        "raw": {
+          "meanMs": 0.33358075535715015,
+          "p50Ms": 0.28899999999998727,
+          "p95Ms": 0.7193750000005821
+        },
+        "current": {
+          "meanMs": 0.3575727650000096,
+          "p50Ms": 0.31291700000019773,
+          "p95Ms": 0.7612500000004729
+        },
+        "joint": {
+          "meanMs": 1.4231931942857228,
+          "p50Ms": 1.0599999999994907,
+          "p95Ms": 3.7581669999999576
+        }
+      },
+      "partial": {
+        "rows": 400,
+        "medianTotalMs": {
+          "raw": 127.25581699998884,
+          "current": 126.53180699998393,
+          "joint": 420.72679799999787
+        },
+        "jointOverRaw": 3.3054886505835213,
+        "jointOverCurrent": 3.320105416328991,
+        "raw": {
+          "meanMs": 0.31871185464282936,
+          "p50Ms": 0.27212499999950523,
+          "p95Ms": 0.7131250000002183
+        },
+        "current": {
+          "meanMs": 0.3205854603571358,
+          "p50Ms": 0.27300000000013824,
+          "p95Ms": 0.7034589999998389
+        },
+        "joint": {
+          "meanMs": 1.0562244296428587,
+          "p50Ms": 0.7547500000000582,
+          "p95Ms": 3.022874999999658
+        }
+      },
+      "normal": {
+        "rows": 400,
+        "medianTotalMs": {
+          "raw": 128.21745600001123,
+          "current": 122.37211799999932,
+          "joint": 172.9748690000306
+        },
+        "jointOverRaw": 1.3490742555367456,
+        "jointOverCurrent": 1.414310988821282,
+        "raw": {
+          "meanMs": 0.32242393714284334,
+          "p50Ms": 0.2772919999997612,
+          "p95Ms": 0.7175000000006548
+        },
+        "current": {
+          "meanMs": 0.30787520535714014,
+          "p50Ms": 0.26229200000034325,
+          "p95Ms": 0.6819590000013704
+        },
+        "joint": {
+          "meanMs": 0.43455670714286443,
+          "p50Ms": 0.3110839999999371,
+          "p95Ms": 1.2355840000000171
+        }
+      }
+    }
+  },
+  "failure_references": [
+    {
+      "dataset": "gold",
+      "row_index_0based": 5840,
+      "condition": "normal",
+      "type": "segmentation+POS",
+      "mechanism": "False split of copula-ending into adverb/interjection"
+    },
+    {
+      "dataset": "gold",
+      "row_index_0based": 5740,
+      "condition": "normal",
+      "type": "segmentation",
+      "mechanism": "False split inside repeated interjection"
+    },
+    {
+      "dataset": "gold",
+      "row_index_0based": 7027,
+      "condition": "normal",
+      "type": "segmentation+POS",
+      "mechanism": "False split inside contracted predicate ending/clitic"
+    },
+    {
+      "dataset": "spoken",
+      "row_index_0based": 15633,
+      "condition": "normal",
+      "type": "segmentation+POS",
+      "mechanism": "False split of copula-ending into adverb/interjection"
+    },
+    {
+      "dataset": "spoken",
+      "row_index_0based": 5314,
+      "condition": "normal",
+      "type": "segmentation+POS",
+      "mechanism": "False split inside predicate ending"
+    },
+    {
+      "dataset": "spoken",
+      "row_index_0based": 9156,
+      "condition": "normal",
+      "type": "segmentation+POS",
+      "mechanism": "False split of nominal into interjection/predicate"
+    },
+    {
+      "dataset": "gold",
+      "row_index_0based": 8186,
+      "condition": "none",
+      "type": "OOV+segmentation",
+      "mechanism": "Low-cost raw long NNG retained instead of correct restored analysis"
+    },
+    {
+      "dataset": "gold",
+      "row_index_0based": 8765,
+      "condition": "none",
+      "type": "OOV+segmentation",
+      "mechanism": "Low-cost raw long NNG retained instead of correct restored analysis"
+    }
+  ],
+  "evidence_sha256": {
+    "research.mjs": "038cd76cd91af144af03cc46ee096f24a7b5b1bc3935ff7e1e6406a71b0dc7ff",
+    "prepare.py": "47625baab15cae53ef66c1310dec85ea070018ae3f7beb99ff8958c4d2f01663",
+    "split_docs.py": "b3dc51c50a5f1dc0ef46a414cc91c34a9d584d852f5cb686e8fac253a8e67635",
+    "calibrate.py": "3086fc7e40fb3a6d88998d5932e18d5a7fd4cb74c44a7cfbb6b176ee229d2fc6",
+    "evaluate.py": "1f01985136458e77f534f7ff91735729182d2ed7152dbb1f2222c4a6fcb43d89",
+    "pipeline.mjs": "62f8c95f67c2821a4f1c3b1bcfb00b4323e8185cbd2261063a9a8d7353b46e28",
+    "verify.mjs": "400ccd4b6a3787b708ce7392ddf0eba3119a928dabccbc5f82144e9657c07b72",
+    "replay.mjs": "1ad4510c9e360beef70afb21616bd2331d4374dada214adfa2f39c941f383850",
+    "timing.mjs": "243f0f914cbfe91646f70cd305aaa3c3117f1edaba71d453b42ee7ecbd84f12b",
+    "REPORT.md": "aa18dd9a2b55cd132177020a19431fef08cef9d3c57e80765d3e08342a5f06fa"
+  },
+  "cleanup": {
+    "completed": true,
+    "completed_utc": "2026-10-26T08:18:59.088755+00:00",
+    "removed_worktrees": 2,
+    "removed_regular_files": 1679,
+    "removed_logical_file_bytes": 980399122,
+    "removed_symlinks_without_following": 2,
+    "bytes_scope": "Logical temporary file sizes, not measured reclaimed disk space.",
+    "preserved_artifacts": {
+      "js/models/base.gmdl": {
+        "bytes": 1260476,
+        "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7"
+      },
+      "models/codebook.gmdl": {
+        "bytes": 1260476,
+        "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7"
+      },
+      "js/pkg/garu_wasm_bg.wasm": {
+        "bytes": 424696,
+        "sha256": "4469411fdc11ac3f4ed49908b568b6d8b784eef1119471f5b2e21fc04cd75dac"
+      },
+      "training/gold_testset/gold_testset.jsonl": {
+        "bytes": 3385472,
+        "sha256": "3a5fa4194b2ae3eec58296674408e8f1d409a72205777044455b9c1b838bbb96"
+      },
+      "training/codebook_data/context_pos.bin": {
+        "bytes": 3054,
+        "sha256": "f24d45fbbed2e503fb5200d6759ceb88fe15fddc1b377947b24263fe759674fd"
+      }
+    },
+    "verified_original_source_files": 9,
+    "retained": "Original-free research reports and findings; original corpora and shipped artifacts unchanged.",
+    "removed": "Experimental worktrees, helpers, plans, candidate sidecars, input/prediction dumps, feature caches, build outputs and checkpoints. Historical temporary paths in command records no longer exist."
+  },
+  "independent_review": {
+    "unresolved_critical_or_important": 0,
+    "fixed_lock_and_source_hashes_verified": true,
+    "dev_collapsed_text_overlap": 0,
+    "candidate_oracle_fixed_point_error": 0,
+    "scope": "Research evidence only; no production or browser cold-start integration."
+  },
+  "root_normalization_check": {
+    "cases": 966,
+    "mismatches": 0,
+    "python_source_sha256": "03993ad10a2991007c310b74d54e5831fbfb62fce3867b58991ecafe5b3b83e7",
+    "js_script_sha256": "038cd76cd91af144af03cc46ee096f24a7b5b1bc3935ff7e1e6406a71b0dc7ff"
+  }
+}

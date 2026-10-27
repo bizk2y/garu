@@ -1,0 +1,7252 @@
+{
+  "schema": "garu-context-pos-research-v1",
+  "date": "2026-10-26",
+  "completed_utc": "2026-10-26T08:15:24.113712+00:00",
+  "verdict": "not_adopted",
+  "reason": "Aggregate gold/spoken and component-dev gains, but fixed literature regresses by one matched morpheme; strict no-domain-regression gate not met. Production model and runtime unchanged.",
+  "hypothesis": "Frozen raw-neighbor guarded single-POS correction over exact production form/POS/span sequences, extending beyond Section13 exact-cache sources. No lattice changes and no form/boundary edits.",
+  "baseline_model": {
+    "bytes": 1260476,
+    "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "section16_preserved": true
+  },
+  "main_hashes_after_research": {
+    "js/models/base.gmdl": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "models/codebook.gmdl": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "crates/garu-core/src/codebook.rs": "2b58946739be8fda922c81090c8959a837af835d2efaa3f3b9070a3faf401d00",
+    "crates/garu-core/src/model.rs": "bc8d05e8dce47131a85eef2bfcf1519affd9f225c246265d9ad2e2a595513e87",
+    "training/gold_testset/expand/ep_norm.py": "03993ad10a2991007c310b74d54e5831fbfb62fce3867b58991ecafe5b3b83e7"
+  },
+  "data": {
+    "counts": {
+      "train": 285152,
+      "dev": 27748
+    },
+    "docs": {
+      "train": 6907,
+      "dev": 781
+    },
+    "fixed_labels_used": false,
+    "overlap_text_only": true,
+    "split": "Original corpora retained separately; these references identify the training and component-dev membership. Base analyzer already trained on NIKL.",
+    "source_sha256": {
+      "/Users/cyj/workspace/personal/garu/training/rerank/data/train.jsonl": "c01cd80addfb0c42210e3938b527376975d7a9269dd0e137b788f0a4ddd03423",
+      "/Users/cyj/workspace/personal/garu/training/rerank/data/dev.jsonl": "ee6e669a2a8dcea91dec3626cc563659b8b3ecddb7f665d5b343b0e1a0954763",
+      "/Users/cyj/workspace/personal/garu/training/gold_testset/gold_testset.jsonl": "3a5fa4194b2ae3eec58296674408e8f1d409a72205777044455b9c1b838bbb96",
+      "/Users/cyj/workspace/data/nikl_mp_2025/SXMP2502512312.json": "79117622c4fbd51d097b9234e4a8d09a74d1d36a66dd949624dd3cb40bb06f16",
+      "/Users/cyj/workspace/data/nikl_mp_2021/NXMP1902008040.json": "15a1db6986cbb883440e4de2263b35b538c5353c4f124109ec0ae23c70af0d48",
+      "/Users/cyj/workspace/data/nikl_mp_2021/SXMP1902008031.json": "b3df77c0eb4c2006f3e529fbd0be441caeefa5bfcc8ca1ccd287fb76940fd461"
+    },
+    "prepared_sha256": {
+      "train": "2e810a4d09ecaeb388ca6495459a06d3a4424569cf4405c0ef6be4b948f12fce",
+      "dev": "c9750959621fb1524f568a07cd2539cbc654efdb9fa19615d53cce08f7356ae1"
+    }
+  },
+  "mining": {
+    "rows": 285152,
+    "aligned_eojeols": 2587119,
+    "one_pos_candidate_occurrences": 90913,
+    "candidates": 1112,
+    "candidate_cache_exact": 346,
+    "candidate_noncache": 766,
+    "candidate_surface_absent": 649,
+    "candidate_cached_output_changed": 117,
+    "correct_negative_occurrences": 398103,
+    "correction_gold": "normalize_ep(source with one raw POS replacement) equals normalize_ep(local gold)",
+    "negative_gold": "all other references, including already-correct outputs",
+    "negative_count_unit": "candidate-specific occurrences; the same eojeol can count for multiple target candidates, not distinct token negatives"
+  },
+  "selected_rules": {
+    "rules": 260,
+    "guards": 660,
+    "cache_exact": 53,
+    "surface_absent_from_section13": 176,
+    "cached_surface_with_different_production_sequence": 31
+  },
+  "selection": {
+    "utc": "2026-10-26T08:00:11.629943+00:00",
+    "fixed_labels_used_for_selection": false,
+    "selection": "maximum dev micro F1 with NX/SX nonnegative; ties fewer compressed bytes then rules",
+    "configuration_count": 32,
+    "selected": {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 260,
+      "noncache": 207,
+      "guards": 660,
+      "brotli_bytes": 4558,
+      "dev": {
+        "baseline": {
+          "f1": 0.9482576862781105,
+          "tp": 557695,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "selected": {
+          "f1": 0.9496060368016378,
+          "tp": 558488,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "NX/baseline": {
+          "f1": 0.9552759674146102,
+          "tp": 416347,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "NX/selected": {
+          "f1": 0.9566044381016406,
+          "tp": 416926,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "SX/baseline": {
+          "f1": 0.9281715713474273,
+          "tp": 141348,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "SX/selected": {
+          "f1": 0.9295768173803981,
+          "tp": 141562,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "changes": {
+          "changed": 796,
+          "win": 776,
+          "pos_edits": 833,
+          "loss": 15,
+          "tie": 5
+        },
+        "invariants": {
+          "forms_order_count_spans_scores_unchanged": true
+        }
+      }
+    },
+    "dev": {
+      "baseline": {
+        "f1": 0.9482576862781105,
+        "tp": 557695,
+        "predicted": 587959,
+        "gold": 588293
+      },
+      "selected": {
+        "f1": 0.9496060368016378,
+        "tp": 558488,
+        "predicted": 587959,
+        "gold": 588293
+      },
+      "NX/baseline": {
+        "f1": 0.9552759674146102,
+        "tp": 416347,
+        "predicted": 435304,
+        "gold": 436375
+      },
+      "NX/selected": {
+        "f1": 0.9566044381016406,
+        "tp": 416926,
+        "predicted": 435304,
+        "gold": 436375
+      },
+      "SX/baseline": {
+        "f1": 0.9281715713474273,
+        "tp": 141348,
+        "predicted": 152655,
+        "gold": 151918
+      },
+      "SX/selected": {
+        "f1": 0.9295768173803981,
+        "tp": 141562,
+        "predicted": 152655,
+        "gold": 151918
+      },
+      "changes": {
+        "changed": 796,
+        "win": 776,
+        "pos_edits": 833,
+        "loss": 15,
+        "tie": 5
+      },
+      "invariants": {
+        "forms_order_count_spans_scores_unchanged": true
+      }
+    },
+    "ablation_dev": {
+      "cache": {
+        "baseline": {
+          "f1": 0.9482576862781105,
+          "tp": 557695,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "selected": {
+          "f1": 0.9484430207132485,
+          "tp": 557804,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "NX/baseline": {
+          "f1": 0.9552759674146102,
+          "tp": 416347,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "NX/selected": {
+          "f1": 0.9554549323776298,
+          "tp": 416425,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "SX/baseline": {
+          "f1": 0.9281715713474273,
+          "tp": 141348,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "SX/selected": {
+          "f1": 0.9283751350251007,
+          "tp": 141379,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "changes": {
+          "changed": 112,
+          "win": 110,
+          "pos_edits": 112,
+          "tie": 1,
+          "loss": 1
+        },
+        "invariants": {
+          "forms_order_count_spans_scores_unchanged": true
+        }
+      },
+      "noncache": {
+        "baseline": {
+          "f1": 0.9482576862781105,
+          "tp": 557695,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "selected": {
+          "f1": 0.9494207023664997,
+          "tp": 558379,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "NX/baseline": {
+          "f1": 0.9552759674146102,
+          "tp": 416347,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "NX/selected": {
+          "f1": 0.956425473138621,
+          "tp": 416848,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "SX/baseline": {
+          "f1": 0.9281715713474273,
+          "tp": 141348,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "SX/selected": {
+          "f1": 0.9293732537027248,
+          "tp": 141531,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "changes": {
+          "changed": 688,
+          "win": 669,
+          "pos_edits": 721,
+          "loss": 15,
+          "tie": 4
+        },
+        "invariants": {
+          "forms_order_count_spans_scores_unchanged": true
+        }
+      },
+      "absent": {
+        "baseline": {
+          "f1": 0.9482576862781105,
+          "tp": 557695,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "selected": {
+          "f1": 0.9492608726701421,
+          "tp": 558285,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "NX/baseline": {
+          "f1": 0.9552759674146102,
+          "tp": 416347,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "NX/selected": {
+          "f1": 0.9562579802886154,
+          "tp": 416775,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "SX/baseline": {
+          "f1": 0.9281715713474273,
+          "tp": 141348,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "SX/selected": {
+          "f1": 0.9292353557275267,
+          "tp": 141510,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "changes": {
+          "changed": 597,
+          "win": 580,
+          "pos_edits": 624,
+          "loss": 16,
+          "tie": 1
+        },
+        "invariants": {
+          "forms_order_count_spans_scores_unchanged": true
+        }
+      },
+      "changed": {
+        "baseline": {
+          "f1": 0.9482576862781105,
+          "tp": 557695,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "selected": {
+          "f1": 0.9484141153426306,
+          "tp": 557787,
+          "predicted": 587959,
+          "gold": 588293
+        },
+        "NX/baseline": {
+          "f1": 0.9552759674146102,
+          "tp": 416347,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "NX/selected": {
+          "f1": 0.9554434602646158,
+          "tp": 416420,
+          "predicted": 435304,
+          "gold": 436375
+        },
+        "SX/baseline": {
+          "f1": 0.9281715713474273,
+          "tp": 141348,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "SX/selected": {
+          "f1": 0.9282963361821304,
+          "tp": 141367,
+          "predicted": 152655,
+          "gold": 151918
+        },
+        "changes": {
+          "changed": 96,
+          "win": 93,
+          "pos_edits": 97,
+          "loss": 2,
+          "tie": 1
+        },
+        "invariants": {
+          "forms_order_count_spans_scores_unchanged": true
+        }
+      }
+    },
+    "native_python_equal_rows": 27748,
+    "paired_before_equal_rows": 27748,
+    "model_sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "binary_sha256": "530a2b8ed6dea2f8e4a9631227fbc8aa5b93855f9cf8d742a4bb88f237616904",
+    "rules_sha256": {
+      "selected.json": "1d29cd8a5d072ee7a00c274875c6a39d1e675b983bfecbfd84b630c2b5b266e9",
+      "selected-cache.json": "134d70f890dae2fad25d7631cad3004274b42769595b11fd91a1952e4fb55d82",
+      "selected-noncache.json": "2d1a6f40333dc94e614e463d3fdc8651fe14cfb46f2e9773bb1535aef1cb4eb9",
+      "selected-absent.json": "8936c9add958f3d0ed250bb51657a8474ff02ee71c5297e625e02b826b78463a",
+      "selected-changed.json": "a67fd7cd283ed4df289a5ebb4424fbaa1e1d5d9b3e37dfa1769c4fc4cf73f189"
+    },
+    "source_sha256": {
+      "pos/../pos-data/experiment.py": "6dfb9c6020b47c986ee4148b3610d665a6401ea74cc24aaa37e9682dc175541a",
+      "pos/crates/garu-core/examples/context_pos_probe.rs": "88c4de93aea82e27d2b5bad64cdd6633d5a0e6a5bb172bff6c73049438c53c7f"
+    },
+    "data_manifest_sha256": "491d0a66bcd7da5468c4f400f2ea80a6cb5d0bd868a17dc50b5bc846f30f9468",
+    "base_section16_preserved": true,
+    "public_runtime_integrated": false
+  },
+  "fixed": {
+    "fixed_started_utc": "2026-10-26T08:05:07.393649+00:00",
+    "selection_lock_sha256": "4ae805b5b19e0accddc2613f41016427d1970b177d2933deac87e7df92c60a4e",
+    "lock_utc": "2026-10-26T08:00:11.629943+00:00",
+    "input_policy": "strip leading/trailing whitespace exactly like analyze_batch; raw Unicode/whitespace tested separately",
+    "fixed_labels_used_for_mining_or_selection": false,
+    "model_sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "binary_sha256": "530a2b8ed6dea2f8e4a9631227fbc8aa5b93855f9cf8d742a4bb88f237616904",
+    "metrics": {
+      "gold": {
+        "all": {
+          "baseline": {
+            "f1": 0.9605382326303532,
+            "tp": 96512,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "selected": {
+            "f1": 0.960916428635409,
+            "tp": 96550,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "뉴스/baseline": {
+            "f1": 0.9728111543981957,
+            "tp": 35583,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "뉴스/selected": {
+            "f1": 0.9732759209896794,
+            "tp": 35600,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "일상/baseline": {
+            "f1": 0.9441997063142438,
+            "tp": 7073,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "일상/selected": {
+            "f1": 0.9448671739420638,
+            "tp": 7078,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "SNS/baseline": {
+            "f1": 0.9440086140593755,
+            "tp": 6137,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "SNS/selected": {
+            "f1": 0.9443162590370712,
+            "tp": 6139,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "기술/baseline": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "기술/selected": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "문학/baseline": {
+            "f1": 0.9697618410489698,
+            "tp": 5436,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "문학/selected": {
+            "f1": 0.9695834448309696,
+            "tp": 5435,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "구어/baseline": {
+            "f1": 0.9417993448617353,
+            "tp": 24726,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "구어/selected": {
+            "f1": 0.9423706863716005,
+            "tp": 24741,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "엣지케이스/baseline": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "엣지케이스/selected": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "changes": {
+            "changed": 59,
+            "win": 47,
+            "pos_edits": 62,
+            "loss": 11,
+            "tie": 1
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 9000,
+          "root_baseline_equal_rows": 9000,
+          "rules": 260,
+          "coverage_sentence_rate": 0.006555555555555556
+        },
+        "cache": {
+          "baseline": {
+            "f1": 0.9605382326303532,
+            "tp": 96512,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "selected": {
+            "f1": 0.9605581376832509,
+            "tp": 96514,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "뉴스/baseline": {
+            "f1": 0.9728111543981957,
+            "tp": 35583,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "뉴스/selected": {
+            "f1": 0.9728658328207231,
+            "tp": 35585,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "일상/baseline": {
+            "f1": 0.9441997063142438,
+            "tp": 7073,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "일상/selected": {
+            "f1": 0.9441997063142438,
+            "tp": 7073,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "SNS/baseline": {
+            "f1": 0.9440086140593755,
+            "tp": 6137,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "SNS/selected": {
+            "f1": 0.9441624365482234,
+            "tp": 6138,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "기술/baseline": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "기술/selected": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "문학/baseline": {
+            "f1": 0.9697618410489698,
+            "tp": 5436,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "문학/selected": {
+            "f1": 0.9697618410489698,
+            "tp": 5436,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "구어/baseline": {
+            "f1": 0.9417993448617353,
+            "tp": 24726,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "구어/selected": {
+            "f1": 0.9417612554277444,
+            "tp": 24725,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "엣지케이스/baseline": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "엣지케이스/selected": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "changes": {
+            "changed": 6,
+            "win": 4,
+            "pos_edits": 6,
+            "loss": 2
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 9000,
+          "root_baseline_equal_rows": 9000,
+          "rules": 53,
+          "coverage_sentence_rate": 0.0006666666666666666
+        },
+        "noncache": {
+          "baseline": {
+            "f1": 0.9605382326303532,
+            "tp": 96512,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "selected": {
+            "f1": 0.9608965235825114,
+            "tp": 96548,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "뉴스/baseline": {
+            "f1": 0.9728111543981957,
+            "tp": 35583,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "뉴스/selected": {
+            "f1": 0.9732212425671519,
+            "tp": 35598,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "일상/baseline": {
+            "f1": 0.9441997063142438,
+            "tp": 7073,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "일상/selected": {
+            "f1": 0.9448671739420638,
+            "tp": 7078,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "SNS/baseline": {
+            "f1": 0.9440086140593755,
+            "tp": 6137,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "SNS/selected": {
+            "f1": 0.9441624365482234,
+            "tp": 6138,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "기술/baseline": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "기술/selected": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "문학/baseline": {
+            "f1": 0.9697618410489698,
+            "tp": 5436,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "문학/selected": {
+            "f1": 0.9695834448309696,
+            "tp": 5435,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "구어/baseline": {
+            "f1": 0.9417993448617353,
+            "tp": 24726,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "구어/selected": {
+            "f1": 0.9424087758055916,
+            "tp": 24742,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "엣지케이스/baseline": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "엣지케이스/selected": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "changes": {
+            "changed": 53,
+            "win": 43,
+            "pos_edits": 56,
+            "loss": 9,
+            "tie": 1
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 9000,
+          "root_baseline_equal_rows": 9000,
+          "rules": 207,
+          "coverage_sentence_rate": 0.005888888888888889
+        },
+        "absent": {
+          "baseline": {
+            "f1": 0.9605382326303532,
+            "tp": 96512,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "selected": {
+            "f1": 0.9607870457915741,
+            "tp": 96537,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "뉴스/baseline": {
+            "f1": 0.9728111543981957,
+            "tp": 35583,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "뉴스/selected": {
+            "f1": 0.973111885722097,
+            "tp": 35594,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "일상/baseline": {
+            "f1": 0.9441997063142438,
+            "tp": 7073,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "일상/selected": {
+            "f1": 0.9441997063142438,
+            "tp": 7073,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "SNS/baseline": {
+            "f1": 0.9440086140593755,
+            "tp": 6137,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "SNS/selected": {
+            "f1": 0.9441624365482234,
+            "tp": 6138,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "기술/baseline": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "기술/selected": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "문학/baseline": {
+            "f1": 0.9697618410489698,
+            "tp": 5436,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "문학/selected": {
+            "f1": 0.9695834448309696,
+            "tp": 5435,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "구어/baseline": {
+            "f1": 0.9417993448617353,
+            "tp": 24726,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "구어/selected": {
+            "f1": 0.9423325969376095,
+            "tp": 24740,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "엣지케이스/baseline": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "엣지케이스/selected": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "changes": {
+            "changed": 38,
+            "win": 30,
+            "pos_edits": 41,
+            "loss": 7,
+            "tie": 1
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 9000,
+          "root_baseline_equal_rows": 9000,
+          "rules": 176,
+          "coverage_sentence_rate": 0.004222222222222222
+        },
+        "changed": {
+          "baseline": {
+            "f1": 0.9605382326303532,
+            "tp": 96512,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "selected": {
+            "f1": 0.9606477104212905,
+            "tp": 96523,
+            "predicted": 100439,
+            "gold": 100515
+          },
+          "뉴스/baseline": {
+            "f1": 0.9728111543981957,
+            "tp": 35583,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "뉴스/selected": {
+            "f1": 0.9729205112432506,
+            "tp": 35587,
+            "predicted": 36566,
+            "gold": 36589
+          },
+          "일상/baseline": {
+            "f1": 0.9441997063142438,
+            "tp": 7073,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "일상/selected": {
+            "f1": 0.9448671739420638,
+            "tp": 7078,
+            "predicted": 7469,
+            "gold": 7513
+          },
+          "SNS/baseline": {
+            "f1": 0.9440086140593755,
+            "tp": 6137,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "SNS/selected": {
+            "f1": 0.9440086140593755,
+            "tp": 6137,
+            "predicted": 6467,
+            "gold": 6535
+          },
+          "기술/baseline": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "기술/selected": {
+            "f1": 0.9733778722542767,
+            "tp": 9616,
+            "predicted": 9863,
+            "gold": 9895
+          },
+          "문학/baseline": {
+            "f1": 0.9697618410489698,
+            "tp": 5436,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "문학/selected": {
+            "f1": 0.9697618410489698,
+            "tp": 5436,
+            "predicted": 5613,
+            "gold": 5598
+          },
+          "구어/baseline": {
+            "f1": 0.9417993448617353,
+            "tp": 24726,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "구어/selected": {
+            "f1": 0.9418755237297174,
+            "tp": 24728,
+            "predicted": 26289,
+            "gold": 26219
+          },
+          "엣지케이스/baseline": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "엣지케이스/selected": {
+            "f1": 0.9720896070510466,
+            "tp": 7941,
+            "predicted": 8172,
+            "gold": 8166
+          },
+          "changes": {
+            "changed": 15,
+            "win": 13,
+            "pos_edits": 15,
+            "loss": 2
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 9000,
+          "root_baseline_equal_rows": 9000,
+          "rules": 31,
+          "coverage_sentence_rate": 0.0016666666666666668
+        }
+      },
+      "spoken": {
+        "all": {
+          "baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "selected": {
+            "f1": 0.9129511879832666,
+            "tp": 191392,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/selected": {
+            "f1": 0.9129511879832666,
+            "tp": 191392,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "changes": {
+            "changed": 177,
+            "win": 151,
+            "pos_edits": 184,
+            "tie": 12,
+            "loss": 14
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 16407,
+          "root_baseline_equal_rows": 16407,
+          "rules": 260,
+          "coverage_sentence_rate": 0.010788078259279577
+        },
+        "cache": {
+          "baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "selected": {
+            "f1": 0.9123358503346196,
+            "tp": 191263,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/selected": {
+            "f1": 0.9123358503346196,
+            "tp": 191263,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "changes": {
+            "changed": 14,
+            "tie": 1,
+            "pos_edits": 14,
+            "win": 13
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 16407,
+          "root_baseline_equal_rows": 16407,
+          "rules": 53,
+          "coverage_sentence_rate": 0.0008532943255927348
+        },
+        "noncache": {
+          "baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "selected": {
+            "f1": 0.9128891772124728,
+            "tp": 191379,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/selected": {
+            "f1": 0.9128891772124728,
+            "tp": 191379,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "changes": {
+            "changed": 163,
+            "win": 138,
+            "pos_edits": 170,
+            "tie": 11,
+            "loss": 14
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 16407,
+          "root_baseline_equal_rows": 16407,
+          "rules": 207,
+          "coverage_sentence_rate": 0.00993478393368684
+        },
+        "absent": {
+          "baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "selected": {
+            "f1": 0.9128319365009707,
+            "tp": 191367,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/selected": {
+            "f1": 0.9128319365009707,
+            "tp": 191367,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "changes": {
+            "changed": 150,
+            "win": 126,
+            "pos_edits": 157,
+            "tie": 10,
+            "loss": 14
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 16407,
+          "root_baseline_equal_rows": 16407,
+          "rules": 176,
+          "coverage_sentence_rate": 0.0091424392027793
+        },
+        "changed": {
+          "baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "selected": {
+            "f1": 0.9123310802753278,
+            "tp": 191262,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/baseline": {
+            "f1": 0.9122738395638258,
+            "tp": 191250,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "SX/selected": {
+            "f1": 0.9123310802753278,
+            "tp": 191262,
+            "predicted": 211195,
+            "gold": 208087
+          },
+          "changes": {
+            "changed": 13,
+            "win": 12,
+            "pos_edits": 13,
+            "tie": 1
+          },
+          "invariants": {
+            "forms_order_count_spans_scores_unchanged": true
+          },
+          "canonical_baseline_equal": true,
+          "native_python_equal_rows": 16407,
+          "root_baseline_equal_rows": 16407,
+          "rules": 31,
+          "coverage_sentence_rate": 0.0007923447309075395
+        }
+      }
+    },
+    "coverage": {
+      "gold": [
+        {
+          "from": "NNG",
+          "to": "NNB",
+          "outcome": "win",
+          "count": 7
+        },
+        {
+          "from": "EF",
+          "to": "EC",
+          "outcome": "win",
+          "count": 6
+        },
+        {
+          "from": "JKB",
+          "to": "IC",
+          "outcome": "win",
+          "count": 5
+        },
+        {
+          "from": "NNG",
+          "to": "NNP",
+          "outcome": "win",
+          "count": 5
+        },
+        {
+          "from": "XSV",
+          "to": "VV",
+          "outcome": "win",
+          "count": 5
+        },
+        {
+          "from": "VV",
+          "to": "VA",
+          "outcome": "win",
+          "count": 4
+        },
+        {
+          "from": "NNG",
+          "to": "NNB",
+          "outcome": "loss",
+          "count": 3
+        },
+        {
+          "from": "VV",
+          "to": "VA",
+          "outcome": "loss",
+          "count": 2
+        },
+        {
+          "from": "NNG",
+          "to": "MM",
+          "outcome": "win",
+          "count": 2
+        },
+        {
+          "from": "VV",
+          "to": "NR",
+          "outcome": "win",
+          "count": 2
+        },
+        {
+          "from": "NP",
+          "to": "IC",
+          "outcome": "win",
+          "count": 2
+        },
+        {
+          "from": "XSV",
+          "to": "VV",
+          "outcome": "loss",
+          "count": 2
+        },
+        {
+          "from": "NNG",
+          "to": "MAG",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "VV",
+          "to": "VA",
+          "outcome": "tie",
+          "count": 1
+        },
+        {
+          "from": "VX",
+          "to": "VV",
+          "outcome": "tie",
+          "count": 1
+        },
+        {
+          "from": "JKB",
+          "to": "NNP",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "NNP",
+          "to": "NNB",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "NP",
+          "to": "NNB",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "JX",
+          "to": "MM",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "NNB",
+          "to": "NNG",
+          "outcome": "loss",
+          "count": 1
+        },
+        {
+          "from": "NNG",
+          "to": "NNP",
+          "outcome": "loss",
+          "count": 1
+        },
+        {
+          "from": "JC",
+          "to": "JX",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "MM",
+          "to": "NNG",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "VX",
+          "to": "VA",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "VV",
+          "to": "XSV",
+          "outcome": "loss",
+          "count": 1
+        },
+        {
+          "from": "NNG",
+          "to": "XPN",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "NNB",
+          "to": "NNG",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "NNB",
+          "to": "XSN",
+          "outcome": "loss",
+          "count": 1
+        },
+        {
+          "from": "JX",
+          "to": "NNB",
+          "outcome": "win",
+          "count": 1
+        }
+      ],
+      "spoken": [
+        {
+          "from": "VV",
+          "to": "VA",
+          "outcome": "win",
+          "count": 33
+        },
+        {
+          "from": "EF",
+          "to": "EC",
+          "outcome": "win",
+          "count": 24
+        },
+        {
+          "from": "VX",
+          "to": "VV",
+          "outcome": "win",
+          "count": 23
+        },
+        {
+          "from": "NNG",
+          "to": "NNB",
+          "outcome": "win",
+          "count": 22
+        },
+        {
+          "from": "NNG",
+          "to": "MAG",
+          "outcome": "win",
+          "count": 15
+        },
+        {
+          "from": "XSV",
+          "to": "VV",
+          "outcome": "win",
+          "count": 9
+        },
+        {
+          "from": "VV",
+          "to": "VX",
+          "outcome": "win",
+          "count": 8
+        },
+        {
+          "from": "NP",
+          "to": "IC",
+          "outcome": "win",
+          "count": 7
+        },
+        {
+          "from": "VV",
+          "to": "XSV",
+          "outcome": "tie",
+          "count": 5
+        },
+        {
+          "from": "MM",
+          "to": "NR",
+          "outcome": "loss",
+          "count": 5
+        },
+        {
+          "from": "NNG",
+          "to": "MM",
+          "outcome": "win",
+          "count": 5
+        },
+        {
+          "from": "NNG",
+          "to": "MAG",
+          "outcome": "loss",
+          "count": 3
+        },
+        {
+          "from": "VV",
+          "to": "VX",
+          "outcome": "loss",
+          "count": 3
+        },
+        {
+          "from": "VV",
+          "to": "VA",
+          "outcome": "tie",
+          "count": 2
+        },
+        {
+          "from": "JKB",
+          "to": "MAG",
+          "outcome": "tie",
+          "count": 2
+        },
+        {
+          "from": "NP",
+          "to": "IC",
+          "outcome": "loss",
+          "count": 2
+        },
+        {
+          "from": "NNG",
+          "to": "NP",
+          "outcome": "win",
+          "count": 2
+        },
+        {
+          "from": "MAG",
+          "to": "NNB",
+          "outcome": "win",
+          "count": 2
+        },
+        {
+          "from": "JC",
+          "to": "JX",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "VV",
+          "to": "VX",
+          "outcome": "tie",
+          "count": 1
+        },
+        {
+          "from": "MM",
+          "to": "NR",
+          "outcome": "tie",
+          "count": 1
+        },
+        {
+          "from": "VX",
+          "to": "VA",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "EC",
+          "to": "EF",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "NP",
+          "to": "MM",
+          "outcome": "tie",
+          "count": 1
+        },
+        {
+          "from": "MM",
+          "to": "NNG",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "VV",
+          "to": "XSV",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "VV",
+          "to": "XSV",
+          "outcome": "loss",
+          "count": 1
+        },
+        {
+          "from": "XSV",
+          "to": "VV",
+          "outcome": "tie",
+          "count": 1
+        },
+        {
+          "from": "MM",
+          "to": "IC",
+          "outcome": "win",
+          "count": 1
+        },
+        {
+          "from": "JC",
+          "to": "JKB",
+          "outcome": "win",
+          "count": 1
+        }
+      ]
+    },
+    "reused_frozen_native_predictions": true,
+    "reference_sha256": {
+      "/Users/cyj/workspace/personal/garu/training/reverse_2025_to_2021.py": "bc08bd78209eed683d95283b22bb93c5bbb08a74f188c353913883e0be2f990c",
+      "/Users/cyj/workspace/personal/garu/training/codebook_data/content_dict.txt": "6574b3f3aff436c450fb1a9191f0f46af0cc0b9a8551944b881605f281655c6d",
+      "/Users/cyj/workspace/personal/garu/training/nikl2025_reverse_whitelist.json": "25174458aa47b47c4b09930718072b042bb8934c53a9141edcb43212ef104def"
+    },
+    "evaluation_correction": "Initial worktree converter lacked ignored content_dict.txt; that invalid whitelist-only score is preserved separately. Rules and native predictions unchanged.",
+    "additional_asset": {
+      "format": "complete optional JSON sidecar; original GMDL unchanged",
+      "pretty_json_bytes": 80061,
+      "compact_json_bytes": 31075,
+      "gzip_bytes": 5274,
+      "brotli_q11_bytes": 4558,
+      "runtime_integration": "native research example only; WASM/package impact unmeasured"
+    },
+    "gate": {
+      "gold": {
+        "aggregate_nonnegative": true,
+        "regression_domains": [
+          "문학"
+        ]
+      },
+      "spoken": {
+        "aggregate_nonnegative": true,
+        "regression_domains": []
+      }
+    }
+  },
+  "timing": {
+    "samples": 1250,
+    "warmup": 50,
+    "pairs": 7,
+    "sample_sources": {
+      "NX": 639,
+      "SX": 611
+    },
+    "input_sha256": "87ddce69c3fe7ba50f5a2172e35f49bdf23a86b3f9b9f1925d5660d3cba74861",
+    "binary_sha256": "530a2b8ed6dea2f8e4a9631227fbc8aa5b93855f9cf8d742a4bb88f237616904",
+    "model_sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7",
+    "rules_sha256": "1d29cd8a5d072ee7a00c274875c6a39d1e675b983bfecbfd84b630c2b5b266e9",
+    "scope": "loaded native Analyzer::analyze plus optional POS sidecar; excludes load, JSON and user-dictionary setup; no WASM/browser claim",
+    "median_paired_ratio": 1.0028290862433467,
+    "min_total_ratio": 0.999997111999457,
+    "trials": [
+      {
+        "round": 0,
+        "order": [
+          "baseline",
+          "selected"
+        ],
+        "baseline": {
+          "total_ns": 631916686,
+          "mean_us": 505.5333488,
+          "median_us": 379.958,
+          "p95_us": 1361.542,
+          "tokens_including_warmup": 27402
+        },
+        "selected": {
+          "total_ns": 635564915,
+          "mean_us": 508.451932,
+          "median_us": 381.646,
+          "p95_us": 1360.583,
+          "tokens_including_warmup": 27402
+        },
+        "ratio": 1.0057732753080049
+      },
+      {
+        "round": 1,
+        "order": [
+          "selected",
+          "baseline"
+        ],
+        "selected": {
+          "total_ns": 631827759,
+          "mean_us": 505.4622072,
+          "median_us": 379.0415,
+          "p95_us": 1354.0,
+          "tokens_including_warmup": 27402
+        },
+        "baseline": {
+          "total_ns": 670591464,
+          "mean_us": 536.4731712,
+          "median_us": 406.75,
+          "p95_us": 1434.375,
+          "tokens_including_warmup": 27402
+        },
+        "ratio": 0.9421947533170508
+      },
+      {
+        "round": 2,
+        "order": [
+          "baseline",
+          "selected"
+        ],
+        "baseline": {
+          "total_ns": 631681590,
+          "mean_us": 505.345272,
+          "median_us": 378.9375,
+          "p95_us": 1355.75,
+          "tokens_including_warmup": 27402
+        },
+        "selected": {
+          "total_ns": 633405506,
+          "mean_us": 506.7244048,
+          "median_us": 379.479,
+          "p95_us": 1373.083,
+          "tokens_including_warmup": 27402
+        },
+        "ratio": 1.0027290901417596
+      },
+      {
+        "round": 3,
+        "order": [
+          "selected",
+          "baseline"
+        ],
+        "selected": {
+          "total_ns": 629845708,
+          "mean_us": 503.8765664,
+          "median_us": 380.583,
+          "p95_us": 1360.292,
+          "tokens_including_warmup": 27402
+        },
+        "baseline": {
+          "total_ns": 630458386,
+          "mean_us": 504.3667088,
+          "median_us": 376.2915,
+          "p95_us": 1351.084,
+          "tokens_including_warmup": 27402
+        },
+        "ratio": 0.9990282023150058
+      },
+      {
+        "round": 4,
+        "order": [
+          "baseline",
+          "selected"
+        ],
+        "baseline": {
+          "total_ns": 629874776,
+          "mean_us": 503.8998208,
+          "median_us": 376.042,
+          "p95_us": 1348.0,
+          "tokens_including_warmup": 27402
+        },
+        "selected": {
+          "total_ns": 631883853,
+          "mean_us": 505.5070824,
+          "median_us": 381.708,
+          "p95_us": 1353.875,
+          "tokens_including_warmup": 27402
+        },
+        "ratio": 1.0031896451113007
+      },
+      {
+        "round": 5,
+        "order": [
+          "selected",
+          "baseline"
+        ],
+        "selected": {
+          "total_ns": 632934237,
+          "mean_us": 506.3473896,
+          "median_us": 380.2915,
+          "p95_us": 1349.25,
+          "tokens_including_warmup": 27402
+        },
+        "baseline": {
+          "total_ns": 631148663,
+          "mean_us": 504.9189304,
+          "median_us": 379.6045,
+          "p95_us": 1359.292,
+          "tokens_including_warmup": 27402
+        },
+        "ratio": 1.0028290862433467
+      },
+      {
+        "round": 6,
+        "order": [
+          "baseline",
+          "selected"
+        ],
+        "baseline": {
+          "total_ns": 629847527,
+          "mean_us": 503.87802159999995,
+          "median_us": 380.333,
+          "p95_us": 1341.667,
+          "tokens_including_warmup": 27402
+        },
+        "selected": {
+          "total_ns": 634456399,
+          "mean_us": 507.5651192,
+          "median_us": 380.771,
+          "p95_us": 1367.417,
+          "tokens_including_warmup": 27402
+        },
+        "ratio": 1.0073174408129413
+      }
+    ],
+    "summary": {
+      "baseline": {
+        "total_ns": 631148663,
+        "mean_us": 504.9189304,
+        "median_us": 379.6045,
+        "p95_us": 1355.75
+      },
+      "selected": {
+        "total_ns": 632934237,
+        "mean_us": 506.3473896,
+        "median_us": 380.583,
+        "p95_us": 1360.292
+      }
+    }
+  },
+  "focused": {
+    "cases": 646,
+    "counts": {
+      "original": 80,
+      "changed": 405,
+      "edge_whitespace": 80,
+      "unicode_whitespace": 80,
+      "emoji_prefix": 80,
+      "embedded_newline": 80,
+      "non_whitespace_control": 80,
+      "user_surface": 83,
+      "user_priority_exercised": 152,
+      "user_surface_priority_exercised": 69,
+      "user_source_form": 83,
+      "user_source_form_priority_exercised": 83
+    },
+    "native_python_equal": 646,
+    "zero_rules_full_field_equal": 646,
+    "forms_count_order_spans_scores_equal": 646,
+    "one_pos_per_eojeol": true,
+    "short_ngram_train_runtime_consistent": true,
+    "native_unit_tests": {
+      "passed": 5,
+      "scope": "Unicode spans, substring, invalid span, user words, unknown source/count, short guard rejection"
+    }
+  },
+  "fixed_changed_sentence_references": {
+    "gold": [
+      {
+        "index": 1187,
+        "id": "gold:1187",
+        "doc": null,
+        "domain": "일상",
+        "text_sha256": "ce412c96fbd99161c3e7667f68343841aa936d81c33766254faa8e099bc8e3b1",
+        "outcome": "win",
+        "f1_delta": 0.19999999999999996,
+        "edits": [
+          [
+            0,
+            "와",
+            "JKB",
+            "IC",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 1298,
+        "id": "gold:1298",
+        "doc": null,
+        "domain": "일상",
+        "text_sha256": "981931c6eefbec2010a1b06f9a5c7f03639b83e1e5ab0c496f913515f30cf53b",
+        "outcome": "win",
+        "f1_delta": 0.18181818181818188,
+        "edits": [
+          [
+            0,
+            "와",
+            "JKB",
+            "IC",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 1327,
+        "id": "gold:1327",
+        "doc": null,
+        "domain": "일상",
+        "text_sha256": "d3df5ad0189c24d4d681128ac8ed867cf0f46d907a1bce9403a98fc89a8db9a6",
+        "outcome": "win",
+        "f1_delta": 0.1428571428571429,
+        "edits": [
+          [
+            0,
+            "와",
+            "JKB",
+            "IC",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 1405,
+        "id": "gold:1405",
+        "doc": null,
+        "domain": "일상",
+        "text_sha256": "77827a95d7d707fecbaf2eaf77a901443ce5b64119dac40ab654a021473d59c0",
+        "outcome": "win",
+        "f1_delta": 0.19999999999999996,
+        "edits": [
+          [
+            0,
+            "와",
+            "JKB",
+            "IC",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 1551,
+        "id": "gold:1551",
+        "doc": null,
+        "domain": "일상",
+        "text_sha256": "aea0d7c9927ecbc9cc680183559f4c981d445828a30c4122d13362e0af3c739a",
+        "outcome": "win",
+        "f1_delta": 0.16666666666666663,
+        "edits": [
+          [
+            0,
+            "와",
+            "JKB",
+            "IC",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 2497,
+        "id": "gold:2497",
+        "doc": null,
+        "domain": "SNS",
+        "text_sha256": "dcd270f5533a28912f5333543c70bc4eece84475c86c99a12531768b90a439b6",
+        "outcome": "win",
+        "f1_delta": 0.10000000000000009,
+        "edits": [
+          [
+            4,
+            "살",
+            "NNG",
+            "NNB",
+            9,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 2629,
+        "id": "gold:2629",
+        "doc": null,
+        "domain": "SNS",
+        "text_sha256": "e5584ad3364655df25839bc5788c0069bb3b8f89cf6298fa01bb56b70386311a",
+        "outcome": "win",
+        "f1_delta": 0.09523809523809523,
+        "edits": [
+          [
+            6,
+            "안",
+            "NNG",
+            "MAG",
+            12,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 3957,
+        "id": "gold:3957",
+        "doc": null,
+        "domain": "문학",
+        "text_sha256": "17ca2b39812d536f264ca1fd46f09569640ea42b715a1111c0a8020f0b209534",
+        "outcome": "loss",
+        "f1_delta": -0.09090909090909094,
+        "edits": [
+          [
+            7,
+            "있",
+            "VV",
+            "VA",
+            16,
+            20
+          ]
+        ]
+      },
+      {
+        "index": 4027,
+        "id": "gold:4027",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "c71e9a7226f76ba45402e65f60369ed2fc11c4a68e043b734bb54a74459f48e9",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            3,
+            "말",
+            "NNG",
+            "NNB",
+            7,
+            8
+          ]
+        ]
+      },
+      {
+        "index": 4079,
+        "id": "gold:4079",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "9d168b0f3672df1a62534f0f1f60241b9bd47ff438b285c0614b319c3f85a0a0",
+        "outcome": "win",
+        "f1_delta": 0.05555555555555558,
+        "edits": [
+          [
+            6,
+            "약",
+            "NNG",
+            "MM",
+            15,
+            16
+          ]
+        ]
+      },
+      {
+        "index": 4284,
+        "id": "gold:4284",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "c7b9cab624b15450d27ce10ccb75801c575ef4288625997cd64e5bc66f125b61",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            7,
+            "있",
+            "VV",
+            "VA",
+            17,
+            20
+          ],
+          [
+            9,
+            "보",
+            "VX",
+            "VV",
+            21,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 4352,
+        "id": "gold:4352",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "f9e95d7b832bb21790abe508ef0c1caafc8609f5bd5d8700765c021439eefe7f",
+        "outcome": "win",
+        "f1_delta": 0.04347826086956519,
+        "edits": [
+          [
+            0,
+            "서",
+            "JKB",
+            "NNP",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 4397,
+        "id": "gold:4397",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "f21d6c9c24b54f5f550186977af552cdf9d125e3ba2d347571b0030f20f1a018",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            2,
+            "장",
+            "NNP",
+            "NNB",
+            5,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 4406,
+        "id": "gold:4406",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "6aa0bd85f3a52e9316abcaaf90709c4b37f42aac979acd3362269834682a3138",
+        "outcome": "win",
+        "f1_delta": 0.06896551724137934,
+        "edits": [
+          [
+            2,
+            "정",
+            "NNG",
+            "NNP",
+            5,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 4415,
+        "id": "gold:4415",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "3034fb8e32c29d8b2a3d8c9f3532f67142edaa3b4000b39819a63b6e4cb14cc3",
+        "outcome": "win",
+        "f1_delta": 0.04347826086956519,
+        "edits": [
+          [
+            8,
+            "이",
+            "NP",
+            "NNB",
+            13,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 4458,
+        "id": "gold:4458",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "d687dc8967324f1d577a08a0ce43930fbfba207406c798c24c2eb04d6f718dae",
+        "outcome": "win",
+        "f1_delta": 0.125,
+        "edits": [
+          [
+            4,
+            "만",
+            "JX",
+            "MM",
+            9,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 4468,
+        "id": "gold:4468",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "826d9090bebb13e535ceb3d3f61296855d1d0352d9d3761a428191986fe55efb",
+        "outcome": "loss",
+        "f1_delta": -0.0714285714285714,
+        "edits": [
+          [
+            10,
+            "탓",
+            "NNB",
+            "NNG",
+            20,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 4536,
+        "id": "gold:4536",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "1975c3b046a8c687be979533acd69d07666753f0c83e09adbc3381fe981517f7",
+        "outcome": "loss",
+        "f1_delta": -0.040000000000000036,
+        "edits": [
+          [
+            4,
+            "달",
+            "NNG",
+            "NNB",
+            9,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 4560,
+        "id": "gold:4560",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "2650af266ef3c91a1f5ea34b41d2b07923b14f4f52c201cda2bfd75f0182a920",
+        "outcome": "loss",
+        "f1_delta": -0.045454545454545414,
+        "edits": [
+          [
+            8,
+            "우",
+            "NNG",
+            "NNP",
+            18,
+            19
+          ]
+        ]
+      },
+      {
+        "index": 4582,
+        "id": "gold:4582",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "0825e5159ec44805b23373f09d164b290d458f328d64bb2297ffdc9ba1f884a4",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545525,
+        "edits": [
+          [
+            15,
+            "되",
+            "XSV",
+            "VV",
+            31,
+            32
+          ]
+        ]
+      },
+      {
+        "index": 4801,
+        "id": "gold:4801",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "761263b796b3964ab47e186de8498cbdc0c4099102a9909f39978acbd3163b91",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            9,
+            "문",
+            "NNG",
+            "NNP",
+            15,
+            16
+          ]
+        ]
+      },
+      {
+        "index": 5095,
+        "id": "gold:5095",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "21fb5ebe8d01730cf942a836967ffa1dfee6f4c9ab33b607407934db76c80716",
+        "outcome": "win",
+        "f1_delta": 0.03703703703703709,
+        "edits": [
+          [
+            7,
+            "약",
+            "NNG",
+            "MM",
+            18,
+            19
+          ]
+        ]
+      },
+      {
+        "index": 5154,
+        "id": "gold:5154",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "4121f01cc589356998aebb10fbc637ecafdc08e2904e31eba98cb4df545e36ae",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            8,
+            "말",
+            "NNG",
+            "NNB",
+            21,
+            22
+          ]
+        ]
+      },
+      {
+        "index": 5242,
+        "id": "gold:5242",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "9f456d3056820c44898c5044f100893b7c7bcbb96739b1a5cbf166107cf6aafb",
+        "outcome": "win",
+        "f1_delta": 0.052631578947368474,
+        "edits": [
+          [
+            10,
+            "되",
+            "XSV",
+            "VV",
+            16,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 5262,
+        "id": "gold:5262",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "9ae2e884b5a93c8d8a1a2188dc3937bce91e8429f278c03510de4d16faca8def",
+        "outcome": "win",
+        "f1_delta": 0.03703703703703698,
+        "edits": [
+          [
+            11,
+            "문",
+            "NNG",
+            "NNP",
+            22,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 5314,
+        "id": "gold:5314",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "bb8354065372385b172e95f878a26942504ab9fd231e02dc9fb19b4de828ecd4",
+        "outcome": "win",
+        "f1_delta": 0.05555555555555558,
+        "edits": [
+          [
+            14,
+            "격",
+            "NNG",
+            "NNB",
+            41,
+            45
+          ]
+        ]
+      },
+      {
+        "index": 5343,
+        "id": "gold:5343",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "cb2e9baab48b1a892f2fe7e366d1a9e113e9b83c227a7fea266c0b1b6e238ab6",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            9,
+            "나",
+            "JC",
+            "JX",
+            19,
+            22
+          ]
+        ]
+      },
+      {
+        "index": 5346,
+        "id": "gold:5346",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "fa10997c04e2f760c04a3fdc53340979efd6244366b25a5aabadbdc973b21166",
+        "outcome": "win",
+        "f1_delta": 0.0357142857142857,
+        "edits": [
+          [
+            12,
+            "문",
+            "NNG",
+            "NNP",
+            21,
+            22
+          ]
+        ]
+      },
+      {
+        "index": 5383,
+        "id": "gold:5383",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "01ae3b1ee6f52f82905a014fbc3b55537eb69d00c14af74c37fc5a141de60257",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            1,
+            "말",
+            "NNG",
+            "NNB",
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "index": 5452,
+        "id": "gold:5452",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "2621a4b230ade70edfc29031f7464bb1365b5a84c10b8fe527c3c61b021a395e",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            2,
+            "전",
+            "MM",
+            "NNG",
+            3,
+            4
+          ],
+          [
+            16,
+            "안",
+            "NNG",
+            "NNP",
+            30,
+            31
+          ]
+        ]
+      },
+      {
+        "index": 5457,
+        "id": "gold:5457",
+        "doc": null,
+        "domain": "뉴스",
+        "text_sha256": "ba4bd7759b42bbfa69eca95dc6347376ba752cad9c64590f22f19b67c6e6ef37",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            15,
+            "말",
+            "NNG",
+            "NNB",
+            36,
+            37
+          ]
+        ]
+      },
+      {
+        "index": 5629,
+        "id": "gold:5629",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "2345b99ab3867da700b6fd0e295e16b8bccb736fd99218f1353d3a8e2201648f",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333337,
+        "edits": [
+          [
+            9,
+            "있",
+            "VX",
+            "VA",
+            18,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 5777,
+        "id": "gold:5777",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "940202716eb73392e96bb02967fed564b29e9fa4652574a753e684d6ebf2367b",
+        "outcome": "win",
+        "f1_delta": 0.1428571428571429,
+        "edits": [
+          [
+            6,
+            "라",
+            "EF",
+            "EC",
+            9,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 5849,
+        "id": "gold:5849",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "378886a06b9ecf881b3e80448c49c6155ed9040d05dcfe3f0c63e23f00e5efdd",
+        "outcome": "win",
+        "f1_delta": 0.15384615384615385,
+        "edits": [
+          [
+            6,
+            "라",
+            "EF",
+            "EC",
+            9,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 5863,
+        "id": "gold:5863",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "14eaedf9872e477a5cd34982c85187912076830ce7a5901ec10acf49527b35df",
+        "outcome": "loss",
+        "f1_delta": -0.08333333333333326,
+        "edits": [
+          [
+            2,
+            "주",
+            "NNG",
+            "NNB",
+            5,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 5910,
+        "id": "gold:5910",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "add93871341cf072abe76a9742db3fdec2e4d62992e40102119e491f96f77ef2",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            10,
+            "있",
+            "VV",
+            "VA",
+            21,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 6013,
+        "id": "gold:6013",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "c4aa88ced2e663ee86ded2c1bc69e9515c5823ede7cc2bddd046f4723d31b623",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            6,
+            "오",
+            "VV",
+            "NR",
+            13,
+            14
+          ]
+        ]
+      },
+      {
+        "index": 6101,
+        "id": "gold:6101",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "fee52a8b8dac5a2318f183dcc9f668d42038d23b8dfedf254356c38ffc3c1b8e",
+        "outcome": "loss",
+        "f1_delta": -0.06666666666666665,
+        "edits": [
+          [
+            10,
+            "하",
+            "VV",
+            "XSV",
+            21,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 6125,
+        "id": "gold:6125",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "cbaf991c472500feb0ad9dd9f98701da1eeacee7c85efdf1e818d5381869effd",
+        "outcome": "win",
+        "f1_delta": 0.19999999999999996,
+        "edits": [
+          [
+            1,
+            "제",
+            "NNG",
+            "XPN",
+            4,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 6210,
+        "id": "gold:6210",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "c43cad743b336ab2ba69b3a9d228c82e680e3c2ef5d24c16f2885b752aa7e8a6",
+        "outcome": "win",
+        "f1_delta": 0.09090909090909094,
+        "edits": [
+          [
+            10,
+            "라",
+            "EF",
+            "EC",
+            17,
+            20
+          ]
+        ]
+      },
+      {
+        "index": 6264,
+        "id": "gold:6264",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "eb2b8a964689c32597f3a2599fcc6a1ad34800254a0c2800965f3bcb93b1ca71",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            1,
+            "시간",
+            "NNB",
+            "NNG",
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 6265,
+        "id": "gold:6265",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "76202ff9b88f02fedd4305b9fc97eeca1152d4cc994bbc56b2e2268373950bbc",
+        "outcome": "win",
+        "f1_delta": 0.0625,
+        "edits": [
+          [
+            11,
+            "저기",
+            "NP",
+            "IC",
+            27,
+            29
+          ]
+        ]
+      },
+      {
+        "index": 6289,
+        "id": "gold:6289",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "9c35e4814bba2871a47d2965b385a09f07ffc1cf5d03ea3a9568b0fab8d8c2aa",
+        "outcome": "win",
+        "f1_delta": 0.040000000000000036,
+        "edits": [
+          [
+            19,
+            "되",
+            "XSV",
+            "VV",
+            41,
+            42
+          ]
+        ]
+      },
+      {
+        "index": 6447,
+        "id": "gold:6447",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "dadefdd5e2e368ff68a7aa7c394b149bfd7252bb69ff6f19bae7a5d662c95eef",
+        "outcome": "win",
+        "f1_delta": 0.19999999999999996,
+        "edits": [
+          [
+            4,
+            "라",
+            "EF",
+            "EC",
+            7,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 6577,
+        "id": "gold:6577",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "04eaedbf67b1b6bea266327ad75dcc18b819f883251da37ffc1feb00ff7481ee",
+        "outcome": "loss",
+        "f1_delta": -0.0714285714285714,
+        "edits": [
+          [
+            10,
+            "하",
+            "XSV",
+            "VV",
+            22,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 6701,
+        "id": "gold:6701",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "3c4b2011bc57689048ee92ea604897b6e73cca8f6cc81d0ae643037171f1219d",
+        "outcome": "win",
+        "f1_delta": 0.11111111111111116,
+        "edits": [
+          [
+            0,
+            "뭐",
+            "NP",
+            "IC",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 6722,
+        "id": "gold:6722",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "2251cb4919833df2a1187a86625b6c5fa15f9e14599d9bcad664d403d6301554",
+        "outcome": "loss",
+        "f1_delta": -0.1428571428571429,
+        "edits": [
+          [
+            3,
+            "하",
+            "XSV",
+            "VV",
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 7000,
+        "id": "gold:7000",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "734fd829c5c7bfcdfd8d1496f51a40f4baf4c65d34f832a9f4a498a10eb5d071",
+        "outcome": "win",
+        "f1_delta": 0.09999999999999998,
+        "edits": [
+          [
+            9,
+            "라",
+            "EF",
+            "EC",
+            15,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 7150,
+        "id": "gold:7150",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "5c58803216ea95ad13acbe20a2813b39156d8e8226a4568c1c621fab14153466",
+        "outcome": "win",
+        "f1_delta": 0.09999999999999998,
+        "edits": [
+          [
+            4,
+            "오",
+            "VV",
+            "NR",
+            12,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 7235,
+        "id": "gold:7235",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "ebfe001004fa08028198fd8107dc9c4f274084d1657b18a091da00e84cdeaf73",
+        "outcome": "loss",
+        "f1_delta": -0.05555555555555558,
+        "edits": [
+          [
+            1,
+            "분",
+            "NNB",
+            "XSN",
+            2,
+            4
+          ]
+        ]
+      },
+      {
+        "index": 7305,
+        "id": "gold:7305",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "6d6da4821979aa733cf88a018ff3438ec8be20193448f57904ad28898729b08b",
+        "outcome": "win",
+        "f1_delta": 0.11111111111111105,
+        "edits": [
+          [
+            4,
+            "도",
+            "JX",
+            "NNB",
+            10,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 7311,
+        "id": "gold:7311",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "c11d2925a2ef484cb132529b120115832d12fd50a12a8c86a957ef09a87cd145",
+        "outcome": "loss",
+        "f1_delta": -0.08695652173913049,
+        "edits": [
+          [
+            1,
+            "달",
+            "NNG",
+            "NNB",
+            2,
+            3
+          ]
+        ]
+      },
+      {
+        "index": 7381,
+        "id": "gold:7381",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "681daf38a01e57067354eeaa9a68df448b89b2f007f9aa1ddd7dee21d94caa93",
+        "outcome": "win",
+        "f1_delta": 0.09523809523809523,
+        "edits": [
+          [
+            3,
+            "있",
+            "VV",
+            "VA",
+            6,
+            8
+          ],
+          [
+            8,
+            "있",
+            "VV",
+            "VA",
+            16,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 7421,
+        "id": "gold:7421",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "17a203315207b4aa045696add396fb2c17e5fa6c955798f40070d81800a49165",
+        "outcome": "win",
+        "f1_delta": 0.125,
+        "edits": [
+          [
+            7,
+            "아",
+            "EF",
+            "EC",
+            15,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 7534,
+        "id": "gold:7534",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "a29d297a862df38c83caf6a73cbfc22124bcda908b2456fce6e88e04aa3103a2",
+        "outcome": "win",
+        "f1_delta": 0.0625,
+        "edits": [
+          [
+            1,
+            "시",
+            "NNG",
+            "NNB",
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "index": 7837,
+        "id": "gold:7837",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "d89bcc2fd864db8450df8aa9f785207608bc08ef2c0c09c93b82917f3da2c9c8",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307698,
+        "edits": [
+          [
+            7,
+            "되",
+            "XSV",
+            "VV",
+            15,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 7874,
+        "id": "gold:7874",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "88f238ffc1a2108bdb7cb01c31971da6151d270ff08305fc406fe2b6255b17bc",
+        "outcome": "loss",
+        "f1_delta": -0.05555555555555558,
+        "edits": [
+          [
+            14,
+            "있",
+            "VV",
+            "VA",
+            26,
+            28
+          ]
+        ]
+      },
+      {
+        "index": 7900,
+        "id": "gold:7900",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "733de7e36747ed8e024365de9b73752314f038cb7c2f8a8efb507164e8753888",
+        "outcome": "win",
+        "f1_delta": 0.1428571428571428,
+        "edits": [
+          [
+            4,
+            "되",
+            "XSV",
+            "VV",
+            10,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 7977,
+        "id": "gold:7977",
+        "doc": null,
+        "domain": "구어",
+        "text_sha256": "ab18bc1c2e73473de1a4bc9e8ecbb925eaa29457a0642e22e584d405f4d75788",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            7,
+            "있",
+            "VV",
+            "VA",
+            14,
+            16
+          ]
+        ]
+      }
+    ],
+    "spoken": [
+      {
+        "index": 93,
+        "id": "SARW2400000003.1.1.94",
+        "doc": "SARW2400000003.1",
+        "domain": "SX",
+        "text_sha256": "56533b9fb431c819849f5482a12b3d446fe3f66574054c900c372de4b697f84f",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333326,
+        "edits": [
+          [
+            11,
+            "라",
+            "EF",
+            "EC",
+            17,
+            20
+          ]
+        ]
+      },
+      {
+        "index": 166,
+        "id": "SARW2400000003.1.1.167",
+        "doc": "SARW2400000003.1",
+        "domain": "SX",
+        "text_sha256": "06ba2d2bce11e7b051efaab7d1591ce91afd6be660752ca33532cf1d49df1a4b",
+        "outcome": "win",
+        "f1_delta": 0.050000000000000044,
+        "edits": [
+          [
+            19,
+            "라",
+            "EF",
+            "EC",
+            39,
+            42
+          ]
+        ]
+      },
+      {
+        "index": 336,
+        "id": "SARW2400000054.1.1.25",
+        "doc": "SARW2400000054.1",
+        "domain": "SX",
+        "text_sha256": "7c4d20918ca506657ac8e96067439e05c86b65116785dd725194852cc7d8cdb4",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333337,
+        "edits": [
+          [
+            11,
+            "니",
+            "EF",
+            "EC",
+            19,
+            21
+          ]
+        ]
+      },
+      {
+        "index": 444,
+        "id": "SCRW2400000007.1.1.2",
+        "doc": "SCRW2400000007.1",
+        "domain": "SX",
+        "text_sha256": "68a981369643e3dbdb22d632f356695130b98f87d2fd581cd0ae36f5cb5c962c",
+        "outcome": "win",
+        "f1_delta": 0.09090909090909094,
+        "edits": [
+          [
+            1,
+            "나",
+            "JC",
+            "JX",
+            0,
+            3
+          ]
+        ]
+      },
+      {
+        "index": 600,
+        "id": "SCRW2400000011.1.1.64",
+        "doc": "SCRW2400000011.1",
+        "domain": "SX",
+        "text_sha256": "80818322489ef296ce9be53bc309626bf66d8de5404d7474e3c1dddc3efa00dd",
+        "outcome": "win",
+        "f1_delta": 0.052631578947368474,
+        "edits": [
+          [
+            7,
+            "보",
+            "VX",
+            "VV",
+            15,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 608,
+        "id": "SCRW2400000011.1.1.72",
+        "doc": "SCRW2400000011.1",
+        "domain": "SX",
+        "text_sha256": "2aa0a05a4bbe45f55b496a9fb22f60b8576665236bbdd5b4cef4572766582b92",
+        "outcome": "win",
+        "f1_delta": 0.037735849056603765,
+        "edits": [
+          [
+            25,
+            "라",
+            "EF",
+            "EC",
+            51,
+            54
+          ]
+        ]
+      },
+      {
+        "index": 625,
+        "id": "SCRW2400000046.1.1.11",
+        "doc": "SCRW2400000046.1",
+        "domain": "SX",
+        "text_sha256": "06ccbfec0255b6576349c1820f1336bf62ebb63dd97987619d38db4acf37a802",
+        "outcome": "win",
+        "f1_delta": 0.03703703703703709,
+        "edits": [
+          [
+            10,
+            "있",
+            "VV",
+            "VA",
+            21,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 684,
+        "id": "SCRW2400000046.1.1.70",
+        "doc": "SCRW2400000046.1",
+        "domain": "SX",
+        "text_sha256": "3bb136367d8ed591b7a48e2898e59db29144fdaca24a2c0c8f678d153f686884",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            3,
+            "하",
+            "VV",
+            "XSV",
+            4,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 736,
+        "id": "SCRW2400000050.1.1.39",
+        "doc": "SCRW2400000050.1",
+        "domain": "SX",
+        "text_sha256": "3dc8fee90f5e2b8d5478d5c12fbb8fe219879231f52d01711d698285755e8874",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333326,
+        "edits": [
+          [
+            2,
+            "보",
+            "VX",
+            "VV",
+            4,
+            6
+          ],
+          [
+            12,
+            "보",
+            "VX",
+            "VV",
+            21,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 1070,
+        "id": "SCRW2400000181.1.1.13",
+        "doc": "SCRW2400000181.1",
+        "domain": "SX",
+        "text_sha256": "ad6f716bea8cecb848d9bf420430d87680704d52332ee75a76967c9eb989a853",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            14,
+            "하",
+            "VV",
+            "XSV",
+            25,
+            28
+          ]
+        ]
+      },
+      {
+        "index": 1101,
+        "id": "SCRW2400000181.1.1.44",
+        "doc": "SCRW2400000181.1",
+        "domain": "SX",
+        "text_sha256": "dba9ae383112ce995998ef27d52097b3e1b169473cdec5eaf6e3da631ce3e212",
+        "outcome": "loss",
+        "f1_delta": -0.05128205128205132,
+        "edits": [
+          [
+            2,
+            "원래",
+            "NNG",
+            "MAG",
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 1195,
+        "id": "SCRW2400000251.1.1.5",
+        "doc": "SCRW2400000251.1",
+        "domain": "SX",
+        "text_sha256": "8342c168a786c94cc977271b20fd5b5b72f65908715a628a4f7abeabfeedc627",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            2,
+            "식",
+            "NNG",
+            "NNB",
+            6,
+            9
+          ]
+        ]
+      },
+      {
+        "index": 1200,
+        "id": "SCRW2400000251.1.1.10",
+        "doc": "SCRW2400000251.1",
+        "domain": "SX",
+        "text_sha256": "06bfb25d710a20f58177edef9c2c4ead979c16848ee39054c7621ac50b53a062",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            23,
+            "하",
+            "VV",
+            "VX",
+            35,
+            37
+          ]
+        ]
+      },
+      {
+        "index": 1282,
+        "id": "SDRW2400000771.1.1.21",
+        "doc": "SDRW2400000771.1",
+        "domain": "SX",
+        "text_sha256": "002f013ba2bfc460c49a8da5ab49e71b32259632e7e3ec5398d898fb31444db1",
+        "outcome": "win",
+        "f1_delta": 0.06451612903225801,
+        "edits": [
+          [
+            13,
+            "어",
+            "EF",
+            "EC",
+            26,
+            29
+          ]
+        ]
+      },
+      {
+        "index": 1417,
+        "id": "SDRW2400000771.1.1.156",
+        "doc": "SDRW2400000771.1",
+        "domain": "SX",
+        "text_sha256": "b443fabe1f2e179ae8cb08446c1201ef1bc8843fc833b94edfc80837a11f7cbf",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            3,
+            "식",
+            "NNG",
+            "NNB",
+            6,
+            9
+          ]
+        ]
+      },
+      {
+        "index": 1444,
+        "id": "SDRW2400000771.1.1.183",
+        "doc": "SDRW2400000771.1",
+        "domain": "SX",
+        "text_sha256": "7266697d5755ef625d443237949ef3534dfb4314d365590db1c86bf1bfc96579",
+        "outcome": "win",
+        "f1_delta": 0.04081632653061229,
+        "edits": [
+          [
+            5,
+            "어",
+            "EF",
+            "EC",
+            7,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 1449,
+        "id": "SDRW2400000771.1.1.188",
+        "doc": "SDRW2400000771.1",
+        "domain": "SX",
+        "text_sha256": "79f6e149d11a031ca9468c303bfa2b5eddabeed537e21119aede90146b4d9a9d",
+        "outcome": "win",
+        "f1_delta": 0.0625,
+        "edits": [
+          [
+            13,
+            "안",
+            "NNG",
+            "MAG",
+            25,
+            26
+          ]
+        ]
+      },
+      {
+        "index": 1630,
+        "id": "SDRW2400000823.1.1.162",
+        "doc": "SDRW2400000823.1",
+        "domain": "SX",
+        "text_sha256": "75076db76970b19ff9eb6cf7427eaee2208c38bddf61dbaae30bf1192c803656",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            11,
+            "몇",
+            "MM",
+            "NR",
+            24,
+            25
+          ],
+          [
+            33,
+            "있",
+            "VV",
+            "VA",
+            58,
+            60
+          ]
+        ]
+      },
+      {
+        "index": 1692,
+        "id": "SDRW2400000862.1.1.10",
+        "doc": "SDRW2400000862.1",
+        "domain": "SX",
+        "text_sha256": "85b1408dba2f44b51988408d8190cb0c1371253ce448477b9637f4e07e74fa05",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307687,
+        "edits": [
+          [
+            5,
+            "있",
+            "VV",
+            "VA",
+            11,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 1695,
+        "id": "SDRW2400000862.1.1.13",
+        "doc": "SDRW2400000862.1",
+        "domain": "SX",
+        "text_sha256": "9f29207859ae832d200e102559627e66d38b22aefa1c795ae5fee47872f1d3dc",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545525,
+        "edits": [
+          [
+            2,
+            "식",
+            "NNG",
+            "NNB",
+            7,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 1771,
+        "id": "SDRW2400000862.1.1.89",
+        "doc": "SDRW2400000862.1",
+        "domain": "SX",
+        "text_sha256": "12b5e7e94b517e3b8c9c19dadedcf4c6fb4ddab5da56a5dc85b6eef247e9c7ac",
+        "outcome": "win",
+        "f1_delta": 0.03703703703703709,
+        "edits": [
+          [
+            6,
+            "안",
+            "NNG",
+            "MAG",
+            14,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 1846,
+        "id": "SDRW2400000862.1.1.164",
+        "doc": "SDRW2400000862.1",
+        "domain": "SX",
+        "text_sha256": "ea7443a5449d748a1a579a5949e5f4300cffb1bfd18bfafe28eb15f22ea8235e",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            1,
+            "보다",
+            "JKB",
+            "MAG",
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 1869,
+        "id": "SDRW2400000862.1.1.187",
+        "doc": "SDRW2400000862.1",
+        "domain": "SX",
+        "text_sha256": "9daeb348399a9e7633bc2c62a02842cd26debfb8c17aed691d761616d2cbfd4c",
+        "outcome": "win",
+        "f1_delta": 0.039999999999999925,
+        "edits": [
+          [
+            3,
+            "원래",
+            "NNG",
+            "MAG",
+            5,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 2297,
+        "id": "SDRW2400000970.1.1.1.173",
+        "doc": "SDRW2400000970.1",
+        "domain": "SX",
+        "text_sha256": "7f313413d6e2dcd3ef726021f9d43ae2e3f0b0ef9af07f1eaadb933f23c2761e",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545525,
+        "edits": [
+          [
+            6,
+            "있",
+            "VV",
+            "VA",
+            14,
+            16
+          ]
+        ]
+      },
+      {
+        "index": 2343,
+        "id": "SDRW2400000970.1.1.1.219",
+        "doc": "SDRW2400000970.1",
+        "domain": "SX",
+        "text_sha256": "cc0c3ec528cf97e853902e448f25eaad688195870fc8cb849d2151d563c8af7d",
+        "outcome": "loss",
+        "f1_delta": -0.042553191489361764,
+        "edits": [
+          [
+            4,
+            "원래",
+            "NNG",
+            "MAG",
+            12,
+            14
+          ]
+        ]
+      },
+      {
+        "index": 2700,
+        "id": "SDRW2400000989.1.1.1.156",
+        "doc": "SDRW2400000989.1",
+        "domain": "SX",
+        "text_sha256": "561b5d2f46b51edac712e4eee834b63e0ea97b9b0bec64eb9588f1c83c429dd0",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            13,
+            "라",
+            "EF",
+            "EC",
+            19,
+            22
+          ]
+        ]
+      },
+      {
+        "index": 2748,
+        "id": "SDRW2400001199.1.1.3",
+        "doc": "SDRW2400001199.1",
+        "domain": "SX",
+        "text_sha256": "2c3e9ce38caf4dcc8acdcb0a44904f645bf04671d8a65df0ed55a1abff395f72",
+        "outcome": "loss",
+        "f1_delta": -0.0714285714285714,
+        "edits": [
+          [
+            7,
+            "원래",
+            "NNG",
+            "MAG",
+            15,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 2828,
+        "id": "SDRW2400001199.1.1.83",
+        "doc": "SDRW2400001199.1",
+        "domain": "SX",
+        "text_sha256": "5e16973223fe8d4c792a150affa900ba31c4beaf653fa498b805bb7665bedc2f",
+        "outcome": "win",
+        "f1_delta": 0.030303030303030276,
+        "edits": [
+          [
+            1,
+            "되",
+            "XSV",
+            "VV",
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 2841,
+        "id": "SDRW2400001199.1.1.96",
+        "doc": "SDRW2400001199.1",
+        "domain": "SX",
+        "text_sha256": "f2def1b42a5c6dcc118014f3c2bbb02f2ce874624771df4c3f9011b4d8052d96",
+        "outcome": "win",
+        "f1_delta": 0.029850746268656803,
+        "edits": [
+          [
+            13,
+            "식",
+            "NNG",
+            "NNB",
+            31,
+            34
+          ]
+        ]
+      },
+      {
+        "index": 2931,
+        "id": "SDRW2400001199.1.1.186",
+        "doc": "SDRW2400001199.1",
+        "domain": "SX",
+        "text_sha256": "68c465fb9e2ebcef3330dce1ae78ae07b22e6d9a70da2ea47d4dc57083ab4f57",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            4,
+            "물론",
+            "NNG",
+            "MAG",
+            10,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 2937,
+        "id": "SDRW2400001199.1.1.192",
+        "doc": "SDRW2400001199.1",
+        "domain": "SX",
+        "text_sha256": "e6da463eb27e86446a660421b7b271040c52995cacafaa0e0503e9fb63da6285",
+        "outcome": "win",
+        "f1_delta": 0.07407407407407407,
+        "edits": [
+          [
+            11,
+            "있",
+            "VX",
+            "VA",
+            24,
+            29
+          ]
+        ]
+      },
+      {
+        "index": 2979,
+        "id": "SDRW2400001208.1.1.20",
+        "doc": "SDRW2400001208.1",
+        "domain": "SX",
+        "text_sha256": "3a82b40e1ecd49280f15d6a801e4b33438542cb07015ac6d82f39aef02da5a9c",
+        "outcome": "win",
+        "f1_delta": 0.04347826086956519,
+        "edits": [
+          [
+            16,
+            "안",
+            "NNG",
+            "MAG",
+            27,
+            28
+          ]
+        ]
+      },
+      {
+        "index": 2984,
+        "id": "SDRW2400001208.1.1.25",
+        "doc": "SDRW2400001208.1",
+        "domain": "SX",
+        "text_sha256": "46bca64ce5d35b0a5a1a6c07799fa1250166fe9638bdfc9d0c837d10db402584",
+        "outcome": "win",
+        "f1_delta": 0.18181818181818188,
+        "edits": [
+          [
+            3,
+            "되",
+            "XSV",
+            "VV",
+            7,
+            9
+          ]
+        ]
+      },
+      {
+        "index": 2988,
+        "id": "SDRW2400001208.1.1.29",
+        "doc": "SDRW2400001208.1",
+        "domain": "SX",
+        "text_sha256": "42512343b76d3b6ff334f77eff6a7184e9a57d52c07a3209d7bc341b4ac7b755",
+        "outcome": "win",
+        "f1_delta": 0.03389830508474578,
+        "edits": [
+          [
+            19,
+            "안",
+            "NNG",
+            "MAG",
+            32,
+            33
+          ]
+        ]
+      },
+      {
+        "index": 3014,
+        "id": "SDRW2400001208.1.1.55",
+        "doc": "SDRW2400001208.1",
+        "domain": "SX",
+        "text_sha256": "a4d257ccfed0ba2dc839fd592ab4e7862b313363b3e11fe01e842a1e71f4fc2f",
+        "outcome": "win",
+        "f1_delta": 0.02777777777777779,
+        "edits": [
+          [
+            22,
+            "보",
+            "VX",
+            "VV",
+            41,
+            44
+          ]
+        ]
+      },
+      {
+        "index": 3237,
+        "id": "SDRW2400001224.1.1.54",
+        "doc": "SDRW2400001224.1",
+        "domain": "SX",
+        "text_sha256": "e8a1d14f7c62442b5535a282ae5dfb535e09eac4c68a595574069c971f125e54",
+        "outcome": "loss",
+        "f1_delta": -0.04166666666666674,
+        "edits": [
+          [
+            4,
+            "몇",
+            "MM",
+            "NR",
+            10,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 3508,
+        "id": "SDRW2400001232.1.1.135",
+        "doc": "SDRW2400001232.1",
+        "domain": "SX",
+        "text_sha256": "011bdd46bc4bcef2cbefebf86bc64ec2eb38b9d5a39c5189c4c43ecec213cdf8",
+        "outcome": "win",
+        "f1_delta": 0.05555555555555558,
+        "edits": [
+          [
+            11,
+            "되",
+            "XSV",
+            "VV",
+            24,
+            26
+          ]
+        ]
+      },
+      {
+        "index": 3650,
+        "id": "SDRW2400001273.1.1.81",
+        "doc": "SDRW2400001273.1",
+        "domain": "SX",
+        "text_sha256": "a82864573f1ba2252771c7938614855a77e2c6e1bb5a8bbdaa305795c93fe146",
+        "outcome": "win",
+        "f1_delta": 0.04999999999999993,
+        "edits": [
+          [
+            15,
+            "있",
+            "VV",
+            "VA",
+            26,
+            28
+          ]
+        ]
+      },
+      {
+        "index": 3850,
+        "id": "SDRW2400001320.1.1.75",
+        "doc": "SDRW2400001320.1",
+        "domain": "SX",
+        "text_sha256": "d161fd28687e67c5b03b524618feef4907e0160407b15d7ccde56a1ede5778f8",
+        "outcome": "win",
+        "f1_delta": 0.04347826086956519,
+        "edits": [
+          [
+            16,
+            "을까",
+            "EC",
+            "EF",
+            30,
+            33
+          ]
+        ]
+      },
+      {
+        "index": 4006,
+        "id": "SDRW2400001336.1.1.34",
+        "doc": "SDRW2400001336.1",
+        "domain": "SX",
+        "text_sha256": "a0555210cce5bcc2ffcf3e5c3b55d212e018e37e3bb996d42c16704c95189b83",
+        "outcome": "win",
+        "f1_delta": 0.04166666666666674,
+        "edits": [
+          [
+            13,
+            "있",
+            "VV",
+            "VA",
+            25,
+            27
+          ]
+        ]
+      },
+      {
+        "index": 4056,
+        "id": "SDRW2400001336.1.1.84",
+        "doc": "SDRW2400001336.1",
+        "domain": "SX",
+        "text_sha256": "230b6558322ca9976148423fb93ab7cb9d37b4aa131b2d41841c8d84e1c40a05",
+        "outcome": "win",
+        "f1_delta": 0.040000000000000036,
+        "edits": [
+          [
+            15,
+            "뭐",
+            "NP",
+            "IC",
+            28,
+            29
+          ]
+        ]
+      },
+      {
+        "index": 4078,
+        "id": "SDRW2400001336.1.1.106",
+        "doc": "SDRW2400001336.1",
+        "domain": "SX",
+        "text_sha256": "4d9cd4aab211d44e2209ba185b13035199a8857103d6b8a4ea24838b5bf83819",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            14,
+            "하",
+            "VV",
+            "XSV",
+            30,
+            33
+          ]
+        ]
+      },
+      {
+        "index": 4203,
+        "id": "SDRW2400001361.1.1.9",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "507ecefdf644d24bdb0d17d74d49f39116ca7366d3020526ce393ae5cccac50b",
+        "outcome": "win",
+        "f1_delta": 0.0444444444444444,
+        "edits": [
+          [
+            20,
+            "있",
+            "VV",
+            "VA",
+            40,
+            44
+          ]
+        ]
+      },
+      {
+        "index": 4252,
+        "id": "SDRW2400001361.1.1.58",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "1ec2b715668ced2ca150ad699723262163aa8e8e14e03d6380e7a0516d05d820",
+        "outcome": "win",
+        "f1_delta": 0.039215686274509776,
+        "edits": [
+          [
+            4,
+            "보",
+            "VX",
+            "VV",
+            7,
+            9
+          ]
+        ]
+      },
+      {
+        "index": 4272,
+        "id": "SDRW2400001361.1.1.78",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "6ddb5cf982cbd528f572e537078da07eb9d0da082409b32e2177d373114440bb",
+        "outcome": "win",
+        "f1_delta": 0.032258064516129115,
+        "edits": [
+          [
+            16,
+            "하",
+            "XSV",
+            "VV",
+            33,
+            35
+          ]
+        ]
+      },
+      {
+        "index": 4287,
+        "id": "SDRW2400001361.1.1.93",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "29e228eb7ba68a62f7ce2d805c38a3cee80697fa1168ac5183c38065d5c96b9c",
+        "outcome": "win",
+        "f1_delta": 0.0434782608695653,
+        "edits": [
+          [
+            22,
+            "라",
+            "EF",
+            "EC",
+            38,
+            40
+          ]
+        ]
+      },
+      {
+        "index": 4302,
+        "id": "SDRW2400001361.1.1.108",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "c10dd1c0fca851bb4deee0274cb46c073bbc9fbd5ac1b51c1089887ab4e7b1f4",
+        "outcome": "win",
+        "f1_delta": 0.04166666666666663,
+        "edits": [
+          [
+            12,
+            "있",
+            "VV",
+            "VA",
+            20,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 4312,
+        "id": "SDRW2400001361.1.1.118",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "f10f59d8770df0063559b032d7d89e655f7969090bc8b6cad78a0b7200dcbab3",
+        "outcome": "win",
+        "f1_delta": 0.05555555555555558,
+        "edits": [
+          [
+            11,
+            "있",
+            "VV",
+            "VA",
+            23,
+            25
+          ]
+        ]
+      },
+      {
+        "index": 4324,
+        "id": "SDRW2400001361.1.1.130",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "d74afca6f5102776093819e0a6dc9e04b72abfaa924f34d708a1da4cb1c60008",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            15,
+            "식",
+            "NNG",
+            "NNB",
+            30,
+            33
+          ]
+        ]
+      },
+      {
+        "index": 4373,
+        "id": "SDRW2400001361.1.1.179",
+        "doc": "SDRW2400001361.1",
+        "domain": "SX",
+        "text_sha256": "c349e264dbb5195c656f8478f2a8cd09a638c078a8db95b453265977e33a3f26",
+        "outcome": "win",
+        "f1_delta": 0.04081632653061229,
+        "edits": [
+          [
+            16,
+            "있",
+            "VV",
+            "VA",
+            32,
+            34
+          ]
+        ]
+      },
+      {
+        "index": 4553,
+        "id": "SDRW2400001398.1.1.171",
+        "doc": "SDRW2400001398.1",
+        "domain": "SX",
+        "text_sha256": "de642c5244b3c5f66468d10c9f3efb2a14da558bab4d9c1033210c5f7cc34b2d",
+        "outcome": "win",
+        "f1_delta": 0.125,
+        "edits": [
+          [
+            7,
+            "라",
+            "EF",
+            "EC",
+            8,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 4592,
+        "id": "SDRW2400001398.1.1.210",
+        "doc": "SDRW2400001398.1",
+        "domain": "SX",
+        "text_sha256": "6361bfb0e20ca73e20f92e4f25a70bb1115020041a6aa0320e11a279c34f16a9",
+        "outcome": "loss",
+        "f1_delta": -0.0714285714285714,
+        "edits": [
+          [
+            1,
+            "저기",
+            "NP",
+            "IC",
+            5,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 4654,
+        "id": "SDRW2400001418.1.1.45",
+        "doc": "SDRW2400001418.1",
+        "domain": "SX",
+        "text_sha256": "2c0ffbe076f34cb3c5456a4f9da73a6d2e7c496ebf1d0a7acb70f897bf73bf6e",
+        "outcome": "win",
+        "f1_delta": 0.06666666666666665,
+        "edits": [
+          [
+            7,
+            "있",
+            "VV",
+            "VA",
+            14,
+            16
+          ]
+        ]
+      },
+      {
+        "index": 4707,
+        "id": "SDRW2400001418.1.1.99",
+        "doc": "SDRW2400001418.1",
+        "domain": "SX",
+        "text_sha256": "10cf200722cc1b4c05c90d426d26c53e2156286a86f72b51d172fcd4cc743f63",
+        "outcome": "win",
+        "f1_delta": 0.04878048780487809,
+        "edits": [
+          [
+            6,
+            "하",
+            "XSV",
+            "VV",
+            14,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 4728,
+        "id": "SDRW2400001418.1.1.121",
+        "doc": "SDRW2400001418.1",
+        "domain": "SX",
+        "text_sha256": "d8c75766499068904fe444031264a5b498edbc7987b45c62d63befb384f47d0c",
+        "outcome": "win",
+        "f1_delta": 0.06666666666666665,
+        "edits": [
+          [
+            9,
+            "있",
+            "VV",
+            "VA",
+            15,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 4752,
+        "id": "SDRW2400001418.1.1.145",
+        "doc": "SDRW2400001418.1",
+        "domain": "SX",
+        "text_sha256": "4bd772b7ff8ec25d68dbc6ac3f6f6b736ac795511439b5bf01381059578e0922",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            4,
+            "있",
+            "VV",
+            "VA",
+            6,
+            9
+          ]
+        ]
+      },
+      {
+        "index": 4880,
+        "id": "SDRW2400001422.1.1.55",
+        "doc": "SDRW2400001422.1",
+        "domain": "SX",
+        "text_sha256": "10e8cbacb26c806d1385a8f2729fde021c3cd102a25b094eb2745b9893043360",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333337,
+        "edits": [
+          [
+            2,
+            "원래",
+            "NNG",
+            "MAG",
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 4881,
+        "id": "SDRW2400001422.1.1.56",
+        "doc": "SDRW2400001422.1",
+        "domain": "SX",
+        "text_sha256": "637ad3014b441b476e02d694e91e5ee88d566ef77aa2061bd8fcf304581b8eb8",
+        "outcome": "loss",
+        "f1_delta": -0.05882352941176472,
+        "edits": [
+          [
+            6,
+            "몇",
+            "MM",
+            "NR",
+            9,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 5057,
+        "id": "SDRW2400001422.1.1.232",
+        "doc": "SDRW2400001422.1",
+        "domain": "SX",
+        "text_sha256": "4e8847117757d401e6a619aa3a7fd011560a17f2acee2b2dd75e7095669e8315",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307698,
+        "edits": [
+          [
+            12,
+            "니",
+            "EF",
+            "EC",
+            27,
+            29
+          ]
+        ]
+      },
+      {
+        "index": 5128,
+        "id": "SDRW2400001443.1.1.49",
+        "doc": "SDRW2400001443.1",
+        "domain": "SX",
+        "text_sha256": "e10eb2e121ea1679e0cba9841c493396342e64d03b666a7fa6018967ea0ae23e",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            4,
+            "보",
+            "VX",
+            "VV",
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 5312,
+        "id": "SDRW2400001443.1.1.233",
+        "doc": "SDRW2400001443.1",
+        "domain": "SX",
+        "text_sha256": "70e4f0b782ce1c1024155dcddc6551d7220d86cb3654e49f886d88b49d0d9b4c",
+        "outcome": "win",
+        "f1_delta": 0.09523809523809523,
+        "edits": [
+          [
+            4,
+            "자기",
+            "NNG",
+            "NP",
+            11,
+            14
+          ]
+        ]
+      },
+      {
+        "index": 5408,
+        "id": "SDRW2400001459.1.1.86",
+        "doc": "SDRW2400001459.1",
+        "domain": "SX",
+        "text_sha256": "2f677b8a570b9bf8908a8b124863bec3cd5b6fe25b996e64726217eacd2fa781",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            5,
+            "그",
+            "NP",
+            "MM",
+            9,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 5619,
+        "id": "SDRW2400001567.1.1.12",
+        "doc": "SDRW2400001567.1",
+        "domain": "SX",
+        "text_sha256": "f6c4f6e04b0fa6618a2db931eeffe07fda687edf90f255160346fbbf94576604",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307687,
+        "edits": [
+          [
+            5,
+            "뭐",
+            "NP",
+            "IC",
+            10,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 5677,
+        "id": "SDRW2400001567.1.1.70",
+        "doc": "SDRW2400001567.1",
+        "domain": "SX",
+        "text_sha256": "3d1f34ecd9b8f644b37b91acf2838abb1371c60dbfced6e9d6370f4c37a826ee",
+        "outcome": "win",
+        "f1_delta": 0.09090909090909094,
+        "edits": [
+          [
+            6,
+            "전",
+            "MM",
+            "NNG",
+            16,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 5817,
+        "id": "SDRW2400001619.1.1.9",
+        "doc": "SDRW2400001619.1",
+        "domain": "SX",
+        "text_sha256": "c6c6599c03b6d80c58cd1587c6edd7e8d0c68e4894c4ca3924967fecdf47c5ae",
+        "outcome": "win",
+        "f1_delta": 0.038461538461538436,
+        "edits": [
+          [
+            22,
+            "안",
+            "NNG",
+            "MAG",
+            39,
+            40
+          ]
+        ]
+      },
+      {
+        "index": 5870,
+        "id": "SDRW2400001619.1.1.62",
+        "doc": "SDRW2400001619.1",
+        "domain": "SX",
+        "text_sha256": "bcc1eb2a4fb33685487bd6e52004878ec5fcfa863d1e8c8f6770eda1f7475138",
+        "outcome": "win",
+        "f1_delta": 0.04651162790697683,
+        "edits": [
+          [
+            11,
+            "식",
+            "NNG",
+            "NNB",
+            29,
+            32
+          ]
+        ]
+      },
+      {
+        "index": 5881,
+        "id": "SDRW2400001619.1.1.73",
+        "doc": "SDRW2400001619.1",
+        "domain": "SX",
+        "text_sha256": "f1072966e69296eb242b8fcae089ec95d35368fc63acf7f4b5bd94fcb92c29c7",
+        "outcome": "win",
+        "f1_delta": 0.038461538461538436,
+        "edits": [
+          [
+            7,
+            "보",
+            "VX",
+            "VV",
+            15,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 5932,
+        "id": "SDRW2400001619.1.1.124",
+        "doc": "SDRW2400001619.1",
+        "domain": "SX",
+        "text_sha256": "0aef3a2303c3713378f3df068b5d505e721edcbf1b2f0416d2acc32cdd11d5ce",
+        "outcome": "loss",
+        "f1_delta": -0.07692307692307687,
+        "edits": [
+          [
+            5,
+            "뭐",
+            "NP",
+            "IC",
+            10,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 6180,
+        "id": "SDRW2400001635.1.1.168",
+        "doc": "SDRW2400001635.1",
+        "domain": "SX",
+        "text_sha256": "815b3708d2f990b8bf4a7b046af35da7347c8c709302dc90b82ed6bae0749a8a",
+        "outcome": "win",
+        "f1_delta": 0.0625,
+        "edits": [
+          [
+            15,
+            "라",
+            "EF",
+            "EC",
+            25,
+            28
+          ]
+        ]
+      },
+      {
+        "index": 6251,
+        "id": "SDRW2400001635.1.1.239",
+        "doc": "SDRW2400001635.1",
+        "domain": "SX",
+        "text_sha256": "acd37c4a473321ae89f2e5be4c990e1da8062800ec70bc3ff35caf3d2dd5a40e",
+        "outcome": "win",
+        "f1_delta": 0.05405405405405406,
+        "edits": [
+          [
+            18,
+            "라",
+            "EF",
+            "EC",
+            33,
+            36
+          ]
+        ]
+      },
+      {
+        "index": 6364,
+        "id": "SDRW2400001662.1.1.111",
+        "doc": "SDRW2400001662.1",
+        "domain": "SX",
+        "text_sha256": "4bf8e5fc4a77fb358666781755136cdeb2754490abe1d532156351f4463468e1",
+        "outcome": "win",
+        "f1_delta": 0.04166666666666674,
+        "edits": [
+          [
+            17,
+            "아",
+            "EF",
+            "EC",
+            35,
+            37
+          ]
+        ]
+      },
+      {
+        "index": 6391,
+        "id": "SDRW2400001662.1.1.138",
+        "doc": "SDRW2400001662.1",
+        "domain": "SX",
+        "text_sha256": "1a4fd1e03c76b25cc0cc1bdc180c65474576fbcd3ef532665640105ee48004e7",
+        "outcome": "win",
+        "f1_delta": 0.08695652173913038,
+        "edits": [
+          [
+            6,
+            "하",
+            "VV",
+            "XSV",
+            9,
+            12
+          ],
+          [
+            11,
+            "라",
+            "EF",
+            "EC",
+            16,
+            19
+          ]
+        ]
+      },
+      {
+        "index": 6589,
+        "id": "SDRW2400001674.1.1.136",
+        "doc": "SDRW2400001674.1",
+        "domain": "SX",
+        "text_sha256": "70da08455cc4d1896e78be825f1e968264cdecb36607a8f4af14f8c83d05cf3e",
+        "outcome": "win",
+        "f1_delta": 0.06666666666666665,
+        "edits": [
+          [
+            18,
+            "있",
+            "VV",
+            "VA",
+            32,
+            34
+          ],
+          [
+            22,
+            "있",
+            "VV",
+            "VA",
+            40,
+            42
+          ]
+        ]
+      },
+      {
+        "index": 6623,
+        "id": "SDRW2400001674.1.1.170",
+        "doc": "SDRW2400001674.1",
+        "domain": "SX",
+        "text_sha256": "fc2edfe2a8049187eeceb93e8c51236eabb0a85d7b58d0e312912b82c57c634e",
+        "outcome": "win",
+        "f1_delta": 0.04081632653061229,
+        "edits": [
+          [
+            8,
+            "뭐",
+            "NP",
+            "IC",
+            14,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 6926,
+        "id": "SDRW2400001770.1.1.56",
+        "doc": "SDRW2400001770.1",
+        "domain": "SX",
+        "text_sha256": "0cb779887be302acadd3a047807340af2b69bd4dbf20fdb1092eb06e052cd469",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            10,
+            "있",
+            "VV",
+            "VA",
+            20,
+            22
+          ]
+        ]
+      },
+      {
+        "index": 7068,
+        "id": "SDRW2400001770.1.1.198",
+        "doc": "SDRW2400001770.1",
+        "domain": "SX",
+        "text_sha256": "00f714d48b5d0f777d826b0c2d3c5e6482e3e206e8a51b8328a3bfaa759e7d45",
+        "outcome": "win",
+        "f1_delta": 0.06451612903225801,
+        "edits": [
+          [
+            3,
+            "있",
+            "VV",
+            "VA",
+            5,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 7182,
+        "id": "SDRW2400001785.1.1.3",
+        "doc": "SDRW2400001785.1",
+        "domain": "SX",
+        "text_sha256": "7aeba186a579c0dc4d1e5d76318f1569cd58a5ab5526f05a6330b75fba92e1a5",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            16,
+            "있",
+            "VV",
+            "VA",
+            37,
+            39
+          ]
+        ]
+      },
+      {
+        "index": 7207,
+        "id": "SDRW2400001785.1.1.28",
+        "doc": "SDRW2400001785.1",
+        "domain": "SX",
+        "text_sha256": "7277442cceebf370f3ef8da3d6f9a04b31e07ee0db2d5d1f90a0bb5245ccd0ba",
+        "outcome": "win",
+        "f1_delta": 0.04347826086956519,
+        "edits": [
+          [
+            18,
+            "저기",
+            "NP",
+            "IC",
+            36,
+            38
+          ]
+        ]
+      },
+      {
+        "index": 7235,
+        "id": "SDRW2400001785.1.1.56",
+        "doc": "SDRW2400001785.1",
+        "domain": "SX",
+        "text_sha256": "70ae996c86f0ca0e21991327683aee129b4862bab7e6bf164b633ab60633310a",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545525,
+        "edits": [
+          [
+            4,
+            "있",
+            "VV",
+            "VA",
+            9,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 7236,
+        "id": "SDRW2400001785.1.1.57",
+        "doc": "SDRW2400001785.1",
+        "domain": "SX",
+        "text_sha256": "d9de95681193fb246168059d8d1b4245807ea0e12d697bedeea2fac16aa25624",
+        "outcome": "win",
+        "f1_delta": 0.09756097560975618,
+        "edits": [
+          [
+            4,
+            "있",
+            "VV",
+            "VA",
+            11,
+            13
+          ],
+          [
+            10,
+            "있",
+            "VV",
+            "VA",
+            22,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 7261,
+        "id": "SDRW2400001785.1.1.82",
+        "doc": "SDRW2400001785.1",
+        "domain": "SX",
+        "text_sha256": "ffb2953553fad407bc46af20e03f04360b70d87fb9efa2844a078b52eb9fca62",
+        "outcome": "win",
+        "f1_delta": 0.04166666666666674,
+        "edits": [
+          [
+            7,
+            "보",
+            "VX",
+            "VV",
+            13,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 7320,
+        "id": "SDRW2400001785.1.1.143",
+        "doc": "SDRW2400001785.1",
+        "domain": "SX",
+        "text_sha256": "53c1e4f8aeb7976b57cad89a9873741c992e5ae8280953ba61768a775a94ecf6",
+        "outcome": "win",
+        "f1_delta": 0.04166666666666674,
+        "edits": [
+          [
+            23,
+            "라",
+            "EF",
+            "EC",
+            48,
+            51
+          ]
+        ]
+      },
+      {
+        "index": 7417,
+        "id": "SDRW2400001818.1.1.42",
+        "doc": "SDRW2400001818.1",
+        "domain": "SX",
+        "text_sha256": "196ee6d61b5f040ddaa7f3b7df383fe2e077303e64cb170cf891a635d451d9e4",
+        "outcome": "loss",
+        "f1_delta": -0.038461538461538436,
+        "edits": [
+          [
+            8,
+            "하",
+            "VV",
+            "XSV",
+            17,
+            20
+          ]
+        ]
+      },
+      {
+        "index": 7425,
+        "id": "SDRW2400001818.1.1.50",
+        "doc": "SDRW2400001818.1",
+        "domain": "SX",
+        "text_sha256": "175a5fa664d4ad7e9adf42efd4045664e4d0bea98c5e76e88792cb484e22a8dd",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307687,
+        "edits": [
+          [
+            10,
+            "하",
+            "VV",
+            "VX",
+            21,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 7444,
+        "id": "SDRW2400001818.1.1.69",
+        "doc": "SDRW2400001818.1",
+        "domain": "SX",
+        "text_sha256": "6561f6678103de05daaed4f644b08fbc18763267baedab516b1b42c379f58f94",
+        "outcome": "win",
+        "f1_delta": 0.02631578947368418,
+        "edits": [
+          [
+            11,
+            "있",
+            "VV",
+            "VA",
+            25,
+            27
+          ]
+        ]
+      },
+      {
+        "index": 7460,
+        "id": "SDRW2400001818.1.1.85",
+        "doc": "SDRW2400001818.1",
+        "domain": "SX",
+        "text_sha256": "bb3b45283d57e8c57d0f1252367aa34cb152d5cfc301e377e615ab6b5664c9cb",
+        "outcome": "win",
+        "f1_delta": 0.06451612903225812,
+        "edits": [
+          [
+            6,
+            "보",
+            "VX",
+            "VV",
+            13,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 7507,
+        "id": "SDRW2400001818.1.1.132",
+        "doc": "SDRW2400001818.1",
+        "domain": "SX",
+        "text_sha256": "52dd71e5856994f1d5d930aab08ce607d1057bb6d02e92d6d8557bf3bbd5d799",
+        "outcome": "win",
+        "f1_delta": 0.037735849056603765,
+        "edits": [
+          [
+            14,
+            "안",
+            "NNG",
+            "MAG",
+            26,
+            27
+          ]
+        ]
+      },
+      {
+        "index": 7705,
+        "id": "SDRW2400001859.1.1.143",
+        "doc": "SDRW2400001859.1",
+        "domain": "SX",
+        "text_sha256": "d64bf39a99a7e24a1e2f1f608afdb12f9429003871f90b4360544b1f6e5a0670",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307687,
+        "edits": [
+          [
+            5,
+            "있",
+            "VV",
+            "VA",
+            11,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 7736,
+        "id": "SDRW2400001859.1.1.174",
+        "doc": "SDRW2400001859.1",
+        "domain": "SX",
+        "text_sha256": "f8251713fc4509e8c0024487f1ea623e5eac750b76ec3bcbb8be7206c036c76b",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307698,
+        "edits": [
+          [
+            13,
+            "라",
+            "EF",
+            "EC",
+            31,
+            34
+          ]
+        ]
+      },
+      {
+        "index": 7852,
+        "id": "SDRW2400001863.1.1.32",
+        "doc": "SDRW2400001863.1",
+        "domain": "SX",
+        "text_sha256": "a060ba709a8ca111c76b36152fa17acbe962e40432b0bc5aa956bd30b21fa700",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            5,
+            "하",
+            "VV",
+            "XSV",
+            10,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 7930,
+        "id": "SDRW2400001863.1.1.110",
+        "doc": "SDRW2400001863.1",
+        "domain": "SX",
+        "text_sha256": "fc92d6f01fdbb5243030bb27328ffcfc9c8145b8e833816459f8eeca121c5c54",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333337,
+        "edits": [
+          [
+            11,
+            "라",
+            "EF",
+            "EC",
+            17,
+            20
+          ]
+        ]
+      },
+      {
+        "index": 7945,
+        "id": "SDRW2400001863.1.1.125",
+        "doc": "SDRW2400001863.1",
+        "domain": "SX",
+        "text_sha256": "11400ad72037886d0a2f9d0d6193104398b0ed76d30e1d3ed0e29e0a7263e0b3",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            17,
+            "하",
+            "VV",
+            "XSV",
+            34,
+            37
+          ]
+        ]
+      },
+      {
+        "index": 8004,
+        "id": "SDRW2400001863.1.1.184",
+        "doc": "SDRW2400001863.1",
+        "domain": "SX",
+        "text_sha256": "63a13f2d0faa64d673328ae3a1ea1bd5dff153eabd073dc6a780a3daed60a825",
+        "outcome": "win",
+        "f1_delta": 0.09999999999999998,
+        "edits": [
+          [
+            6,
+            "살",
+            "NNG",
+            "NNB",
+            12,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 8068,
+        "id": "SDRW2400001863.1.1.248",
+        "doc": "SDRW2400001863.1",
+        "domain": "SX",
+        "text_sha256": "a5955b89e878278f16eeebe5c42c0ec74075997bae988b8db6e7ef38831c54d5",
+        "outcome": "win",
+        "f1_delta": 0.13333333333333341,
+        "edits": [
+          [
+            6,
+            "라",
+            "EF",
+            "EC",
+            16,
+            19
+          ]
+        ]
+      },
+      {
+        "index": 8114,
+        "id": "SDRW2400002019.1.1.23",
+        "doc": "SDRW2400002019.1",
+        "domain": "SX",
+        "text_sha256": "88a9ff6c6de8e499c184db8284793655ea50e0c9ea6eb2f3dd4fc797362f3bc1",
+        "outcome": "win",
+        "f1_delta": 0.02941176470588236,
+        "edits": [
+          [
+            21,
+            "식",
+            "NNG",
+            "NNB",
+            42,
+            45
+          ]
+        ]
+      },
+      {
+        "index": 8142,
+        "id": "SDRW2400002019.1.1.51",
+        "doc": "SDRW2400002019.1",
+        "domain": "SX",
+        "text_sha256": "5e578029955d7ac0f71b911309e062e0d09de22c355cf5ccd8156a904ffe6a38",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            10,
+            "하",
+            "XSV",
+            "VV",
+            19,
+            20
+          ]
+        ]
+      },
+      {
+        "index": 8209,
+        "id": "SDRW2400002019.1.1.118",
+        "doc": "SDRW2400002019.1",
+        "domain": "SX",
+        "text_sha256": "39c0e25d3b3df04364ca3b0a24e1688156ee15f926534685fa26ffa693345b98",
+        "outcome": "win",
+        "f1_delta": 0.050000000000000044,
+        "edits": [
+          [
+            12,
+            "있",
+            "VV",
+            "VA",
+            23,
+            25
+          ]
+        ]
+      },
+      {
+        "index": 8213,
+        "id": "SDRW2400002019.1.1.122",
+        "doc": "SDRW2400002019.1",
+        "domain": "SX",
+        "text_sha256": "3cf3116c3a866391b20950b031d62d58bf7b1195756de68943d0512b41a39830",
+        "outcome": "win",
+        "f1_delta": 0.05405405405405406,
+        "edits": [
+          [
+            13,
+            "있",
+            "VV",
+            "VA",
+            29,
+            31
+          ]
+        ]
+      },
+      {
+        "index": 8215,
+        "id": "SDRW2400002019.1.1.124",
+        "doc": "SDRW2400002019.1",
+        "domain": "SX",
+        "text_sha256": "81869dd77be38c4198e054609ef3197bf4e192214c0731bf1e20c02abf08183a",
+        "outcome": "win",
+        "f1_delta": 0.06451612903225801,
+        "edits": [
+          [
+            2,
+            "있",
+            "VV",
+            "VA",
+            5,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 8396,
+        "id": "SDRW2400002062.1.1.90",
+        "doc": "SDRW2400002062.1",
+        "domain": "SX",
+        "text_sha256": "195fa4f2607c890c0e4435fc9c5280c3177591fc7d87f5dbba255a61fde0969c",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545525,
+        "edits": [
+          [
+            9,
+            "식",
+            "NNG",
+            "NNB",
+            17,
+            20
+          ]
+        ]
+      },
+      {
+        "index": 8763,
+        "id": "SDRW2400002170.1.1.177",
+        "doc": "SDRW2400002170.1",
+        "domain": "SX",
+        "text_sha256": "e4de4b1d1854243cc27f5a60284dc140e0dbabfac177867ebc89462705102770",
+        "outcome": "win",
+        "f1_delta": 0.03076923076923077,
+        "edits": [
+          [
+            15,
+            "있",
+            "VV",
+            "VA",
+            36,
+            38
+          ]
+        ]
+      },
+      {
+        "index": 8858,
+        "id": "SDRW2400002222.1.1.49",
+        "doc": "SDRW2400002222.1",
+        "domain": "SX",
+        "text_sha256": "6f2ec2de8e259e0242bb66e3efabe4a1589767fe8af86197c910daf89bc8b9d0",
+        "outcome": "win",
+        "f1_delta": 0.03703703703703698,
+        "edits": [
+          [
+            8,
+            "있",
+            "VV",
+            "VA",
+            15,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 8927,
+        "id": "SDRW2400002222.1.1.118",
+        "doc": "SDRW2400002222.1",
+        "domain": "SX",
+        "text_sha256": "f0cfb9202a4cde4c4eee43b36d4dd98802a049b97f18d9189d215cfea67fb539",
+        "outcome": "win",
+        "f1_delta": 0.04761904761904756,
+        "edits": [
+          [
+            2,
+            "말",
+            "NNG",
+            "NNB",
+            6,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 8934,
+        "id": "SDRW2400002222.1.1.125",
+        "doc": "SDRW2400002222.1",
+        "domain": "SX",
+        "text_sha256": "8fe01fb34cbebbdc3a1948a9f5ccf718789c5a2e55e4742a72d8043455396f89",
+        "outcome": "win",
+        "f1_delta": 0.04878048780487809,
+        "edits": [
+          [
+            9,
+            "있",
+            "VV",
+            "VA",
+            15,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 8962,
+        "id": "SDRW2400002222.1.1.153",
+        "doc": "SDRW2400002222.1",
+        "domain": "SX",
+        "text_sha256": "ea81705bba20229bd4cf64ddcd59cf46f0e62513601e322a722879b50f045bd5",
+        "outcome": "loss",
+        "f1_delta": -0.08333333333333337,
+        "edits": [
+          [
+            6,
+            "갖",
+            "VV",
+            "VX",
+            10,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 9060,
+        "id": "SDRW2400002234.1.1.40",
+        "doc": "SDRW2400002234.1",
+        "domain": "SX",
+        "text_sha256": "db9d946d8d759c3c6aeb37c9d3ea2d43f38145133cd6df9b1ef15322afeaff08",
+        "outcome": "win",
+        "f1_delta": 0.08695652173913049,
+        "edits": [
+          [
+            7,
+            "안",
+            "NNG",
+            "MAG",
+            12,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 9259,
+        "id": "SDRW2400002234.1.1.240",
+        "doc": "SDRW2400002234.1",
+        "domain": "SX",
+        "text_sha256": "47d7fec85463053bb737d8106968300b7eb01eaa9725aa5fcab72cb6da3d40c7",
+        "outcome": "loss",
+        "f1_delta": -0.05555555555555558,
+        "edits": [
+          [
+            9,
+            "몇",
+            "MM",
+            "NR",
+            18,
+            19
+          ]
+        ]
+      },
+      {
+        "index": 9273,
+        "id": "SDRW2400002234.1.1.254",
+        "doc": "SDRW2400002234.1",
+        "domain": "SX",
+        "text_sha256": "ca480ae28e08e3a4b262eeb3862cde2311c7d5a3cec4570e09d29281f35e2000",
+        "outcome": "loss",
+        "f1_delta": -0.04347826086956519,
+        "edits": [
+          [
+            19,
+            "갖",
+            "VV",
+            "VX",
+            30,
+            32
+          ]
+        ]
+      },
+      {
+        "index": 9461,
+        "id": "SDRW2400002259.1.1.156",
+        "doc": "SDRW2400002259.1",
+        "domain": "SX",
+        "text_sha256": "a72d22f1122a3fede9cca7b9b88733b317694d488b09f03ed60699d66f7ed47a",
+        "outcome": "win",
+        "f1_delta": 0.033333333333333326,
+        "edits": [
+          [
+            9,
+            "있",
+            "VV",
+            "VA",
+            16,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 9525,
+        "id": "SDRW2400002259.1.1.220",
+        "doc": "SDRW2400002259.1",
+        "domain": "SX",
+        "text_sha256": "8997d0dad70a849a4cc3d5cae7b0ddfd57e53d07c65ebc1fdcadd055941c83a3",
+        "outcome": "win",
+        "f1_delta": 0.04444444444444451,
+        "edits": [
+          [
+            14,
+            "수",
+            "NNG",
+            "NNB",
+            23,
+            25
+          ]
+        ]
+      },
+      {
+        "index": 9884,
+        "id": "SDRW2400002263.1.1.323",
+        "doc": "SDRW2400002263.1",
+        "domain": "SX",
+        "text_sha256": "f267a752f8b84290311d7450a51491b29ae105861bb801122b8d94896cff3af9",
+        "outcome": "win",
+        "f1_delta": 0.04761904761904767,
+        "edits": [
+          [
+            18,
+            "하",
+            "VV",
+            "VX",
+            36,
+            39
+          ]
+        ]
+      },
+      {
+        "index": 9888,
+        "id": "SDRW2400002279.1.1.4",
+        "doc": "SDRW2400002279.1",
+        "domain": "SX",
+        "text_sha256": "a53687a955b6d89c2d83d6c5bacf69ede5567bd0921584aa4e1a60a8ae8024aa",
+        "outcome": "win",
+        "f1_delta": 0.125,
+        "edits": [
+          [
+            1,
+            "하",
+            "XSV",
+            "VV",
+            5,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 9920,
+        "id": "SDRW2400002279.1.1.36",
+        "doc": "SDRW2400002279.1",
+        "domain": "SX",
+        "text_sha256": "9d2ef81e664477035ce7b65be97fa6315b096ac2f862be38cb18787d5caa3734",
+        "outcome": "win",
+        "f1_delta": 0.04444444444444451,
+        "edits": [
+          [
+            10,
+            "되",
+            "XSV",
+            "VV",
+            21,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 9969,
+        "id": "SDRW2400002279.1.1.85",
+        "doc": "SDRW2400002279.1",
+        "domain": "SX",
+        "text_sha256": "6539ecbfa77e23406783ed13efba7a3080ddfa96a505e14d36b5002d5c3b6fe9",
+        "outcome": "win",
+        "f1_delta": 0.06153846153846154,
+        "edits": [
+          [
+            4,
+            "있",
+            "VV",
+            "VA",
+            9,
+            12
+          ],
+          [
+            27,
+            "있",
+            "VV",
+            "VA",
+            55,
+            57
+          ]
+        ]
+      },
+      {
+        "index": 10089,
+        "id": "SDRW2400002326.1.1.10",
+        "doc": "SDRW2400002326.1",
+        "domain": "SX",
+        "text_sha256": "9f2f0d196f23629f36857cf6b0d4dbf2ed154d2429b6b8b521d171bf35f956c3",
+        "outcome": "win",
+        "f1_delta": 0.04166666666666663,
+        "edits": [
+          [
+            13,
+            "하",
+            "VV",
+            "VX",
+            22,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 10099,
+        "id": "SDRW2400002326.1.1.20",
+        "doc": "SDRW2400002326.1",
+        "domain": "SX",
+        "text_sha256": "26cd0548c7c11f3005c8cc786e1825ba49cccbe36b1a8776a30b37aa251e940b",
+        "outcome": "win",
+        "f1_delta": 0.028169014084507116,
+        "edits": [
+          [
+            7,
+            "원래",
+            "NNG",
+            "MAG",
+            13,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 10156,
+        "id": "SDRW2400002326.1.1.77",
+        "doc": "SDRW2400002326.1",
+        "domain": "SX",
+        "text_sha256": "c35af50034e47a6f0c7f7f595bc09227bbcbcf7fff9337472735daaf4841f141",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333337,
+        "edits": [
+          [
+            15,
+            "둥",
+            "MAG",
+            "NNB",
+            28,
+            29
+          ],
+          [
+            18,
+            "둥",
+            "MAG",
+            "NNB",
+            33,
+            34
+          ]
+        ]
+      },
+      {
+        "index": 10375,
+        "id": "SDRW2400002367.1.1.104",
+        "doc": "SDRW2400002367.1",
+        "domain": "SX",
+        "text_sha256": "eed9059d0940665d457d376d34d98ee7048269b77be7f278483ad8ef37e21d64",
+        "outcome": "loss",
+        "f1_delta": -0.04999999999999993,
+        "edits": [
+          [
+            16,
+            "몇",
+            "MM",
+            "NR",
+            26,
+            27
+          ]
+        ]
+      },
+      {
+        "index": 10380,
+        "id": "SDRW2400002367.1.1.109",
+        "doc": "SDRW2400002367.1",
+        "domain": "SX",
+        "text_sha256": "bceca666a9f711b1c0c85430d856652f64b1428da75d26c89434465fb839f290",
+        "outcome": "tie",
+        "f1_delta": 0.0,
+        "edits": [
+          [
+            3,
+            "보다",
+            "JKB",
+            "MAG",
+            6,
+            8
+          ]
+        ]
+      },
+      {
+        "index": 10478,
+        "id": "SDRW2400002367.1.1.207",
+        "doc": "SDRW2400002367.1",
+        "domain": "SX",
+        "text_sha256": "ecba2aca7b3ff05bfe112bb1e26ace56a9b49640f59ebd59acc01945b15804b0",
+        "outcome": "loss",
+        "f1_delta": -0.04081632653061229,
+        "edits": [
+          [
+            5,
+            "갖",
+            "VV",
+            "VX",
+            10,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 10487,
+        "id": "SDRW2400002367.1.1.216",
+        "doc": "SDRW2400002367.1",
+        "domain": "SX",
+        "text_sha256": "f6339d0a8a98db9ca356784507c05c9b292fc00014df7a60f9e3bef6580acefa",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307687,
+        "edits": [
+          [
+            1,
+            "뭐",
+            "NP",
+            "IC",
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "index": 10685,
+        "id": "SDRW2400002388.1.1.188",
+        "doc": "SDRW2400002388.1",
+        "domain": "SX",
+        "text_sha256": "e65700a0c76e4f8d547265c76efdd0a161849cb80b093ee616b13c450bbdb391",
+        "outcome": "win",
+        "f1_delta": 0.045454545454545414,
+        "edits": [
+          [
+            12,
+            "하",
+            "XSV",
+            "VV",
+            26,
+            28
+          ]
+        ]
+      },
+      {
+        "index": 10830,
+        "id": "SDRW2400002408.1.1.107",
+        "doc": "SDRW2400002408.1",
+        "domain": "SX",
+        "text_sha256": "42d187dc805d1b4733695f48b0203c05a688c9218774add07b810b50022178ed",
+        "outcome": "win",
+        "f1_delta": 0.032786885245901676,
+        "edits": [
+          [
+            13,
+            "식",
+            "NNG",
+            "NNB",
+            35,
+            38
+          ]
+        ]
+      },
+      {
+        "index": 10852,
+        "id": "SDRW2400002408.1.1.129",
+        "doc": "SDRW2400002408.1",
+        "domain": "SX",
+        "text_sha256": "d468ae511bdf9ca4701d7094addebcb34a832e227c5e16cb410241b01fa31a26",
+        "outcome": "win",
+        "f1_delta": 0.02298850574712641,
+        "edits": [
+          [
+            34,
+            "하",
+            "VX",
+            "VV",
+            69,
+            70
+          ]
+        ]
+      },
+      {
+        "index": 10860,
+        "id": "SDRW2400002408.1.1.137",
+        "doc": "SDRW2400002408.1",
+        "domain": "SX",
+        "text_sha256": "b204c3f6f0571d3c4e34e5d23ffc6fcf51b1af0c75b78071d4b1b354664596c2",
+        "outcome": "win",
+        "f1_delta": 0.02857142857142858,
+        "edits": [
+          [
+            20,
+            "식",
+            "NNG",
+            "NNB",
+            42,
+            45
+          ]
+        ]
+      },
+      {
+        "index": 10863,
+        "id": "SDRW2400002408.1.1.140",
+        "doc": "SDRW2400002408.1",
+        "domain": "SX",
+        "text_sha256": "35255222012153c40d635ee7dc2a8d664a3c10456bfb6b0ab922ba97ec592a69",
+        "outcome": "win",
+        "f1_delta": 0.037735849056603765,
+        "edits": [
+          [
+            7,
+            "안",
+            "NNG",
+            "MAG",
+            12,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 10873,
+        "id": "SDRW2400002408.1.1.150",
+        "doc": "SDRW2400002408.1",
+        "domain": "SX",
+        "text_sha256": "c19388f1b36699e79254eb194cc1550832d050b7b909b97cae769b945c606414",
+        "outcome": "win",
+        "f1_delta": 0.042553191489361764,
+        "edits": [
+          [
+            4,
+            "보",
+            "VX",
+            "VV",
+            8,
+            10
+          ]
+        ]
+      },
+      {
+        "index": 10903,
+        "id": "SDRW2400002432.1.1.21",
+        "doc": "SDRW2400002432.1",
+        "domain": "SX",
+        "text_sha256": "22bb6638e73ec2b698b79634e6068be7633779aacc9732af456e30122dd1a8e8",
+        "outcome": "win",
+        "f1_delta": 0.05128205128205121,
+        "edits": [
+          [
+            18,
+            "식",
+            "NNG",
+            "NNB",
+            31,
+            34
+          ]
+        ]
+      },
+      {
+        "index": 10932,
+        "id": "SDRW2400002432.1.1.50",
+        "doc": "SDRW2400002432.1",
+        "domain": "SX",
+        "text_sha256": "6f2df64ac30b35565d28b0a6d0fca8d438c1a2a1ba221a081b817b5c491f9b03",
+        "outcome": "win",
+        "f1_delta": 0.06666666666666676,
+        "edits": [
+          [
+            10,
+            "식",
+            "NNG",
+            "NNB",
+            19,
+            22
+          ]
+        ]
+      },
+      {
+        "index": 11054,
+        "id": "SDRW2400002432.1.1.172",
+        "doc": "SDRW2400002432.1",
+        "domain": "SX",
+        "text_sha256": "bea06daf8f2b74b4bbb52ddad32636bc704da8d5f6e16077b2e268cb0d23cd64",
+        "outcome": "win",
+        "f1_delta": 0.0625,
+        "edits": [
+          [
+            0,
+            "한",
+            "NNG",
+            "MM",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 11289,
+        "id": "SDRW2400002449.1.1.94",
+        "doc": "SDRW2400002449.1",
+        "domain": "SX",
+        "text_sha256": "bead6a69c35a4774b903657cd97cca4a0b3c587a9de02073ee634ee514500b66",
+        "outcome": "win",
+        "f1_delta": 0.0273972602739726,
+        "edits": [
+          [
+            16,
+            "있",
+            "VV",
+            "VA",
+            30,
+            32
+          ]
+        ]
+      },
+      {
+        "index": 11359,
+        "id": "SDRW2400002449.1.1.164",
+        "doc": "SDRW2400002449.1",
+        "domain": "SX",
+        "text_sha256": "333656266689700fbe5d8d95cc631e151a67c10e75d480fc9bd62fe90fb9df12",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            9,
+            "하",
+            "VV",
+            "VX",
+            16,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 11469,
+        "id": "SDRW2400002465.1.1.80",
+        "doc": "SDRW2400002465.1",
+        "domain": "SX",
+        "text_sha256": "8a83cb7a65d32d4656708b609a42421f68136c22c596a8fe9dd9ccb32625e3e2",
+        "outcome": "win",
+        "f1_delta": 0.10000000000000009,
+        "edits": [
+          [
+            9,
+            "라",
+            "EF",
+            "EC",
+            13,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 11740,
+        "id": "SDRW2400002516.1.1.32",
+        "doc": "SDRW2400002516.1",
+        "domain": "SX",
+        "text_sha256": "6d6e8997d6e262d12fc854ef06e9e59552e555e32b6aebb48a4e17e52a938303",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307687,
+        "edits": [
+          [
+            0,
+            "한",
+            "NNG",
+            "MM",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 11779,
+        "id": "SDRW2400002516.1.1.71",
+        "doc": "SDRW2400002516.1",
+        "domain": "SX",
+        "text_sha256": "5ce1def0a9cac13fcf725c3b1d7e8ed9114c8ada7868ab5e00fb1db0940868f5",
+        "outcome": "win",
+        "f1_delta": 0.04878048780487809,
+        "edits": [
+          [
+            5,
+            "보",
+            "VX",
+            "VV",
+            11,
+            14
+          ]
+        ]
+      },
+      {
+        "index": 11909,
+        "id": "SDRW2400002516.1.1.201",
+        "doc": "SDRW2400002516.1",
+        "domain": "SX",
+        "text_sha256": "222d8aa84c550ab30531faed844820c77614ebdb125ba793de984c82ddb94fe0",
+        "outcome": "win",
+        "f1_delta": 0.0625,
+        "edits": [
+          [
+            10,
+            "하",
+            "VV",
+            "VX",
+            21,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 11978,
+        "id": "SDRW2400002516.1.1.270",
+        "doc": "SDRW2400002516.1",
+        "domain": "SX",
+        "text_sha256": "beb3467e3413063661c3039f14c1a9aa238e4ce06b024084d1d51906e274b248",
+        "outcome": "win",
+        "f1_delta": 0.04761904761904756,
+        "edits": [
+          [
+            0,
+            "한",
+            "NNG",
+            "MM",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 12011,
+        "id": "SDRW2400002598.1.1.27",
+        "doc": "SDRW2400002598.1",
+        "domain": "SX",
+        "text_sha256": "ea6c520f90effb1cb165921aac68569de27f18d329b4c22d96e034a174864999",
+        "outcome": "win",
+        "f1_delta": 0.04651162790697683,
+        "edits": [
+          [
+            2,
+            "안",
+            "NNG",
+            "MAG",
+            4,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 12163,
+        "id": "SDRW2400002598.1.1.179",
+        "doc": "SDRW2400002598.1",
+        "domain": "SX",
+        "text_sha256": "e07ce2fa59af20d9850e834d3110fd1b415a5d91c950ea029d7b18ebdcf1e4e5",
+        "outcome": "win",
+        "f1_delta": 0.04347826086956519,
+        "edits": [
+          [
+            12,
+            "식",
+            "NNG",
+            "NNB",
+            21,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 12257,
+        "id": "SDRW2400002609.1.1.28",
+        "doc": "SDRW2400002609.1",
+        "domain": "SX",
+        "text_sha256": "4f232ba066a6e9f5790dc9e0d9b096471a8fb590ac06abfa7be2684a69b028e5",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            2,
+            "보",
+            "VX",
+            "VV",
+            4,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 12271,
+        "id": "SDRW2400002609.1.1.42",
+        "doc": "SDRW2400002609.1",
+        "domain": "SX",
+        "text_sha256": "6a1480aa897ae1620a1619b12d0eaf230c778be7fff71467d066ca131e94267d",
+        "outcome": "win",
+        "f1_delta": 0.09523809523809523,
+        "edits": [
+          [
+            7,
+            "보",
+            "VX",
+            "VV",
+            15,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 12432,
+        "id": "SDRW2400002609.1.1.205",
+        "doc": "SDRW2400002609.1",
+        "domain": "SX",
+        "text_sha256": "7777ed09ea922d99111b65f1c5b733777344eabdd12e21af3a2ade070372d5bd",
+        "outcome": "win",
+        "f1_delta": 0.08000000000000007,
+        "edits": [
+          [
+            2,
+            "보",
+            "VX",
+            "VV",
+            4,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 12607,
+        "id": "SDRW2400002609.1.1.380",
+        "doc": "SDRW2400002609.1",
+        "domain": "SX",
+        "text_sha256": "45aa51fb5b00bdc7cb43be146dd8f3f5e47ce093d2c38ef2f7c3d28e49dcb325",
+        "outcome": "win",
+        "f1_delta": 0.09523809523809523,
+        "edits": [
+          [
+            2,
+            "보",
+            "VX",
+            "VV",
+            4,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 12656,
+        "id": "SDRW2400002625.1.1.42",
+        "doc": "SDRW2400002625.1",
+        "domain": "SX",
+        "text_sha256": "eaa41f8f53a6acccc0f1e26e29266318560896fa16a52cb41793a4933c3c6f47",
+        "outcome": "win",
+        "f1_delta": 0.052631578947368474,
+        "edits": [
+          [
+            12,
+            "하",
+            "VX",
+            "VV",
+            22,
+            23
+          ]
+        ]
+      },
+      {
+        "index": 12805,
+        "id": "SDRW2400002625.1.1.191",
+        "doc": "SDRW2400002625.1",
+        "domain": "SX",
+        "text_sha256": "f1d961d22d7d15c3db1ceb75824eee97c95e17d1be456dde571889ff1de9ac1e",
+        "outcome": "win",
+        "f1_delta": 0.05263157894736836,
+        "edits": [
+          [
+            5,
+            "자기",
+            "NNG",
+            "NP",
+            9,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 12952,
+        "id": "SDRW2400002633.1.1.8",
+        "doc": "SDRW2400002633.1",
+        "domain": "SX",
+        "text_sha256": "cbd991d395b15a66812f876dc0e36e51f126e67d83b090a640861c9a7b19b826",
+        "outcome": "win",
+        "f1_delta": 0.05263157894736836,
+        "edits": [
+          [
+            5,
+            "저",
+            "MM",
+            "IC",
+            11,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 13277,
+        "id": "SDRW2400002664.1.1.13",
+        "doc": "SDRW2400002664.1",
+        "domain": "SX",
+        "text_sha256": "c33b0737ae8fa8c3414fb5ebdfd890e70f86b53127946047f1b7d033c1ebbc83",
+        "outcome": "win",
+        "f1_delta": 0.0714285714285714,
+        "edits": [
+          [
+            4,
+            "있",
+            "VV",
+            "VA",
+            9,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 13375,
+        "id": "SDRW2400002664.1.1.111",
+        "doc": "SDRW2400002664.1",
+        "domain": "SX",
+        "text_sha256": "43ee9fea7200abdb785f20e5af4e249b8d7b8161e0fb22194322d9df02287747",
+        "outcome": "win",
+        "f1_delta": 0.125,
+        "edits": [
+          [
+            1,
+            "뭐",
+            "NP",
+            "IC",
+            3,
+            4
+          ]
+        ]
+      },
+      {
+        "index": 13456,
+        "id": "SDRW2400002664.1.1.192",
+        "doc": "SDRW2400002664.1",
+        "domain": "SX",
+        "text_sha256": "4b90a00756bf8accf2609c83a30bf79f5746dfe2345d6dc9bc2150358dfdaadc",
+        "outcome": "win",
+        "f1_delta": 0.046511627906976716,
+        "edits": [
+          [
+            6,
+            "보",
+            "VX",
+            "VV",
+            11,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 13457,
+        "id": "SDRW2400002664.1.1.193",
+        "doc": "SDRW2400002664.1",
+        "domain": "SX",
+        "text_sha256": "f7cc5c3aafe5d540eb8b0e0f859126ffe49e0d1961ef847e53e1d85f2ed80562",
+        "outcome": "win",
+        "f1_delta": 0.02857142857142858,
+        "edits": [
+          [
+            1,
+            "식",
+            "NNG",
+            "NNB",
+            3,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 13643,
+        "id": "SDRW2400002721.1.1.118",
+        "doc": "SDRW2400002721.1",
+        "domain": "SX",
+        "text_sha256": "047f76f5efe1b4fa817521e48249c880c2e74d9b624dfd11deb85ddb8047e6f5",
+        "outcome": "win",
+        "f1_delta": 0.02409638554216864,
+        "edits": [
+          [
+            13,
+            "식",
+            "NNG",
+            "NNB",
+            21,
+            24
+          ]
+        ]
+      },
+      {
+        "index": 13683,
+        "id": "SDRW2400002721.1.1.158",
+        "doc": "SDRW2400002721.1",
+        "domain": "SX",
+        "text_sha256": "4f44fc9088fcc926bc31abafa64c3b31018d3ebc76a32fcd293032c1a3a8852a",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            4,
+            "있",
+            "VV",
+            "VA",
+            9,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 13743,
+        "id": "SDRW2400002721.1.1.218",
+        "doc": "SDRW2400002721.1",
+        "domain": "SX",
+        "text_sha256": "7a67f7dbbbd6a4a866961afa76bfec16d1c992cca8218a135228c9e11b4456f9",
+        "outcome": "win",
+        "f1_delta": 0.0219780219780219,
+        "edits": [
+          [
+            13,
+            "하",
+            "VX",
+            "VV",
+            21,
+            22
+          ]
+        ]
+      },
+      {
+        "index": 13912,
+        "id": "SDRW2400002737.1.1.147",
+        "doc": "SDRW2400002737.1",
+        "domain": "SX",
+        "text_sha256": "e7b72392184c68214b18c0a12967193f774299134bd1cb0990e22867c4ac7bab",
+        "outcome": "win",
+        "f1_delta": 0.05405405405405406,
+        "edits": [
+          [
+            3,
+            "식",
+            "NNG",
+            "NNB",
+            9,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 13914,
+        "id": "SDRW2400002737.1.1.149",
+        "doc": "SDRW2400002737.1",
+        "domain": "SX",
+        "text_sha256": "4ad1501fc05e2275f40076776c4d41cb2e546dcd2ab100eabbfb8ec7bdb88d25",
+        "outcome": "win",
+        "f1_delta": 0.05405405405405406,
+        "edits": [
+          [
+            3,
+            "보",
+            "VX",
+            "VV",
+            9,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 13997,
+        "id": "SDRW2400002737.1.1.232",
+        "doc": "SDRW2400002737.1",
+        "domain": "SX",
+        "text_sha256": "e9a2fa440adb4713d501bbca830a3fc2606785483e1acfe71d84ecdc790fb229",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            2,
+            "보",
+            "VX",
+            "VV",
+            4,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 14041,
+        "id": "SDRW2400002760.1.1.11",
+        "doc": "SDRW2400002760.1",
+        "domain": "SX",
+        "text_sha256": "d50900398f8526cccdda49e6f78983307a2dcbf1542eea7f09d94ee891b13e42",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            14,
+            "하",
+            "VV",
+            "VX",
+            29,
+            33
+          ]
+        ]
+      },
+      {
+        "index": 14075,
+        "id": "SDRW2400002760.1.1.45",
+        "doc": "SDRW2400002760.1",
+        "domain": "SX",
+        "text_sha256": "740a510995733fa76527570da255427ccbe3287e651925fc71d4c47a705f6931",
+        "outcome": "win",
+        "f1_delta": 0.11111111111111105,
+        "edits": [
+          [
+            8,
+            "라",
+            "EF",
+            "EC",
+            11,
+            14
+          ]
+        ]
+      },
+      {
+        "index": 14453,
+        "id": "SDRW2400002776.1.1.105",
+        "doc": "SDRW2400002776.1",
+        "domain": "SX",
+        "text_sha256": "c9cb5b7755e489219f5b32876ce4f2963513a708c2704f23f95c42793a0f8a33",
+        "outcome": "win",
+        "f1_delta": 0.1428571428571429,
+        "edits": [
+          [
+            6,
+            "라",
+            "EF",
+            "EC",
+            10,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 14457,
+        "id": "SDRW2400002776.1.1.109",
+        "doc": "SDRW2400002776.1",
+        "domain": "SX",
+        "text_sha256": "f6c475548d61a168bfdb8300d44c856efd72a96b3581d734411f56f2fabc6ed4",
+        "outcome": "win",
+        "f1_delta": 0.06666666666666665,
+        "edits": [
+          [
+            5,
+            "하",
+            "VX",
+            "VV",
+            11,
+            12
+          ]
+        ]
+      },
+      {
+        "index": 14471,
+        "id": "SDRW2400002776.1.1.123",
+        "doc": "SDRW2400002776.1",
+        "domain": "SX",
+        "text_sha256": "a456d4c4be9ebbf8e4548e1ab42182c623f74e785422873256baa8d9adeab689",
+        "outcome": "win",
+        "f1_delta": 0.06666666666666665,
+        "edits": [
+          [
+            0,
+            "한",
+            "NNG",
+            "MM",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 14589,
+        "id": "SDRW2400002776.1.1.241",
+        "doc": "SDRW2400002776.1",
+        "domain": "SX",
+        "text_sha256": "263afe85e22bae260cb5d8da10841ef6bff763f518b5bc6d32c51bd04741e228",
+        "outcome": "win",
+        "f1_delta": 0.0625,
+        "edits": [
+          [
+            6,
+            "과",
+            "JC",
+            "JKB",
+            13,
+            15
+          ]
+        ]
+      },
+      {
+        "index": 14616,
+        "id": "SDRW2400002799.1.1.10",
+        "doc": "SDRW2400002799.1",
+        "domain": "SX",
+        "text_sha256": "c5d5e35a16589995e8e28a4dc49948bf0af067dc0f9ae43e21c64ee3ece9d4d5",
+        "outcome": "win",
+        "f1_delta": 0.028169014084507005,
+        "edits": [
+          [
+            31,
+            "하",
+            "VV",
+            "VX",
+            52,
+            55
+          ]
+        ]
+      },
+      {
+        "index": 14714,
+        "id": "SDRW2400002799.1.1.108",
+        "doc": "SDRW2400002799.1",
+        "domain": "SX",
+        "text_sha256": "e702bf0ce9aac837226da7b067fea3dc7eeed78ea03c2bb7e68279f3f439b309",
+        "outcome": "win",
+        "f1_delta": 0.06896551724137934,
+        "edits": [
+          [
+            8,
+            "식",
+            "NNG",
+            "NNB",
+            18,
+            21
+          ]
+        ]
+      },
+      {
+        "index": 14739,
+        "id": "SDRW2400002799.1.1.133",
+        "doc": "SDRW2400002799.1",
+        "domain": "SX",
+        "text_sha256": "c0d1c1329416600d6844e870797fe13adb28c53def95d77b594eca1fbb1482a3",
+        "outcome": "win",
+        "f1_delta": 0.036363636363636376,
+        "edits": [
+          [
+            25,
+            "하",
+            "VV",
+            "VX",
+            46,
+            49
+          ]
+        ]
+      },
+      {
+        "index": 14748,
+        "id": "SDRW2400002799.1.1.142",
+        "doc": "SDRW2400002799.1",
+        "domain": "SX",
+        "text_sha256": "e70fd4a87cf4431793bb752950333429078ec8c37a888e9bfd962618f9ae935f",
+        "outcome": "win",
+        "f1_delta": 0.04081632653061229,
+        "edits": [
+          [
+            1,
+            "식",
+            "NNG",
+            "NNB",
+            3,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 14755,
+        "id": "SDRW2400002799.1.1.149",
+        "doc": "SDRW2400002799.1",
+        "domain": "SX",
+        "text_sha256": "a1096c98a82e3544073b12b3d2a5eca1f20f07ceecf1d7b841504c636211e3ed",
+        "outcome": "win",
+        "f1_delta": 0.052631578947368474,
+        "edits": [
+          [
+            2,
+            "물론",
+            "NNG",
+            "MAG",
+            3,
+            5
+          ]
+        ]
+      },
+      {
+        "index": 14756,
+        "id": "SDRW2400002799.1.1.150",
+        "doc": "SDRW2400002799.1",
+        "domain": "SX",
+        "text_sha256": "b0b990e9e09fdbfb4a0ec30e53f7e6850241f2fb3d492b9b3f0a6e6b09004c2a",
+        "outcome": "win",
+        "f1_delta": 0.08333333333333326,
+        "edits": [
+          [
+            1,
+            "식",
+            "NNG",
+            "NNB",
+            3,
+            6
+          ]
+        ]
+      },
+      {
+        "index": 14861,
+        "id": "SDRW2400002849.1.1.8",
+        "doc": "SDRW2400002849.1",
+        "domain": "SX",
+        "text_sha256": "f59742b804278f43dbb26d09ba905938a9736c2bb75958170b8a08a54a0264d5",
+        "outcome": "win",
+        "f1_delta": 0.07692307692307698,
+        "edits": [
+          [
+            7,
+            "되",
+            "XSV",
+            "VV",
+            16,
+            18
+          ]
+        ]
+      },
+      {
+        "index": 15075,
+        "id": "SDRW2400002849.1.1.223",
+        "doc": "SDRW2400002849.1",
+        "domain": "SX",
+        "text_sha256": "a4f17a0a5b85ad9c9d3ed9eb74739faaf57a79af6cfb89f9155c21e4076d178c",
+        "outcome": "win",
+        "f1_delta": 0.038461538461538436,
+        "edits": [
+          [
+            15,
+            "보",
+            "VX",
+            "VV",
+            27,
+            29
+          ]
+        ]
+      },
+      {
+        "index": 15393,
+        "id": "SDRW2400003022.1.1.30",
+        "doc": "SDRW2400003022.1",
+        "domain": "SX",
+        "text_sha256": "124b30fe6ddaa61ccedfa78a62764ec77f454e3b2666ead76e594860e5b9bc4a",
+        "outcome": "loss",
+        "f1_delta": -0.030303030303030387,
+        "edits": [
+          [
+            5,
+            "몇",
+            "MM",
+            "NR",
+            10,
+            11
+          ]
+        ]
+      },
+      {
+        "index": 15442,
+        "id": "SDRW2400003022.1.1.79",
+        "doc": "SDRW2400003022.1",
+        "domain": "SX",
+        "text_sha256": "2c72b4bcd25353335fddd8c8ab1a04cfe7162de1c4433bf2d0a002e8942064eb",
+        "outcome": "win",
+        "f1_delta": 0.03703703703703698,
+        "edits": [
+          [
+            18,
+            "안",
+            "NNG",
+            "MAG",
+            42,
+            43
+          ]
+        ]
+      },
+      {
+        "index": 15542,
+        "id": "SDRW2400003022.1.1.179",
+        "doc": "SDRW2400003022.1",
+        "domain": "SX",
+        "text_sha256": "3bee82cb5ab681b077d55d4c227ac4ea7427cef13f181d384dbc49f4cfbb3ce3",
+        "outcome": "win",
+        "f1_delta": 0.07999999999999996,
+        "edits": [
+          [
+            5,
+            "뭐",
+            "NP",
+            "IC",
+            12,
+            13
+          ]
+        ]
+      },
+      {
+        "index": 15564,
+        "id": "SDRW2400003022.1.1.201",
+        "doc": "SDRW2400003022.1",
+        "domain": "SX",
+        "text_sha256": "a0a32d7344b59c20cbb6e377b3e78e4dfbf63add5b57184227aaf29509ed0c7c",
+        "outcome": "win",
+        "f1_delta": 0.05882352941176472,
+        "edits": [
+          [
+            0,
+            "한",
+            "NNG",
+            "MM",
+            0,
+            1
+          ]
+        ]
+      },
+      {
+        "index": 15923,
+        "id": "SDRW2400003063.1.1.50",
+        "doc": "SDRW2400003063.1",
+        "domain": "SX",
+        "text_sha256": "ca923d9be79d40860844f6876b3c1682d9f7e494a940158198951704c68dd417",
+        "outcome": "win",
+        "f1_delta": 0.10526315789473684,
+        "edits": [
+          [
+            8,
+            "라",
+            "EF",
+            "EC",
+            14,
+            17
+          ]
+        ]
+      },
+      {
+        "index": 16067,
+        "id": "SDRW2400003063.1.1.194",
+        "doc": "SDRW2400003063.1",
+        "domain": "SX",
+        "text_sha256": "aaf65562eba6a6305e6be63e0938dc7e8eafac64fda1330be6fb49dd08655504",
+        "outcome": "win",
+        "f1_delta": 0.19999999999999996,
+        "edits": [
+          [
+            4,
+            "니",
+            "EF",
+            "EC",
+            5,
+            7
+          ]
+        ]
+      },
+      {
+        "index": 16278,
+        "id": "SDRW2400003075.1.1.149",
+        "doc": "SDRW2400003075.1",
+        "domain": "SX",
+        "text_sha256": "fe7730c68c690f542706340075773051486dc33dc0134b1231471e7fa9f5a37e",
+        "outcome": "win",
+        "f1_delta": 0.1333333333333333,
+        "edits": [
+          [
+            7,
+            "라",
+            "EF",
+            "EC",
+            18,
+            21
+          ]
+        ]
+      }
+    ]
+  },
+  "failure_classes": [
+    {
+      "dataset": "gold",
+      "pos_transition": "NNB->NNG",
+      "loss_sentence_edits": 1
+    },
+    {
+      "dataset": "gold",
+      "pos_transition": "NNB->XSN",
+      "loss_sentence_edits": 1
+    },
+    {
+      "dataset": "gold",
+      "pos_transition": "NNG->NNB",
+      "loss_sentence_edits": 3
+    },
+    {
+      "dataset": "gold",
+      "pos_transition": "NNG->NNP",
+      "loss_sentence_edits": 1
+    },
+    {
+      "dataset": "gold",
+      "pos_transition": "VV->VA",
+      "loss_sentence_edits": 2
+    },
+    {
+      "dataset": "gold",
+      "pos_transition": "VV->XSV",
+      "loss_sentence_edits": 1
+    },
+    {
+      "dataset": "gold",
+      "pos_transition": "XSV->VV",
+      "loss_sentence_edits": 2
+    },
+    {
+      "dataset": "spoken",
+      "pos_transition": "MM->NR",
+      "loss_sentence_edits": 5
+    },
+    {
+      "dataset": "spoken",
+      "pos_transition": "NNG->MAG",
+      "loss_sentence_edits": 3
+    },
+    {
+      "dataset": "spoken",
+      "pos_transition": "NP->IC",
+      "loss_sentence_edits": 2
+    },
+    {
+      "dataset": "spoken",
+      "pos_transition": "VV->VX",
+      "loss_sentence_edits": 3
+    },
+    {
+      "dataset": "spoken",
+      "pos_transition": "VV->XSV",
+      "loss_sentence_edits": 1
+    }
+  ],
+  "failure_interpretation": "All changes preserve segmentation and text. Losses include noun/bound-noun, lexical/auxiliary/derivational verb, determiner/numeral and discourse-pronoun ambiguity. POS-reference mismatches are retained as losses without declaring every case a linguistic error or changing gold.",
+  "selection_candidates": [
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 110,
+      "guards": 416,
+      "brotli_bytes": 2685,
+      "dev_f1": 0.9493781944685322,
+      "changes": {
+        "changed": 656,
+        "win": 642,
+        "pos_edits": 686,
+        "loss": 11,
+        "tie": 3
+      },
+      "NX_f1": 0.9563979400673872,
+      "SX_f1": 0.9292878882895069
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 260,
+      "noncache": 207,
+      "guards": 660,
+      "brotli_bytes": 4558,
+      "dev_f1": 0.9496060368016378,
+      "changes": {
+        "changed": 796,
+        "win": 776,
+        "pos_edits": 833,
+        "loss": 15,
+        "tie": 5
+      },
+      "NX_f1": 0.9566044381016406,
+      "SX_f1": 0.9295768173803981
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 110,
+      "guards": 338,
+      "brotli_bytes": 2576,
+      "dev_f1": 0.9490891407623536,
+      "changes": {
+        "changed": 490,
+        "win": 480,
+        "pos_edits": 508,
+        "loss": 8,
+        "tie": 2
+      },
+      "NX_f1": 0.9561547312714888,
+      "SX_f1": 0.9288676277936653
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 183,
+      "noncache": 148,
+      "guards": 418,
+      "brotli_bytes": 3371,
+      "dev_f1": 0.9491622543468576,
+      "changes": {
+        "changed": 531,
+        "win": 521,
+        "pos_edits": 551,
+        "loss": 8,
+        "tie": 2
+      },
+      "NX_f1": 0.9562212695269704,
+      "SX_f1": 0.9289595597771306
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 110,
+      "guards": 416,
+      "brotli_bytes": 2706,
+      "dev_f1": 0.9491911597174755,
+      "changes": {
+        "changed": 548,
+        "win": 536,
+        "pos_edits": 572,
+        "tie": 2,
+        "loss": 10
+      },
+      "NX_f1": 0.9561822643427225,
+      "SX_f1": 0.9291828231655466
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 260,
+      "noncache": 207,
+      "guards": 660,
+      "brotli_bytes": 4601,
+      "dev_f1": 0.949419002050581,
+      "changes": {
+        "changed": 689,
+        "win": 671,
+        "pos_edits": 719,
+        "tie": 4,
+        "loss": 14
+      },
+      "NX_f1": 0.9563887623769759,
+      "SX_f1": 0.9294717522564377
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 110,
+      "guards": 338,
+      "brotli_bytes": 2608,
+      "dev_f1": 0.9489480145411018,
+      "changes": {
+        "changed": 407,
+        "win": 399,
+        "pos_edits": 421,
+        "tie": 2,
+        "loss": 6
+      },
+      "NX_f1": 0.9559964161118945,
+      "SX_f1": 0.9287756958101998
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 183,
+      "noncache": 148,
+      "guards": 418,
+      "brotli_bytes": 3397,
+      "dev_f1": 0.9490211281256057,
+      "changes": {
+        "changed": 448,
+        "win": 440,
+        "pos_edits": 464,
+        "tie": 2,
+        "loss": 6
+      },
+      "NX_f1": 0.9560629543673761,
+      "SX_f1": 0.9288676277936653
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 109,
+      "guards": 406,
+      "brotli_bytes": 2664,
+      "dev_f1": 0.9493747938366949,
+      "changes": {
+        "changed": 654,
+        "win": 640,
+        "pos_edits": 684,
+        "loss": 11,
+        "tie": 3
+      },
+      "NX_f1": 0.9563956456447844,
+      "SX_f1": 0.9292813217192594
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 254,
+      "noncache": 202,
+      "guards": 634,
+      "brotli_bytes": 4430,
+      "dev_f1": 0.9495890336424507,
+      "changes": {
+        "changed": 786,
+        "win": 766,
+        "pos_edits": 823,
+        "loss": 15,
+        "tie": 5
+      },
+      "NX_f1": 0.9565860827208181,
+      "SX_f1": 0.9295636842399031
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 111,
+      "guards": 336,
+      "brotli_bytes": 2590,
+      "dev_f1": 0.9490823394986788,
+      "changes": {
+        "changed": 486,
+        "win": 476,
+        "pos_edits": 504,
+        "loss": 8,
+        "tie": 2
+      },
+      "NX_f1": 0.9561455535810774,
+      "SX_f1": 0.9288676277936653
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 175,
+      "noncache": 141,
+      "guards": 402,
+      "brotli_bytes": 3265,
+      "dev_f1": 0.949148651819508,
+      "changes": {
+        "changed": 523,
+        "win": 513,
+        "pos_edits": 543,
+        "loss": 8,
+        "tie": 2
+      },
+      "NX_f1": 0.9562052085687507,
+      "SX_f1": 0.9289529932068831
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 109,
+      "guards": 406,
+      "brotli_bytes": 2681,
+      "dev_f1": 0.9491877590856381,
+      "changes": {
+        "changed": 546,
+        "win": 534,
+        "pos_edits": 570,
+        "tie": 2,
+        "loss": 10
+      },
+      "NX_f1": 0.9561799699201197,
+      "SX_f1": 0.929176256595299
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 254,
+      "noncache": 202,
+      "guards": 634,
+      "brotli_bytes": 4466,
+      "dev_f1": 0.949401998891394,
+      "changes": {
+        "changed": 679,
+        "win": 661,
+        "pos_edits": 709,
+        "tie": 4,
+        "loss": 14
+      },
+      "NX_f1": 0.9563704069961534,
+      "SX_f1": 0.9294586191159426
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 128,
+      "noncache": 111,
+      "guards": 336,
+      "brotli_bytes": 2632,
+      "dev_f1": 0.948941213277427,
+      "changes": {
+        "changed": 403,
+        "win": 395,
+        "pos_edits": 417,
+        "tie": 2,
+        "loss": 6
+      },
+      "NX_f1": 0.9559872384214831,
+      "SX_f1": 0.9287756958101998
+    },
+    {
+      "config": {
+        "good": 8,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 175,
+      "noncache": 141,
+      "guards": 402,
+      "brotli_bytes": 3295,
+      "dev_f1": 0.9490075255982562,
+      "changes": {
+        "changed": 440,
+        "win": 432,
+        "pos_edits": 456,
+        "tie": 2,
+        "loss": 6
+      },
+      "NX_f1": 0.9560468934091564,
+      "SX_f1": 0.9288610612234177
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 107,
+      "noncache": 91,
+      "guards": 247,
+      "brotli_bytes": 2024,
+      "dev_f1": 0.9492438695109552,
+      "changes": {
+        "changed": 576,
+        "win": 565,
+        "pos_edits": 601,
+        "loss": 9,
+        "tie": 2
+      },
+      "NX_f1": 0.9563153408536859,
+      "SX_f1": 0.9290055257688633
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 107,
+      "noncache": 91,
+      "guards": 247,
+      "brotli_bytes": 2024,
+      "dev_f1": 0.9492438695109552,
+      "changes": {
+        "changed": 576,
+        "win": 565,
+        "pos_edits": 601,
+        "loss": 9,
+        "tie": 2
+      },
+      "NX_f1": 0.9563153408536859,
+      "SX_f1": 0.9290055257688633
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 68,
+      "noncache": 59,
+      "guards": 156,
+      "brotli_bytes": 1432,
+      "dev_f1": 0.9489310113819147,
+      "changes": {
+        "changed": 392,
+        "win": 386,
+        "pos_edits": 407,
+        "loss": 5,
+        "tie": 1
+      },
+      "NX_f1": 0.9560101826475113,
+      "SX_f1": 0.9286706306862395
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 68,
+      "noncache": 59,
+      "guards": 156,
+      "brotli_bytes": 1432,
+      "dev_f1": 0.9489310113819147,
+      "changes": {
+        "changed": 392,
+        "win": 386,
+        "pos_edits": 407,
+        "loss": 5,
+        "tie": 1
+      },
+      "NX_f1": 0.9560101826475113,
+      "SX_f1": 0.9286706306862395
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 107,
+      "noncache": 91,
+      "guards": 245,
+      "brotli_bytes": 2057,
+      "dev_f1": 0.9490568347598984,
+      "changes": {
+        "changed": 466,
+        "win": 457,
+        "pos_edits": 487,
+        "tie": 2,
+        "loss": 7
+      },
+      "NX_f1": 0.9560996651290211,
+      "SX_f1": 0.9289004606449028
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 107,
+      "noncache": 91,
+      "guards": 245,
+      "brotli_bytes": 2057,
+      "dev_f1": 0.9490568347598984,
+      "changes": {
+        "changed": 466,
+        "win": 457,
+        "pos_edits": 487,
+        "tie": 2,
+        "loss": 7
+      },
+      "NX_f1": 0.9560996651290211,
+      "SX_f1": 0.9289004606449028
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 68,
+      "noncache": 59,
+      "guards": 156,
+      "brotli_bytes": 1471,
+      "dev_f1": 0.9487898851606629,
+      "changes": {
+        "changed": 308,
+        "win": 304,
+        "pos_edits": 320,
+        "loss": 3,
+        "tie": 1
+      },
+      "NX_f1": 0.955851867487917,
+      "SX_f1": 0.9285786987027741
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 3,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 68,
+      "noncache": 59,
+      "guards": 156,
+      "brotli_bytes": 1471,
+      "dev_f1": 0.9487898851606629,
+      "changes": {
+        "changed": 308,
+        "win": 304,
+        "pos_edits": 320,
+        "loss": 3,
+        "tie": 1
+      },
+      "NX_f1": 0.955851867487917,
+      "SX_f1": 0.9285786987027741
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 104,
+      "noncache": 89,
+      "guards": 240,
+      "brotli_bytes": 1987,
+      "dev_f1": 0.9492438695109552,
+      "changes": {
+        "changed": 576,
+        "win": 565,
+        "pos_edits": 601,
+        "loss": 9,
+        "tie": 2
+      },
+      "NX_f1": 0.9563153408536859,
+      "SX_f1": 0.9290055257688633
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 104,
+      "noncache": 89,
+      "guards": 240,
+      "brotli_bytes": 1987,
+      "dev_f1": 0.9492438695109552,
+      "changes": {
+        "changed": 576,
+        "win": 565,
+        "pos_edits": 601,
+        "loss": 9,
+        "tie": 2
+      },
+      "NX_f1": 0.9563153408536859,
+      "SX_f1": 0.9290055257688633
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 65,
+      "noncache": 57,
+      "guards": 151,
+      "brotli_bytes": 1397,
+      "dev_f1": 0.9489310113819147,
+      "changes": {
+        "changed": 392,
+        "win": 386,
+        "pos_edits": 407,
+        "loss": 5,
+        "tie": 1
+      },
+      "NX_f1": 0.9560101826475113,
+      "SX_f1": 0.9286706306862395
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 0.98,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 65,
+      "noncache": 57,
+      "guards": 151,
+      "brotli_bytes": 1397,
+      "dev_f1": 0.9489310113819147,
+      "changes": {
+        "changed": 392,
+        "win": 386,
+        "pos_edits": 407,
+        "loss": 5,
+        "tie": 1
+      },
+      "NX_f1": 0.9560101826475113,
+      "SX_f1": 0.9286706306862395
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 128
+      },
+      "rules": 104,
+      "noncache": 89,
+      "guards": 238,
+      "brotli_bytes": 2024,
+      "dev_f1": 0.9490568347598984,
+      "changes": {
+        "changed": 466,
+        "win": 457,
+        "pos_edits": 487,
+        "tie": 2,
+        "loss": 7
+      },
+      "NX_f1": 0.9560996651290211,
+      "SX_f1": 0.9289004606449028
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 1,
+        "cap": 512
+      },
+      "rules": 104,
+      "noncache": 89,
+      "guards": 238,
+      "brotli_bytes": 2024,
+      "dev_f1": 0.9490568347598984,
+      "changes": {
+        "changed": 466,
+        "win": 457,
+        "pos_edits": 487,
+        "tie": 2,
+        "loss": 7
+      },
+      "NX_f1": 0.9560996651290211,
+      "SX_f1": 0.9289004606449028
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 128
+      },
+      "rules": 65,
+      "noncache": 57,
+      "guards": 151,
+      "brotli_bytes": 1433,
+      "dev_f1": 0.9487898851606629,
+      "changes": {
+        "changed": 308,
+        "win": 304,
+        "pos_edits": 320,
+        "loss": 3,
+        "tie": 1
+      },
+      "NX_f1": 0.955851867487917,
+      "SX_f1": 0.9285786987027741
+    },
+    {
+      "config": {
+        "good": 16,
+        "docs": 5,
+        "precision": 1.0,
+        "ngram": 2,
+        "cap": 512
+      },
+      "rules": 65,
+      "noncache": 57,
+      "guards": 151,
+      "brotli_bytes": 1433,
+      "dev_f1": 0.9487898851606629,
+      "changes": {
+        "changed": 308,
+        "win": 304,
+        "pos_edits": 320,
+        "loss": 3,
+        "tie": 1
+      },
+      "NX_f1": 0.955851867487917,
+      "SX_f1": 0.9285786987027741
+    }
+  ],
+  "selected_rule_support": {
+    "rule_train_support": {
+      "min": 8,
+      "median": 38.0,
+      "max": 938
+    },
+    "guard_train_positive_min": 8,
+    "guard_positive_document_min": 3,
+    "guard_train_precision_min": 0.9807692307692307,
+    "rules_sha256": "1d29cd8a5d072ee7a00c274875c6a39d1e675b983bfecbfd84b630c2b5b266e9",
+    "detailed_evidence_sha256": "ca29a52f1f4081d33eee26f247044f801fc85eea101d55f24e1056a937b6de3e",
+    "retention": "Rejected learned runtime payload is temporary; preserve counts/support/gates and hashes, not the model."
+  },
+  "runtime_contract": {
+    "order": "existing production analyze including old Section16, then optional research sidecar",
+    "source_match": "entire eojeol raw forms/POS/count/order and all token spans equal the word span",
+    "edit": "at most one POS per eojeol, no rule chaining; all other fields unchanged",
+    "user_priority": "skip when the whole surface or any source morpheme was explicitly registered",
+    "guard": "raw previous/following word prefix/suffix of 1-3 codepoints, full exact word, or sentence edge",
+    "delivery": "native research example only; no core/model/WASM/package modification"
+  },
+  "evaluation_corrections": [
+    {
+      "stage": "before dev selection",
+      "issue": "Default Python3.9 does not implement zip(strict=True)",
+      "resolution": "zip_longest plus sentinel asserts rejects any row-count mismatch"
+    },
+    {
+      "stage": "before dev selection",
+      "issue": "New research matcher used starts/ends predicates; truncated n-grams could have undercounted negatives",
+      "resolution": "Mine and parse only guards whose codepoint length equals requested n; short-word tests pass. Existing Section16 take(n).eq implementation was not affected."
+    },
+    {
+      "stage": "after selection; scoring only",
+      "issue": "Detached worktree omitted ignored content_dict.txt used by reverse_2025_to_2021",
+      "resolution": "Load unchanged main converter with complete ignored dictionary, record hashes, re-score frozen native dumps, assert canonical baselines. No rule or native-output changes.",
+      "invalid_report_sha256": "5770915fbe28a41e1dfb26c2b595317e21b897c4e456591ccc3699c1356df21b"
+    }
+  ],
+  "limitations": [
+    "Base analyzer has prior NIKL exposure; component dev is reused from previous Section16 research and is not a new independent whole-system test.",
+    "Gold9000/spoken16407 have repeated research exposure; only this new rule mining/selection excludes their labels.",
+    "The preserved token fields do not imply semantic correctness; individual sentence regressions remain.",
+    "Sidecar bytes are complete JSON/gzip/Brotli assets, not measured integrated GMDL growth; WASM/browser/package effects were not measured."
+  ],
+  "commands_from_throwaway_worktree": [
+    "python3 ../pos-data/recover.py",
+    "cargo test --example context_pos_probe",
+    "cargo build --release --example context_pos_probe",
+    "GARU_MODEL=js/models/base.gmdl target/release/examples/context_pos_probe ../pos-data/train.jsonl > ../pos-data/train.baseline.jsonl",
+    "GARU_MODEL=js/models/base.gmdl target/release/examples/context_pos_probe ../pos-data/dev.jsonl > ../pos-data/dev.baseline.jsonl",
+    "python3 ../pos-data/experiment.py mine",
+    "python3 ../pos-data/experiment.py select",
+    "python3 ../pos-data/evaluate.py",
+    "python3 ../pos-data/evaluate.py --reuse-native",
+    "python3 ../pos-data/benchmark.py",
+    "python3 ../pos-data/focused.py"
+  ],
+  "temporary_script_sha256": {
+    "recover.py": "45d2a7c85fbe9cbb98249f24a8ff08d55547b0861e667f01706b7e7cf13b3ccb",
+    "experiment.py": "6dfb9c6020b47c986ee4148b3610d665a6401ea74cc24aaa37e9682dc175541a",
+    "evaluate.py": "63497759ce3f471d5c09ed78ebfec60799d1c18907b746d206bdc1ba72859c82",
+    "benchmark.py": "bf58a4112c84f8d8ca8b528e671b8d84b12f03b2a10fcba0c3f7ad2c178e18bc",
+    "focused.py": "40b8c7ecbc2e79ed73a60714de265161dce0b56bef17bc5a5207fa193c1cb3e7",
+    "context_pos_probe.rs": "88c4de93aea82e27d2b5bad64cdd6633d5a0e6a5bb172bff6c73049438c53c7f"
+  },
+  "artifact_policy": "This report contains no source sentences. Temporary worktree, full-text reconstructed splits, predictions and sidecar are to be removed after root copies/reviews this record; original corpora and prior source references stay untouched. Historical lab commands are not runnable after cleanup.",
+  "independent_review": {
+    "unresolved_critical_or_important": 0,
+    "selected_rules_and_lock_unchanged": true,
+    "canonical_fixed_baselines_verified": true,
+    "reference_dependency_hashes_verified": true,
+    "scope": "Native research evidence; no WASM/package integration or new independent corpus generalization."
+  },
+  "cleanup": {
+    "completed": true,
+    "completed_utc": "2026-10-26T08:18:59.088755+00:00",
+    "removed_worktrees": 2,
+    "removed_regular_files": 1679,
+    "removed_logical_file_bytes": 980399122,
+    "removed_symlinks_without_following": 2,
+    "bytes_scope": "Logical temporary file sizes, not measured reclaimed disk space.",
+    "preserved_artifacts": {
+      "js/models/base.gmdl": {
+        "bytes": 1260476,
+        "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7"
+      },
+      "models/codebook.gmdl": {
+        "bytes": 1260476,
+        "sha256": "f9ca34a2ad1d0a152f434dc21a755a802aef5a4f8d8246ff29625367d12a9ef7"
+      },
+      "js/pkg/garu_wasm_bg.wasm": {
+        "bytes": 424696,
+        "sha256": "4469411fdc11ac3f4ed49908b568b6d8b784eef1119471f5b2e21fc04cd75dac"
+      },
+      "training/gold_testset/gold_testset.jsonl": {
+        "bytes": 3385472,
+        "sha256": "3a5fa4194b2ae3eec58296674408e8f1d409a72205777044455b9c1b838bbb96"
+      },
+      "training/codebook_data/context_pos.bin": {
+        "bytes": 3054,
+        "sha256": "f24d45fbbed2e503fb5200d6759ceb88fe15fddc1b377947b24263fe759674fd"
+      }
+    },
+    "verified_original_source_files": 9,
+    "retained": "Original-free research reports and findings; original corpora and shipped artifacts unchanged.",
+    "removed": "Experimental worktrees, helpers, plans, candidate sidecars, input/prediction dumps, feature caches, build outputs and checkpoints. Historical temporary paths in command records no longer exist."
+  }
+}
